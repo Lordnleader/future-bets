@@ -10,6 +10,60 @@ Future Bets should reason in layers:
 
 This is pattern synthesis, not single-headline summarization.
 
+## Topic universe
+
+Future Bets should cover a broad but coherent worldview rather than a narrow niche. The data model now needs to be able to represent at least these topic areas even before every source integration is live:
+
+- `AI & Automation`
+- `Robotics & Physical Automation`
+- `Political Stability & State Capacity`
+- `Polarization, Trust & Social Tension`
+- `Labour & Economic Opportunity`
+- `Health & Human Wellbeing`
+- `Birth Rates & Demographic Resilience`
+- `Climate, Hazard & Resilience`
+- `Food Systems & Resource Pressure`
+- `Energy, Infrastructure & Logistics`
+- `Cities, Housing & Liveability`
+- `Values, Culture & Human Mood`
+
+The same bet may span multiple topic areas. Example: a city-level labour shortage story can sit inside `Labour & Economic Opportunity`, `Robotics & Physical Automation`, and `Cities, Housing & Liveability` at once.
+
+## Worldview dimensions
+
+To avoid repetitive cards that only reshuffle categories, each signal and final bet should be able to express one or more worldview dimensions:
+
+- `power`
+- `technology`
+- `labour`
+- `health`
+- `demographics`
+- `climate`
+- `social_mood`
+- `governance`
+- `infrastructure`
+- `resources`
+
+These dimensions are not a replacement for categories. They are cross-cutting framing metadata for clustering, filtering, and editorial balance.
+
+## Viability framing
+
+Future Bets is about directional change, not static description. The model should support explicit viability axes such as:
+
+- `more_viable`
+- `more_fragile`
+- `more_risky`
+- `more_attractive`
+- `more_strategic`
+- `more_automatable`
+- `less_automatable`
+- `more_cohesive`
+- `less_cohesive`
+- `more_resilient`
+- `less_resilient`
+
+This lets the same topic universe express both good bets and bad bets without becoming philosophically vague.
+
 ## Priority source stack
 
 ### 1. News and current-event discovery
@@ -28,6 +82,14 @@ This is pattern synthesis, not single-headline summarization.
   - Implementation note: use the official bulk indicator CSV downloads rather than guessed query endpoints.
 - `EIA`
   - Role: energy demand, prices, outages, electricity system context, supply pressure.
+- `V-Dem`
+  - Role: democracy, liberalism, civil liberties, corruption, polarization, institutional strength.
+- `WHO Global Health Observatory`
+  - Role: health burden, mortality, maternal and child health, disease patterns.
+- `UN Population / Population Portal`
+  - Role: fertility, ageing, migration, urbanization, workforce shrinkage or growth.
+- `OECD.AI`
+  - Role: AI policy, capability, and adoption context where coverage is strong.
 
 ### 3. Official event and hazard feeds
 
@@ -39,6 +101,15 @@ This is pattern synthesis, not single-headline summarization.
 - `OpenStreetMap / Overpass`
   - Role: infrastructure adjacency, asset density, port/rail/hospital/power features, local context.
 
+### 5. Platform and research activity
+
+- `GitHub API`
+  - Role: open-source momentum, repo activity, contributor energy, ecosystem traction.
+- `Hugging Face Hub API`
+  - Role: model publication velocity, benchmark churn, open-model momentum.
+- `arXiv API`
+  - Role: research activity, topical acceleration, capability-adjacent paper bursts.
+
 ## Later additions
 
 - `ACLED` for conflict, protests, and instability
@@ -46,6 +117,24 @@ This is pattern synthesis, not single-headline summarization.
 - `UNESCO UIS` for education system context
 - `Eurostat`, `OECD`, `IMF`, `UNdata` for higher-resolution regional macro context
 - `NASA FIRMS` and `Copernicus` for fire and climate-environment layers
+
+## Recommended first implementation stack for broad coverage
+
+Use this order to avoid overloading V2:
+
+1. `GDELT`
+2. `World Bank Indicators`
+3. `ILOSTAT`
+4. `V-Dem`
+5. `WHO GHO`
+6. `UN Population`
+7. `OpenStreetMap / Overpass`
+8. `OECD.AI`
+9. `GitHub API`
+10. `arXiv API`
+11. `Hugging Face Hub API`
+
+This is sequencing guidance, not a requirement to integrate everything at once.
 
 ## Recommended source roles
 
@@ -100,11 +189,14 @@ Normalize all sources into `raw_signal` objects with:
 
 - source metadata
 - watchlist lineage
+- topic areas
 - topic tags
+- worldview dimensions
 - geography object
 - category
 - timestamp
 - summary text
+- viability framing
 - freshness metadata
 - optional structured metrics
 
@@ -154,6 +246,14 @@ Write a final `future_bet` only when the convergence passes:
 
 - Curiosity test: a future-curious person would care
 - Implication test: a person could build, avoid, move, study, or monitor differently because of it
+
+When the question is philosophical, use measurable proxies rather than pretending the source can answer it directly.
+
+Examples:
+
+- “Are people getting nicer?” -> use tolerance, trust, antagonism, and civic-confidence proxies
+- “Is democracy healthier?” -> use civil liberties, opposition space, corruption, and participation proxies
+- “Is AI making a sector more automatable?” -> combine capability signals, labour pressure, and adoption or regulatory evidence
 
 ## Scoring logic
 
@@ -221,7 +321,9 @@ Suggested inputs:
 - allow 90-day active evidence only when reinforced by newer signals
 - downrank weak single-headline news matches aggressively
 - carry `topic_tags` through the model so broader topic expansion does not rely only on category labels
+- carry `topic_areas`, `worldview_dimensions`, and `viability_axes` through the model so the product can cover a much larger intellectual surface area without collapsing into repetitive cards
 - expose explicit freshness metadata so the site and nightly jobs can filter stale bets safely
+- phase in new source families gradually instead of wiring every API at once
 
 ## Example convergence templates
 

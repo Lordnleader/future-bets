@@ -48,3 +48,9 @@ Default to:
 - clear instructions on what the user should do next
 
 Do not assume the user already understands the repo, tooling, deployment, or data-pipeline architecture.
+
+Cost safety rule:
+
+Do not introduce any architecture, service, workflow, or integration that could create ongoing or surprise costs without explicitly flagging it first.
+
+Prefer free, local, static, or clearly limited options by default.

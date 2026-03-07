@@ -66,13 +66,69 @@
       "type": "string",
       "enum": ["Low", "Medium", "High"]
     },
+    "topic_area": {
+      "type": "string",
+      "enum": [
+        "AI & Automation",
+        "Robotics & Physical Automation",
+        "Political Stability & State Capacity",
+        "Polarization, Trust & Social Tension",
+        "Labour & Economic Opportunity",
+        "Health & Human Wellbeing",
+        "Birth Rates & Demographic Resilience",
+        "Climate, Hazard & Resilience",
+        "Food Systems & Resource Pressure",
+        "Energy, Infrastructure & Logistics",
+        "Cities, Housing & Liveability",
+        "Values, Culture & Human Mood"
+      ]
+    },
+    "worldview_dimension": {
+      "type": "string",
+      "enum": [
+        "power",
+        "technology",
+        "labour",
+        "health",
+        "demographics",
+        "climate",
+        "social_mood",
+        "governance",
+        "infrastructure",
+        "resources"
+      ]
+    },
+    "viability_axis": {
+      "type": "string",
+      "enum": [
+        "more_viable",
+        "more_fragile",
+        "more_risky",
+        "more_attractive",
+        "more_strategic",
+        "more_automatable",
+        "less_automatable",
+        "more_cohesive",
+        "less_cohesive",
+        "more_resilient",
+        "less_resilient"
+      ]
+    },
     "bet_type": {
       "type": "string",
       "enum": ["good", "bad"]
     },
     "source_tier": {
       "type": "string",
-      "enum": ["news_discovery", "structural_context", "official_hazard", "geo_context"]
+      "enum": [
+        "news_discovery",
+        "structural_context",
+        "official_hazard",
+        "geo_context",
+        "research_activity",
+        "survey_context",
+        "platform_activity"
+      ]
     },
     "source_type": {
       "type": "string",
@@ -81,7 +137,10 @@
         "institutional_dataset",
         "official_feed",
         "geospatial_query",
-        "manual_editorial"
+        "manual_editorial",
+        "research_api",
+        "platform_api",
+        "survey_dataset"
       ]
     },
     "strength": {
@@ -155,6 +214,8 @@
         "sample_size": { "type": ["number", "null"] },
         "window": { "type": ["string", "null"] },
         "series_code": { "type": ["string", "null"] },
+        "methodology": { "type": ["string", "null"] },
+        "lag_days": { "type": ["number", "null"] },
         "dimensions": {
           "type": "object",
           "additionalProperties": {
@@ -181,11 +242,23 @@
         "source_tier": { "$ref": "#/$defs/source_tier" },
         "access": {
           "type": "string",
-          "enum": ["free", "open", "free_with_key", "manual"]
+          "enum": ["free", "open", "free_with_key", "free_limited", "manual"]
         },
         "update_cadence": { "type": "string" },
         "coverage": { "type": "string" },
         "url": { "type": "string", "format": "uri" },
+        "topic_areas": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/topic_area" }
+        },
+        "worldview_dimensions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/worldview_dimension" }
+        },
+        "source_status": {
+          "type": "string",
+          "enum": ["active", "planned", "later", "manual_only"]
+        },
         "notes": { "type": "string" },
         "license_notes": { "type": "string" }
       },
@@ -215,6 +288,18 @@
         "subcategories": {
           "type": "array",
           "items": { "type": "string" }
+        },
+        "topic_areas": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/topic_area" }
+        },
+        "worldview_dimensions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/worldview_dimension" }
+        },
+        "viability_axes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/viability_axis" }
         },
         "geography": { "$ref": "#/$defs/geography" },
         "detected_at": { "type": "string", "format": "date-time" },
@@ -278,6 +363,18 @@
           "minItems": 2,
           "items": { "type": "string" }
         },
+        "topic_areas": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/topic_area" }
+        },
+        "worldview_dimensions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/worldview_dimension" }
+        },
+        "viability_axes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/viability_axis" }
+        },
         "cluster_summary": { "type": "string" },
         "strength": { "$ref": "#/$defs/strength" },
         "topic_tags": {
@@ -331,6 +428,18 @@
         "time_horizon": { "$ref": "#/$defs/time_horizon" },
         "convergence_title": { "type": "string" },
         "convergence_summary": { "type": "string" },
+        "topic_areas": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/topic_area" }
+        },
+        "worldview_dimensions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/worldview_dimension" }
+        },
+        "viability_axes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/viability_axis" }
+        },
         "signal_ids": {
           "type": "array",
           "minItems": 2,
@@ -398,6 +507,18 @@
         "summary": { "type": "string" },
         "implication": { "type": "string" },
         "why_now": { "type": "string" },
+        "topic_areas": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/topic_area" }
+        },
+        "worldview_dimensions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/worldview_dimension" }
+        },
+        "viability_axes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/viability_axis" }
+        },
         "topic_tags": {
           "type": "array",
           "items": { "type": "string" }
