@@ -1,0 +1,452 @@
+[
+  {
+    "id": "shipping-route-fragility",
+    "category": "Resources & Supply Chains",
+    "type": "bad",
+    "topic_tags": [
+      "shipping",
+      "logistics",
+      "trade-exposure",
+      "route-fragility"
+    ],
+    "geography": {
+      "label": "Global",
+      "scope": "global",
+      "country_codes": [
+        "WLD"
+      ]
+    },
+    "time_horizon": "Near term: 0-12 months",
+    "news": {
+      "query": "(\"shipping disruption\" OR maritime OR canal OR \"port congestion\" OR rerouting)",
+      "timespan": "90days",
+      "maxrecords": 12,
+      "must_contain_any": [
+        "shipping",
+        "maritime",
+        "canal",
+        "port",
+        "rerout"
+      ],
+      "preferred_domains": [
+        "reuters.com",
+        "ft.com",
+        "lloydslist.com"
+      ],
+      "min_quality_score": 0.72,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "min_recent_signals": 1,
+      "min_topic_matches": 1
+    },
+    "structural_signals": [
+      {
+        "country_code": "WLD",
+        "indicator_code": "NE.TRD.GNFS.ZS",
+        "signal_title": "Trade exposure remains high",
+        "signal_summary": "High trade intensity means disruptions in shipping lanes propagate widely through costs, lead times, and inventory planning.",
+        "why_it_matters": "A globally trade-exposed economy is more sensitive to route volatility.",
+        "connection": "When breaking logistics news meets high trade exposure, route reliability becomes a practical system risk."
+      }
+    ],
+    "bet": {
+      "title": "Assuming global shipping routes remain predictable",
+      "summary": "Shipping disruption coverage and high trade exposure together suggest that route reliability itself is becoming a weaker assumption.",
+      "implication": "Teams that rely on physical goods should plan around delay, rerouting, and buffer rather than stable transit time assumptions.",
+      "why_now": "A burst of maritime disruption reporting matters more when the underlying system remains highly dependent on cross-border trade.",
+      "second_order_effects": [
+        "Regional warehousing and nearshoring become easier to justify.",
+        "Freight visibility and supply-chain planning tools gain strategic relevance."
+      ],
+      "what_to_watch": [
+        "Persistence of shipping disruption coverage over multiple weeks.",
+        "Changes in trade-volume indicators and port throughput data."
+      ],
+      "what_could_change_this": [
+        "A durable de-escalation in route disruptions would weaken the case.",
+        "Trade exposure could matter less if firms regionalize supply chains faster than expected."
+      ]
+    }
+  },
+  {
+    "id": "aging-independent-living",
+    "category": "Demographics & Society",
+    "type": "good",
+    "topic_tags": [
+      "aging",
+      "care-economy",
+      "assistive-tech",
+      "independent-living"
+    ],
+    "geography": {
+      "label": "Japan",
+      "scope": "country",
+      "country_codes": [
+        "JPN"
+      ]
+    },
+    "time_horizon": "Long term: 3-10 years",
+    "news": {
+      "query": "(\"elder care\" OR \"aging population\" OR \"care workforce\" OR \"assistive technology\") AND Japan",
+      "timespan": "90days",
+      "maxrecords": 12,
+      "must_contain_any": [
+        "care",
+        "aging",
+        "elder",
+        "assistive"
+      ],
+      "preferred_domains": [
+        "reuters.com",
+        "nikkei.com",
+        "japantimes.co.jp"
+      ],
+      "min_quality_score": 0.74,
+      "geo_terms_any": [
+        "japan",
+        "japanese"
+      ],
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "min_recent_signals": 1,
+      "min_topic_matches": 1
+    },
+    "structural_signals": [
+      {
+        "country_code": "JPN",
+        "indicator_code": "SP.POP.65UP.TO.ZS",
+        "signal_title": "Older population share remains elevated",
+        "signal_summary": "A large and rising older population creates structural demand for systems that support independence and daily care.",
+        "why_it_matters": "Aging is not a temporary news cycle. It is a durable demand driver.",
+        "connection": "When care-system news intensifies in an already aged society, independent-living tools become more strategically credible."
+      }
+    ],
+    "bet": {
+      "title": "Age-tech for independent living",
+      "summary": "Care-system pressure and demographic aging together make home-based support tools more likely to move from niche to necessity.",
+      "implication": "Builders should pay attention to practical support products for older adults rather than treating elder technology as a narrow medical category.",
+      "why_now": "Recent reporting on caregiving strain matters more because Japan already has a structurally older population than most countries.",
+      "second_order_effects": [
+        "Age-friendly home retrofits and monitoring services become more relevant.",
+        "Household robotics and assistive interfaces may gain trust through practical care use cases."
+      ],
+      "what_to_watch": [
+        "Care workforce shortages and policy changes.",
+        "Adoption of in-home support and monitoring products."
+      ],
+      "what_could_change_this": [
+        "Major public expansion in care capacity could slow demand for assistive tools.",
+        "Poor usability or trust could stall adoption."
+      ]
+    }
+  },
+  {
+    "id": "urban-water-pressure-india",
+    "category": "Climate & Environment",
+    "type": "bad",
+    "topic_tags": [
+      "water-stress",
+      "urbanization",
+      "heat-risk",
+      "india"
+    ],
+    "geography": {
+      "label": "India",
+      "scope": "country",
+      "country_codes": [
+        "IND"
+      ]
+    },
+    "time_horizon": "Long term: 3-10 years",
+    "news": {
+      "query": "((drought OR \"water shortage\" OR groundwater OR rationing OR reservoir) AND (city OR urban OR metro OR municipal) AND India) OR ((heatwave OR heat) AND (water shortage OR rationing OR reservoir) AND India)",
+      "timespan": "60days",
+      "maxrecords": 20,
+      "must_contain_any": [
+        "water",
+        "drought",
+        "groundwater",
+        "heatwave",
+        "heat",
+        "desalination",
+        "reservoir",
+        "rationing"
+      ],
+      "must_contain_groups": [
+        ["water", "groundwater", "reservoir", "rationing", "drought"],
+        ["city", "urban", "metro", "municipal", "bengaluru", "delhi", "mumbai", "chennai", "hyderabad", "pune"]
+      ],
+      "geo_terms_any": [
+        "india",
+        "indian"
+      ],
+      "preferred_domains": [
+        "reuters.com",
+        "thehindu.com",
+        "indianexpress.com",
+        "livemint.com"
+      ],
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "min_recent_signals": 2,
+      "min_topic_matches": 2,
+      "min_quality_score": 0.8,
+      "blocked_domains": [
+        "newkerala.com",
+        "indiaeducationdiary.in",
+        "orissadiary.com"
+      ],
+      "blocked_terms_any": [
+        "press release",
+        "sponsored"
+      ]
+    },
+    "convergence_rules": {
+      "min_event_score": 0.67,
+      "min_selected_events": 2,
+      "min_news_signals": 2,
+      "require_distinct_domains": true,
+      "minimum_convergence_score": 1.75
+    },
+    "structural_signals": [
+      {
+        "country_code": "IND",
+        "indicator_code": "SP.URB.TOTL.IN.ZS",
+        "signal_title": "Urban population share continues to rise",
+        "signal_summary": "Urban growth increases demand pressure on already stressed water and cooling systems.",
+        "why_it_matters": "Fast urbanization makes environmental stress more operationally consequential.",
+        "connection": "When water-stress reporting meets a growing urban base, cheap and stable water assumptions weaken."
+      }
+    ],
+    "bet": {
+      "title": "Treating urban water stress as a temporary inconvenience",
+      "summary": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
+      "implication": "People choosing where to build, manufacture, or expand should treat water resilience as a real operating variable.",
+      "why_now": "Short-term hazard reporting matters more when long-term urban demand is still climbing.",
+      "second_order_effects": [
+        "Water monitoring, reuse, and efficiency products become more relevant.",
+        "Location strategy may shift toward more resilient corridors."
+      ],
+      "what_to_watch": [
+        "Repeated local water-shortage reporting and rationing events.",
+        "Urban growth and infrastructure investment trends."
+      ],
+      "what_could_change_this": [
+        "Large improvements in water infrastructure and reuse could reduce stress.",
+        "A run of milder seasons could soften near-term pressure."
+      ]
+    }
+  },
+  {
+    "id": "us-entry-level-work-friction",
+    "category": "Work & Labour",
+    "type": "bad",
+    "topic_tags": [
+      "entry-level-work",
+      "labour-friction",
+      "automation",
+      "knowledge-work"
+    ],
+    "geography": {
+      "label": "United States",
+      "scope": "country",
+      "country_codes": [
+        "USA"
+      ]
+    },
+    "time_horizon": "Near term: 0-12 months",
+    "news": {
+      "query": "((\"entry level\" OR junior OR graduate OR \"early career\") AND (hiring OR jobs OR recruitment) AND (\"United States\" OR America OR U.S.)) OR ((layoffs OR \"hiring freeze\" OR automation OR \"AI\") AND (white-collar OR office OR knowledge OR software) AND (\"United States\" OR America OR U.S.))",
+      "timespan": "90days",
+      "maxrecords": 20,
+      "must_contain_any": [
+        "entry",
+        "hiring",
+        "layoff",
+        "automation",
+        "ai",
+        "work",
+        "junior",
+        "graduate",
+        "career"
+      ],
+      "must_contain_groups": [
+        ["entry", "junior", "graduate", "early career"],
+        ["hiring", "jobs", "recruitment", "layoff", "automation", "ai"]
+      ],
+      "geo_terms_any": [
+        "united states",
+        "u.s.",
+        "us ",
+        "america",
+        "american"
+      ],
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "min_recent_signals": 2,
+      "min_topic_matches": 2,
+      "blocked_domains": [
+        "newkerala.com"
+      ],
+      "blocked_terms_any": [
+        "sponsored",
+        "promoted"
+      ],
+      "preferred_domains": [
+        "reuters.com",
+        "apnews.com",
+        "wsj.com",
+        "nytimes.com"
+      ],
+      "min_quality_score": 0.79,
+      "preferred_languages": [
+        "English"
+      ]
+    },
+    "convergence_rules": {
+      "min_event_score": 0.68,
+      "min_selected_events": 2,
+      "min_news_signals": 2,
+      "require_distinct_domains": true,
+      "minimum_convergence_score": 1.8
+    },
+    "structural_signals": [
+      {
+        "country_code": "USA",
+        "indicator_code": "SL.UEM.1524.ZS",
+        "signal_title": "Youth unemployment remains a useful stress signal",
+        "signal_summary": "Youth and early-career employment data help show whether first-rung labour market access is tightening.",
+        "why_it_matters": "When early-career access is already under pressure, automation and hiring restraint matter more.",
+        "connection": "A weak early-career labour backdrop makes automation and hiring-cutback news more consequential."
+      }
+    ],
+    "bet": {
+      "title": "Entry-level knowledge work as a stable ladder",
+      "summary": "News around automation and hiring restraint, combined with early-career labour stress, points to a weaker apprenticeship layer for office work.",
+      "implication": "Students, career-switchers, and employers should assume that junior development pathways need more deliberate design.",
+      "why_now": "AI workflow compression matters more when entry pathways are not especially strong to begin with.",
+      "second_order_effects": [
+        "Portfolio-based hiring and practical proof of work become more important.",
+        "Employers with strong training systems may gain a talent advantage."
+      ],
+      "what_to_watch": [
+        "Sustained reporting on hiring pullbacks and AI workflow adoption.",
+        "Youth and entry-level labour market data."
+      ],
+      "what_could_change_this": [
+        "A broad hiring rebound could restore apprenticeship capacity.",
+        "If automation adoption stalls, fewer junior roles may be displaced."
+      ]
+    },
+    "labour_signals": [
+      {
+        "source": "ilostat",
+        "indicator_code": "UNE_2EAP_SEX_AGE_RT_A",
+        "download_url": "https://rplumber.ilo.org/files/website/bulk/indicator/UNE_2EAP_SEX_AGE_RT_A.csv.gz",
+        "ref_area": "USA",
+        "ref_area_label": "United States of America",
+        "sex": "SEX_T",
+        "sex_label": "Total",
+        "classif1": "AGE_YTHADULT_Y15-24",
+        "classif1_label": "Age (Youth, adults): 15-24",
+        "time_label": "Annual youth unemployment rate",
+        "signal_title": "Youth unemployment remains a useful labour stress signal",
+        "signal_summary": "Youth unemployment data helps show whether first-rung labour market access is tightening.",
+        "why_it_matters": "When early-career access is already under pressure, hiring restraint and automation matter more.",
+        "connection": "A weak early-career labour backdrop makes automation and hiring-cutback signals more consequential."
+      }
+    ]
+  },
+  {
+    "id": "japan-seismic-readiness",
+    "category": "Cities & Infrastructure",
+    "type": "good",
+    "topic_tags": [
+      "seismic-risk",
+      "resilience",
+      "retrofit",
+      "japan"
+    ],
+    "geography": {
+      "label": "Japan",
+      "scope": "country",
+      "country_codes": [
+        "JPN"
+      ]
+    },
+    "time_horizon": "Long term: 3-10 years",
+    "news": {
+      "query": "(earthquake OR seismic OR retrofit OR resilience) AND Japan",
+      "timespan": "30days",
+      "maxrecords": 12,
+      "must_contain_any": [
+        "earthquake",
+        "seismic",
+        "retrofit",
+        "resilience"
+      ],
+      "geo_terms_any": [
+        "japan",
+        "japanese"
+      ],
+      "preferred_domains": [
+        "reuters.com",
+        "nikkei.com",
+        "japantimes.co.jp"
+      ],
+      "preferred_languages": [
+        "English"
+      ],
+      "blocked_domains": [
+        "indiaeducationdiary.in",
+        "orissadiary.com"
+      ],
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "min_recent_signals": 1,
+      "min_topic_matches": 1,
+      "min_quality_score": 0.74
+    },
+    "structural_signals": [
+      {
+        "country_code": "JPN",
+        "indicator_code": "SP.URB.TOTL.IN.ZS",
+        "signal_title": "Urban exposure remains high in Japan",
+        "signal_summary": "A highly urbanized population means seismic risk and infrastructure resilience have large operational consequences.",
+        "why_it_matters": "Dense urban systems increase the value of preparedness, retrofit, and rapid-response infrastructure.",
+        "connection": "When current seismic activity or preparedness attention meets high urban exposure, resilience systems become more strategically important."
+      }
+    ],
+    "official_signals": [
+      {
+        "feed": "all_week",
+        "min_magnitude": 4.5,
+        "latitude": 36.2048,
+        "longitude": 138.2529,
+        "radius_km": 900,
+        "signal_title": "Recent seismic activity near Japan",
+        "signal_summary": "Recent earthquake activity provides an official reminder that seismic risk remains live rather than theoretical.",
+        "why_it_matters": "Official hazard activity strengthens the case for preparedness as a practical systems priority.",
+        "connection": "Official seismic events add hard confirmation to media attention and structural exposure."
+      }
+    ],
+    "bet": {
+      "title": "Seismic retrofit and resilience systems in Japan",
+      "summary": "Preparedness coverage, dense urban exposure, and recent official seismic activity together make resilience systems more strategically important.",
+      "implication": "Builders, insurers, urban operators, and infrastructure teams should pay attention to retrofit, monitoring, and response systems rather than treating preparedness as solved.",
+      "why_now": "Seismic preparedness matters more when official event data, live coverage, and urban exposure all point to continuing relevance.",
+      "second_order_effects": [
+        "Building diagnostics, emergency logistics, and infrastructure monitoring tools become more relevant.",
+        "Insurance, compliance, and public procurement may reward better resilience evidence."
+      ],
+      "what_to_watch": [
+        "Recurring official seismic events near major populated areas.",
+        "Policy, retrofit, or preparedness investment linked to urban infrastructure."
+      ],
+      "what_could_change_this": [
+        "A long quiet period could reduce urgency in practice.",
+        "If resilience systems are already saturated in the market, growth may be narrower than it appears."
+      ]
+    }
+  }
+]

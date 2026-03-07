@@ -1,0 +1,460 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://futurebets.local/schema/future-bets.schema.json",
+  "title": "Future Bets Data Model",
+  "type": "object",
+  "required": [
+    "sources",
+    "raw_signals",
+    "signal_clusters",
+    "signal_convergences",
+    "future_bets"
+  ],
+  "properties": {
+    "sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "raw_signals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/raw_signal" }
+    },
+    "signal_clusters": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/signal_cluster" }
+    },
+    "signal_convergences": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/signal_convergence" }
+    },
+    "future_bets": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/future_bet" }
+    }
+  },
+  "$defs": {
+    "category": {
+      "type": "string",
+      "enum": [
+        "Business & Regulation",
+        "Cities & Infrastructure",
+        "Climate & Environment",
+        "Defense & Security",
+        "Energy & Power",
+        "Food & Agriculture",
+        "Health & Biosecurity",
+        "Housing & Real Estate",
+        "Mobility & Logistics",
+        "Public Finance & Industrial Policy",
+        "Semiconductors & Compute",
+        "Technology & Automation",
+        "Work & Labour",
+        "Consumer & Culture",
+        "Resources & Supply Chains",
+        "Demographics & Society"
+      ]
+    },
+    "time_horizon": {
+      "type": "string",
+      "enum": [
+        "Near term: 0-12 months",
+        "Mid term: 1-3 years",
+        "Long term: 3-10 years"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["Low", "Medium", "High"]
+    },
+    "bet_type": {
+      "type": "string",
+      "enum": ["good", "bad"]
+    },
+    "source_tier": {
+      "type": "string",
+      "enum": ["news_discovery", "structural_context", "official_hazard", "geo_context"]
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "news_aggregation",
+        "institutional_dataset",
+        "official_feed",
+        "geospatial_query",
+        "manual_editorial"
+      ]
+    },
+    "strength": {
+      "type": "string",
+      "enum": ["Low", "Medium", "High"]
+    },
+    "freshness": {
+      "type": "object",
+      "required": ["bucket", "reinforced"],
+      "properties": {
+        "bucket": {
+          "type": "string",
+          "enum": ["fresh", "active", "stale", "reference"]
+        },
+        "age_days": { "type": ["integer", "null"] },
+        "fresh_days": { "type": ["integer", "null"] },
+        "max_age_days": { "type": ["integer", "null"] },
+        "fresh_event_count": { "type": ["integer", "null"] },
+        "active_event_count": { "type": ["integer", "null"] },
+        "max_event_age_days": { "type": ["integer", "null"] },
+        "reinforced": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "geography": {
+      "type": "object",
+      "required": ["label", "scope"],
+      "properties": {
+        "label": { "type": "string" },
+        "scope": {
+          "type": "string",
+          "enum": ["global", "region", "country", "subnational", "metro", "corridor", "point"]
+        },
+        "country_codes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "region_codes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "adm1_codes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "osm_area_ids": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "coordinates": {
+          "type": "object",
+          "required": ["lat", "lon"],
+          "properties": {
+            "lat": { "type": "number" },
+            "lon": { "type": "number" }
+          }
+        },
+        "radius_km": { "type": "number" }
+      },
+      "additionalProperties": false
+    },
+    "structured_metrics": {
+      "type": "object",
+      "properties": {
+        "value": { "type": ["number", "string", "null"] },
+        "unit": { "type": ["string", "null"] },
+        "baseline_value": { "type": ["number", "string", "null"] },
+        "baseline_period": { "type": ["string", "null"] },
+        "change_abs": { "type": ["number", "null"] },
+        "change_pct": { "type": ["number", "null"] },
+        "sample_size": { "type": ["number", "null"] },
+        "window": { "type": ["string", "null"] },
+        "series_code": { "type": ["string", "null"] },
+        "dimensions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["string", "number", "boolean", "null"]
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "source_type",
+        "source_tier",
+        "access",
+        "url"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "source_type": { "$ref": "#/$defs/source_type" },
+        "source_tier": { "$ref": "#/$defs/source_tier" },
+        "access": {
+          "type": "string",
+          "enum": ["free", "open", "free_with_key", "manual"]
+        },
+        "update_cadence": { "type": "string" },
+        "coverage": { "type": "string" },
+        "url": { "type": "string", "format": "uri" },
+        "notes": { "type": "string" },
+        "license_notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "raw_signal": {
+      "type": "object",
+      "required": [
+        "id",
+        "source",
+        "source_type",
+        "category",
+        "geography",
+        "detected_at",
+        "signal_title",
+        "signal_summary",
+        "strength",
+        "url",
+        "structured_metrics"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "watchlist_id": { "type": "string" },
+        "source": { "type": "string" },
+        "source_type": { "$ref": "#/$defs/source_type" },
+        "category": { "$ref": "#/$defs/category" },
+        "subcategories": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "geography": { "$ref": "#/$defs/geography" },
+        "detected_at": { "type": "string", "format": "date-time" },
+        "signal_title": { "type": "string" },
+        "signal_summary": { "type": "string" },
+        "strength": { "$ref": "#/$defs/strength" },
+        "url": { "type": "string", "format": "uri" },
+        "structured_metrics": { "$ref": "#/$defs/structured_metrics" },
+        "entities": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "themes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "topic_tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "relevance_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "quality_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "freshness": { "$ref": "#/$defs/freshness" }
+      },
+      "additionalProperties": false
+    },
+    "signal_cluster": {
+      "type": "object",
+      "required": [
+        "id",
+        "cluster_title",
+        "category",
+        "geography",
+        "window_start",
+        "window_end",
+        "signal_ids",
+        "cluster_summary",
+        "strength"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "cluster_title": { "type": "string" },
+        "category": { "$ref": "#/$defs/category" },
+        "geography": { "$ref": "#/$defs/geography" },
+        "window_start": { "type": "string", "format": "date-time" },
+        "window_end": { "type": "string", "format": "date-time" },
+        "signal_ids": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string" }
+        },
+        "cluster_summary": { "type": "string" },
+        "strength": { "$ref": "#/$defs/strength" },
+        "topic_tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "cluster_metrics": { "$ref": "#/$defs/structured_metrics" }
+      },
+      "additionalProperties": false
+    },
+    "paired_signal": {
+      "type": "object",
+      "required": [
+        "signal_id",
+        "signal_title",
+        "source",
+        "source_type",
+        "why_it_matters",
+        "connection"
+      ],
+      "properties": {
+        "signal_id": { "type": "string" },
+        "signal_title": { "type": "string" },
+        "source": { "type": "string" },
+        "source_type": { "$ref": "#/$defs/source_type" },
+        "why_it_matters": { "type": "string" },
+        "connection": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "signal_convergence": {
+      "type": "object",
+      "required": [
+        "id",
+        "category",
+        "geography",
+        "detected_at",
+        "time_horizon",
+        "convergence_title",
+        "convergence_summary",
+        "signal_ids",
+        "paired_signals",
+        "inference",
+        "confidence"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "category": { "$ref": "#/$defs/category" },
+        "geography": { "$ref": "#/$defs/geography" },
+        "detected_at": { "type": "string", "format": "date-time" },
+        "time_horizon": { "$ref": "#/$defs/time_horizon" },
+        "convergence_title": { "type": "string" },
+        "convergence_summary": { "type": "string" },
+        "signal_ids": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "items": { "type": "string" }
+        },
+        "paired_signals": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/paired_signal" }
+        },
+        "pattern_type": {
+          "type": "string",
+          "enum": [
+            "policy_plus_structure",
+            "hazard_plus_infrastructure",
+            "conflict_plus_logistics",
+            "regulation_plus_labour",
+            "technology_plus_cost_pressure",
+            "demographic_plus_service_gap",
+            "custom"
+          ]
+        },
+        "inference": { "type": "string" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "topic_tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "freshness": { "$ref": "#/$defs/freshness" },
+        "reasoning_notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "future_bet": {
+      "type": "object",
+      "required": [
+        "id",
+        "slug",
+        "title",
+        "type",
+        "category",
+        "geography",
+        "time_horizon",
+        "confidence",
+        "summary",
+        "implication",
+        "why_now",
+        "paired_signals",
+        "second_order_effects",
+        "what_to_watch",
+        "what_could_change_this",
+        "sources"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "slug": { "type": "string" },
+        "title": { "type": "string" },
+        "type": { "$ref": "#/$defs/bet_type" },
+        "category": { "$ref": "#/$defs/category" },
+        "geography": { "$ref": "#/$defs/geography" },
+        "time_horizon": { "$ref": "#/$defs/time_horizon" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "summary": { "type": "string" },
+        "implication": { "type": "string" },
+        "why_now": { "type": "string" },
+        "topic_tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "freshness": { "$ref": "#/$defs/freshness" },
+        "paired_signals": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/paired_signal" }
+        },
+        "second_order_effects": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string" }
+        },
+        "what_to_watch": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string" }
+        },
+        "what_could_change_this": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "type": "string" }
+        },
+        "source_logic": {
+          "type": "object",
+          "required": ["current_event_count", "structural_count"],
+          "properties": {
+            "current_event_count": { "type": "integer", "minimum": 0 },
+            "structural_count": { "type": "integer", "minimum": 1 },
+            "official_or_geo_count": { "type": "integer", "minimum": 0 },
+            "convergence_ids": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["source_id", "title", "url", "note"],
+            "properties": {
+              "source_id": { "type": "string" },
+              "title": { "type": "string" },
+              "url": { "type": "string", "format": "uri" },
+              "note": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,80 @@
+name: Nightly Data Refresh
+
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  refresh-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Run watchlists
+        run: python3 scripts/run_watchlists.py --pause 2
+
+      - name: Validate generated JSON
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("data/generated")
+          required = [
+              root / "future-bets.json",
+              root / "pipeline-output.json",
+              root / "raw-signals.json",
+              root / "signal-convergences.json",
+          ]
+
+          for path in required:
+              json.loads(path.read_text())
+
+          print(json.dumps({"validated_files": [str(path) for path in required]}, indent=2))
+          PY
+
+      - name: Build deployable static snapshot
+        run: python3 scripts/build_static_snapshot.py --output-dir site-dist
+
+      - name: Upload generated dataset
+        uses: actions/upload-artifact@v4
+        with:
+          name: future-bets-generated-data
+          path: data/generated
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site-dist
+
+  deploy:
+    needs: refresh-data
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

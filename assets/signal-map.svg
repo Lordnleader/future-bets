@@ -1,0 +1,19 @@
+<svg width="1600" height="1000" viewBox="0 0 1600 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="1000" fill="#050505"/>
+  <g opacity="0.85">
+    <path d="M0 316L108 286L216 339L324 264L432 317L540 236L648 292L756 228L864 270L972 200L1080 262L1188 214L1296 282L1404 236L1512 318L1600 284V1000H0V316Z" fill="#EAE7DF" fill-opacity="0.08"/>
+    <path d="M0 438L120 404L240 462L360 378L480 434L600 346L720 412L840 340L960 398L1080 322L1200 404L1320 350L1440 430L1560 382L1600 396V1000H0V438Z" fill="#EAE7DF" fill-opacity="0.1"/>
+    <path d="M0 568L96 530L192 602L288 544L384 628L480 556L576 650L672 582L768 660L864 586L960 670L1056 610L1152 694L1248 624L1344 708L1440 652L1536 720L1600 696V1000H0V568Z" fill="#EAE7DF" fill-opacity="0.13"/>
+    <path d="M0 690L110 654L220 730L330 666L440 748L550 678L660 758L770 692L880 776L990 716L1100 800L1210 738L1320 816L1430 768L1540 840L1600 814V1000H0V690Z" fill="#EAE7DF" fill-opacity="0.16"/>
+  </g>
+  <g opacity="0.18">
+    <path d="M178 92H820V446H178V92Z" fill="url(#dots)"/>
+    <path d="M1010 178H1490V478H1010V178Z" fill="url(#dots)"/>
+  </g>
+  <defs>
+    <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#EAE7DF" fill-opacity="0"/>
+      <rect x="1" y="1" width="4" height="4" fill="#EAE7DF"/>
+    </pattern>
+  </defs>
+</svg>

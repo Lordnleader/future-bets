@@ -1,0 +1,228 @@
+[
+  {
+    "id": "sig-107aaa27a295",
+    "watchlist_id": "japan-seismic-readiness",
+    "source": "world_bank_indicators",
+    "source_type": "institutional_dataset",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "japan-seismic-readiness",
+      "structural_context"
+    ],
+    "geography": {
+      "label": "Japan",
+      "scope": "country",
+      "country_codes": [
+        "JPN"
+      ]
+    },
+    "detected_at": "2024-01-01T00:00:00Z",
+    "signal_title": "Urban exposure remains high in Japan",
+    "signal_summary": "A highly urbanized population means seismic risk and infrastructure resilience have large operational consequences. Latest observed value for Japan: 92.1901718034531.",
+    "strength": "Low",
+    "url": "https://api.worldbank.org/v2/country/JPN/indicator/SP.URB.TOTL.IN.ZS?format=json&mrnev=2&per_page=200",
+    "structured_metrics": {
+      "value": 92.1901718034531,
+      "unit": null,
+      "baseline_value": 92.0826903891473,
+      "baseline_period": "2023",
+      "change_abs": 0.10748141430579494,
+      "change_pct": 0.11672271286989082,
+      "series_code": "SP.URB.TOTL.IN.ZS",
+      "dimensions": {
+        "country": "Japan",
+        "indicator": "Urban population (% of total population)",
+        "latest_period": "2024"
+      }
+    },
+    "entities": [
+      "Japan",
+      "Urban population (% of total population)"
+    ],
+    "themes": [
+      "japan-seismic-readiness",
+      "world_bank"
+    ],
+    "keywords": [
+      "SP.URB.TOTL.IN.ZS"
+    ],
+    "relevance_score": 0.82,
+    "quality_score": 0.9
+  },
+  {
+    "id": "sig-cee25bf7230e",
+    "watchlist_id": "japan-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "japan-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Japan",
+      "scope": "country",
+      "country_codes": [
+        "JPN"
+      ]
+    },
+    "detected_at": "2026-03-06T20:31:51.630000Z",
+    "signal_title": "Recent seismic activity near Japan",
+    "signal_summary": "Recent earthquake activity provides an official reminder that seismic risk remains live rather than theoretical. Strongest matching event magnitude: 4.8.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2mt",
+    "structured_metrics": {
+      "value": 4.8,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "64 km ESE of \u014cfunato, Japan",
+        "latitude": 38.8143,
+        "longitude": 142.3854
+      }
+    },
+    "entities": [
+      "64 km ESE of \u014cfunato, Japan"
+    ],
+    "themes": [
+      "japan-seismic-readiness",
+      "usgs"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96
+  },
+  {
+    "id": "sig-f9f2ddd2049c",
+    "watchlist_id": "urban-water-pressure-india",
+    "source": "world_bank_indicators",
+    "source_type": "institutional_dataset",
+    "category": "Climate & Environment",
+    "subcategories": [
+      "urban-water-pressure-india",
+      "structural_context"
+    ],
+    "geography": {
+      "label": "India",
+      "scope": "country",
+      "country_codes": [
+        "IND"
+      ]
+    },
+    "detected_at": "2024-01-01T00:00:00Z",
+    "signal_title": "Urban population share continues to rise",
+    "signal_summary": "Urban growth increases demand pressure on already stressed water and cooling systems. Latest observed value for India: 35.3788972368389.",
+    "strength": "Low",
+    "url": "https://api.worldbank.org/v2/country/IND/indicator/SP.URB.TOTL.IN.ZS?format=json&mrnev=2&per_page=200",
+    "structured_metrics": {
+      "value": 35.3788972368389,
+      "unit": null,
+      "baseline_value": 35.0676918424186,
+      "baseline_period": "2023",
+      "change_abs": 0.3112053944203055,
+      "change_pct": 0.8874419104021699,
+      "series_code": "SP.URB.TOTL.IN.ZS",
+      "dimensions": {
+        "country": "India",
+        "indicator": "Urban population (% of total population)",
+        "latest_period": "2024"
+      }
+    },
+    "entities": [
+      "India",
+      "Urban population (% of total population)"
+    ],
+    "themes": [
+      "urban-water-pressure-india",
+      "world_bank"
+    ],
+    "topic_tags": [
+      "urban-water-pressure-india",
+      "water-stress",
+      "urbanization",
+      "heat-risk",
+      "india",
+      "structural_context"
+    ],
+    "keywords": [
+      "SP.URB.TOTL.IN.ZS"
+    ],
+    "relevance_score": 0.82,
+    "quality_score": 0.9,
+    "freshness": {
+      "bucket": "reference",
+      "age_days": null,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-4fa4ba063b61",
+    "watchlist_id": "us-entry-level-work-friction",
+    "source": "world_bank_indicators",
+    "source_type": "institutional_dataset",
+    "category": "Work & Labour",
+    "subcategories": [
+      "us-entry-level-work-friction",
+      "structural_context"
+    ],
+    "geography": {
+      "label": "United States",
+      "scope": "country",
+      "country_codes": [
+        "USA"
+      ]
+    },
+    "detected_at": "2025-01-01T00:00:00Z",
+    "signal_title": "Youth unemployment remains a useful stress signal",
+    "signal_summary": "Youth and early-career employment data help show whether first-rung labour market access is tightening. Latest observed value for United States: 9.34.",
+    "strength": "Medium",
+    "url": "https://api.worldbank.org/v2/country/USA/indicator/SL.UEM.1524.ZS?format=json&mrnev=2&per_page=200",
+    "structured_metrics": {
+      "value": 9.34,
+      "unit": null,
+      "baseline_value": 8.92,
+      "baseline_period": "2024",
+      "change_abs": 0.41999999999999993,
+      "change_pct": 4.708520179372196,
+      "series_code": "SL.UEM.1524.ZS",
+      "dimensions": {
+        "country": "United States",
+        "indicator": "Unemployment, youth total (% of total labor force ages 15-24) (modeled ILO estimate)",
+        "latest_period": "2025"
+      }
+    },
+    "entities": [
+      "United States",
+      "Unemployment, youth total (% of total labor force ages 15-24) (modeled ILO estimate)"
+    ],
+    "themes": [
+      "us-entry-level-work-friction",
+      "world_bank"
+    ],
+    "topic_tags": [
+      "us-entry-level-work-friction",
+      "entry-level-work",
+      "labour-friction",
+      "automation",
+      "knowledge-work",
+      "structural_context"
+    ],
+    "keywords": [
+      "SL.UEM.1524.ZS"
+    ],
+    "relevance_score": 0.82,
+    "quality_score": 0.9,
+    "freshness": {
+      "bucket": "reference",
+      "age_days": null,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  }
+]

@@ -1,0 +1,152 @@
+{
+  "generated_at": "2026-03-07T22:22:51Z",
+  "pipeline_version": "0.4",
+  "sources": [
+    {
+      "id": "gdelt",
+      "name": "GDELT",
+      "source_type": "news_aggregation",
+      "source_tier": "news_discovery",
+      "access": "open",
+      "update_cadence": "Near real time",
+      "coverage": "Global news and event discovery",
+      "url": "https://www.gdeltproject.org/",
+      "notes": "Use for topic detection, clustering, geography hints, and media-attention bursts. Do not use as the sole basis for a final bet.",
+      "license_notes": "Free/open platform; verify reuse terms per downstream workflow."
+    },
+    {
+      "id": "world_bank_indicators",
+      "name": "World Bank Indicators API",
+      "source_type": "institutional_dataset",
+      "source_tier": "structural_context",
+      "access": "open",
+      "update_cadence": "Dataset dependent",
+      "coverage": "Global macro and development indicators",
+      "url": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation",
+      "notes": "Use for structural baselines and country comparisons.",
+      "license_notes": "Open World Bank data; confirm per-series usage terms if redistributed."
+    },
+    {
+      "id": "ilostat",
+      "name": "ILOSTAT Bulk Download Facility",
+      "source_type": "institutional_dataset",
+      "source_tier": "structural_context",
+      "access": "open",
+      "update_cadence": "Daily bulk refresh",
+      "coverage": "Labour-market and employment statistics",
+      "url": "https://rplumber.ilo.org/data/indicator/",
+      "notes": "Use the official bulk indicator CSV downloads for labour structure, participation, unemployment, sector dynamics, and informality.",
+      "license_notes": "Public bulk download access exposed by ILOSTAT; verify per-dataset reuse terms if redistributed."
+    },
+    {
+      "id": "usgs_earthquakes",
+      "name": "USGS Earthquake Feeds",
+      "source_type": "official_feed",
+      "source_tier": "official_hazard",
+      "access": "open",
+      "update_cadence": "Real time feeds",
+      "coverage": "Global earthquake events",
+      "url": "https://earthquake.usgs.gov/earthquakes/feed/",
+      "notes": "Use for precise hazard confirmation with timestamps and magnitude.",
+      "license_notes": "Machine-readable feeds exposed publicly by USGS."
+    },
+    {
+      "id": "overpass",
+      "name": "OpenStreetMap Overpass API",
+      "source_type": "geospatial_query",
+      "source_tier": "geo_context",
+      "access": "open",
+      "update_cadence": "Near real time with some lag",
+      "coverage": "Global map and infrastructure features",
+      "url": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "notes": "Use for infrastructure density, place context, proximity checks, and asset lookup.",
+      "license_notes": "Read-only API over OSM data; respect OSM/instance usage expectations."
+    },
+    {
+      "id": "eia",
+      "name": "EIA API",
+      "source_type": "institutional_dataset",
+      "source_tier": "structural_context",
+      "access": "free_with_key",
+      "update_cadence": "Dataset dependent",
+      "coverage": "Energy markets, electricity, fuels, and system data",
+      "url": "https://www.eia.gov/opendata/documentation.php",
+      "notes": "Use for energy system context and supply-demand stress.",
+      "license_notes": "Free API, but requires an API key."
+    }
+  ],
+  "raw_signals": [
+    {
+      "id": "sig-4fa4ba063b61",
+      "watchlist_id": "us-entry-level-work-friction",
+      "source": "world_bank_indicators",
+      "source_type": "institutional_dataset",
+      "category": "Work & Labour",
+      "subcategories": [
+        "us-entry-level-work-friction",
+        "structural_context"
+      ],
+      "geography": {
+        "label": "United States",
+        "scope": "country",
+        "country_codes": [
+          "USA"
+        ]
+      },
+      "detected_at": "2025-01-01T00:00:00Z",
+      "signal_title": "Youth unemployment remains a useful stress signal",
+      "signal_summary": "Youth and early-career employment data help show whether first-rung labour market access is tightening. Latest observed value for United States: 9.34.",
+      "strength": "Medium",
+      "url": "https://api.worldbank.org/v2/country/USA/indicator/SL.UEM.1524.ZS?format=json&mrnev=2&per_page=200",
+      "structured_metrics": {
+        "value": 9.34,
+        "unit": null,
+        "baseline_value": 8.92,
+        "baseline_period": "2024",
+        "change_abs": 0.41999999999999993,
+        "change_pct": 4.708520179372196,
+        "series_code": "SL.UEM.1524.ZS",
+        "dimensions": {
+          "country": "United States",
+          "indicator": "Unemployment, youth total (% of total labor force ages 15-24) (modeled ILO estimate)",
+          "latest_period": "2025"
+        }
+      },
+      "entities": [
+        "United States",
+        "Unemployment, youth total (% of total labor force ages 15-24) (modeled ILO estimate)"
+      ],
+      "themes": [
+        "us-entry-level-work-friction",
+        "world_bank"
+      ],
+      "topic_tags": [
+        "us-entry-level-work-friction",
+        "entry-level-work",
+        "labour-friction",
+        "automation",
+        "knowledge-work",
+        "structural_context"
+      ],
+      "keywords": [
+        "SL.UEM.1524.ZS"
+      ],
+      "relevance_score": 0.82,
+      "quality_score": 0.9,
+      "freshness": {
+        "bucket": "reference",
+        "age_days": null,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
+    }
+  ],
+  "signal_clusters": [],
+  "signal_convergences": [],
+  "future_bets": [],
+  "errors": [
+    "GDELT fetch failed for us-entry-level-work-friction: <urlopen error [Errno 8] nodename nor servname provided, or not known>",
+    "ILOSTAT fetch failed for us-entry-level-work-friction / UNE_2EAP_SEX_AGE_RT_A: <urlopen error [Errno 8] nodename nor servname provided, or not known>"
+  ]
+}

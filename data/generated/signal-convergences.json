@@ -1,0 +1,43 @@
+[
+  {
+    "id": "conv-d558305a9a11",
+    "category": "Cities & Infrastructure",
+    "geography": {
+      "label": "Japan",
+      "scope": "country",
+      "country_codes": [
+        "JPN"
+      ]
+    },
+    "detected_at": "2026-03-07T20:56:37Z",
+    "time_horizon": "Long term: 3-10 years",
+    "convergence_title": "Seismic retrofit and resilience systems in Japan",
+    "convergence_summary": "Preparedness coverage, dense urban exposure, and recent official seismic activity together make resilience systems more strategically important.",
+    "signal_ids": [
+      "sig-cee25bf7230e",
+      "sig-107aaa27a295"
+    ],
+    "paired_signals": [
+      {
+        "signal_id": "sig-cee25bf7230e",
+        "signal_title": "Recent seismic activity near Japan",
+        "source": "usgs_earthquakes",
+        "source_type": "official_feed",
+        "why_it_matters": "Official hazard activity strengthens the case for preparedness as a practical systems priority.",
+        "connection": "When current seismic activity or preparedness attention meets high urban exposure, resilience systems become more strategically important."
+      },
+      {
+        "signal_id": "sig-107aaa27a295",
+        "signal_title": "Urban exposure remains high in Japan",
+        "source": "world_bank_indicators",
+        "source_type": "institutional_dataset",
+        "why_it_matters": "Dense urban systems increase the value of preparedness, retrofit, and rapid-response infrastructure.",
+        "connection": "When current seismic activity or preparedness attention meets high urban exposure, resilience systems become more strategically important."
+      }
+    ],
+    "pattern_type": "hazard_plus_infrastructure",
+    "inference": "Preparedness coverage, dense urban exposure, and recent official seismic activity together make resilience systems more strategically important.",
+    "confidence": "Low",
+    "reasoning_notes": "Convergence score 1.23 using 1 recent/active event signals plus structural context."
+  }
+]

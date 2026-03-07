@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Future Bets</title>
+    <meta
+      name="description"
+      content="A future-signals dashboard tracking the patterns making parts of the world more promising, fragile, expensive, or strategically important."
+    />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="hero">
+        <div class="hero__mesh"></div>
+        <div class="hero__grid"></div>
+        <div class="hero__content">
+          <div class="eyebrow-row">
+            <span class="eyebrow">Future Bets</span>
+            <span class="status-pill">Signal system active</span>
+          </div>
+          <div class="hero__copy">
+            <p class="hero__kicker">Pattern-recognition briefings for a changing world</p>
+            <h1>
+              What the world is
+              <span>making more likely</span>
+            </h1>
+            <p class="hero__lede">
+              Not investment advice. Not a betting product. A practical layer for noticing which
+              places, systems, industries, and assumptions are becoming more viable or more
+              exposed.
+            </p>
+          </div>
+          <div class="hero__system">
+            <div class="system-card">
+              <span class="system-card__label">Daily scan</span>
+              <strong id="hero-total">24 active signals</strong>
+              <p>Cross-reading multiple developments to surface directional judgments with practical consequences.</p>
+            </div>
+            <div class="system-card system-card--accent">
+              <span class="system-card__label">Coverage</span>
+              <strong id="hero-balance">8 categories / 8 geographies</strong>
+              <p>Balanced across business, climate, infrastructure, labour, culture, demographics, and supply chains.</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="page">
+        <section class="intro-grid">
+          <div class="section-label">System note</div>
+          <div class="intro-grid__content">
+            <p>
+              Each item is a <strong>Good Bet</strong> or <strong>Bad Bet</strong>: not a literal
+              wager, but a directional view on what appears to be becoming more viable, more
+              fragile, more attractive, or more dangerous to rely on.
+            </p>
+            <p>
+              Every forecast includes practical implications, uncertainty markers, and at least two
+              converging signals.
+            </p>
+          </div>
+        </section>
+
+        <section class="filters-panel" aria-labelledby="filters-heading">
+          <div class="filters-panel__header">
+            <div>
+              <div class="section-label">Feed controls</div>
+              <h2 id="filters-heading">Pattern filters</h2>
+            </div>
+            <div class="meta-strip" id="results-meta"></div>
+          </div>
+
+          <form class="filters" id="filters-form">
+            <label>
+              <span>Category</span>
+              <select id="category-filter" name="category">
+                <option value="all">All categories</option>
+              </select>
+            </label>
+            <label>
+              <span>Geography</span>
+              <select id="geography-filter" name="geography">
+                <option value="all">All geographies</option>
+              </select>
+            </label>
+            <label>
+              <span>Horizon</span>
+              <select id="horizon-filter" name="timeHorizon">
+                <option value="all">All horizons</option>
+              </select>
+            </label>
+            <label>
+              <span>Type</span>
+              <select id="type-filter" name="type">
+                <option value="all">Good and Bad</option>
+                <option value="good">Good Bets</option>
+                <option value="bad">Bad Bets</option>
+              </select>
+            </label>
+          </form>
+        </section>
+
+        <section class="feed-section" aria-labelledby="feed-heading">
+          <div class="feed-section__header">
+            <div class="section-label">Daily feed</div>
+            <h2 id="feed-heading">Good Bets and Bad Bets</h2>
+          </div>
+          <div class="cards-grid" id="cards-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>
