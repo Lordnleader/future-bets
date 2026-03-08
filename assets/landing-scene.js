@@ -5,18 +5,43 @@ const DUST_COUNT = 720;
 const CORE_COUNT = 18000;
 const FILAMENT_COUNT = 7600;
 const AURA_COUNT = 3200;
+const GLOW_COUNT = 2400;
 const BOKEH_BACK_COUNT = 1600;
 const BOKEH_FRONT_COUNT = 1300;
 const TWO_PI = Math.PI * 2;
 
 const RIBBON_SPECS = [
   {
-    startAngle: 0.88 * Math.PI,
-    endAngle: 1.48 * Math.PI,
-    radius: 3.48,
+    startAngle: 0.12 * Math.PI,
+    endAngle: 1.96 * Math.PI,
+    radius: 3.38,
+    weight: 2.2,
+    macroSpeed: 0.062,
+    flowRange: [0.03, 0.076],
+    radiusWave: 0.14,
+    breatheSpeed: 0.24,
+    width: 0.44,
+    foldAmp: 0.14,
+    foldFreq: 2.2,
+    foldSpeed: 0.62,
+    sheetAmp: 0.18,
+    sheetFreq: 2.8,
+    sheetSpeed: 0.58,
+    tangentAmp: 0.08,
+    tangentFreq: 3.2,
+    tangentSpeed: 0.72,
+    depth: 0.24,
+    depthAmp: 0.24,
+    depthFreq: 2,
+    depthSpeed: 0.52,
+  },
+  {
+    startAngle: 0.82 * Math.PI,
+    endAngle: 1.52 * Math.PI,
+    radius: 3.42,
     weight: 3.4,
-    macroSpeed: 0.065,
-    flowRange: [0.038, 0.092],
+    macroSpeed: 0.068,
+    flowRange: [0.04, 0.096],
     radiusWave: 0.22,
     breatheSpeed: 0.38,
     width: 0.82,
@@ -35,9 +60,9 @@ const RIBBON_SPECS = [
     depthSpeed: 0.76,
   },
   {
-    startAngle: 1.18 * Math.PI,
-    endAngle: 1.9 * Math.PI,
-    radius: 3.5,
+    startAngle: 1.12 * Math.PI,
+    endAngle: 1.92 * Math.PI,
+    radius: 3.46,
     weight: 4.1,
     macroSpeed: 0.07,
     flowRange: [0.04, 0.098],
@@ -59,9 +84,9 @@ const RIBBON_SPECS = [
     depthSpeed: 0.82,
   },
   {
-    startAngle: 1.9 * Math.PI,
-    endAngle: 2.24 * Math.PI,
-    radius: 3.4,
+    startAngle: 1.84 * Math.PI,
+    endAngle: 2.12 * Math.PI,
+    radius: 3.34,
     weight: 2.7,
     macroSpeed: 0.075,
     flowRange: [0.042, 0.102],
@@ -83,38 +108,38 @@ const RIBBON_SPECS = [
     depthSpeed: 0.72,
   },
   {
-    startAngle: 0.62 * Math.PI,
-    endAngle: 0.9 * Math.PI,
-    radius: 3.55,
-    weight: 1.1,
-    macroSpeed: 0.06,
-    flowRange: [0.028, 0.072],
-    radiusWave: 0.18,
-    breatheSpeed: 0.28,
-    width: 0.48,
-    foldAmp: 0.18,
-    foldFreq: 2.4,
-    foldSpeed: 0.68,
-    sheetAmp: 0.24,
-    sheetFreq: 2.8,
-    sheetSpeed: 0.62,
-    tangentAmp: 0.12,
-    tangentFreq: 3.6,
-    tangentSpeed: 0.84,
-    depth: 0.28,
-    depthAmp: 0.34,
-    depthFreq: 2.1,
-    depthSpeed: 0.56,
+    startAngle: 0.48 * Math.PI,
+    endAngle: 0.86 * Math.PI,
+    radius: 3.42,
+    weight: 1.35,
+    macroSpeed: 0.058,
+    flowRange: [0.026, 0.068],
+    radiusWave: 0.16,
+    breatheSpeed: 0.27,
+    width: 0.42,
+    foldAmp: 0.16,
+    foldFreq: 2.2,
+    foldSpeed: 0.62,
+    sheetAmp: 0.2,
+    sheetFreq: 2.6,
+    sheetSpeed: 0.56,
+    tangentAmp: 0.1,
+    tangentFreq: 3.3,
+    tangentSpeed: 0.76,
+    depth: 0.24,
+    depthAmp: 0.28,
+    depthFreq: 1.9,
+    depthSpeed: 0.5,
   },
   {
     startAngle: 0.18 * Math.PI,
-    endAngle: 0.4 * Math.PI,
-    radius: 3.44,
-    weight: 0.85,
-    macroSpeed: 0.058,
-    flowRange: [0.024, 0.066],
-    radiusWave: 0.16,
-    breatheSpeed: 0.24,
+    endAngle: 0.52 * Math.PI,
+    radius: 3.36,
+    weight: 1.05,
+    macroSpeed: 0.056,
+    flowRange: [0.022, 0.062],
+    radiusWave: 0.15,
+    breatheSpeed: 0.23,
     width: 0.42,
     foldAmp: 0.16,
     foldFreq: 2.2,
@@ -129,6 +154,30 @@ const RIBBON_SPECS = [
     depthAmp: 0.28,
     depthFreq: 1.9,
     depthSpeed: 0.52,
+  },
+  {
+    startAngle: 0.86 * Math.PI,
+    endAngle: 1.16 * Math.PI,
+    radius: 3.4,
+    weight: 0.9,
+    macroSpeed: 0.056,
+    flowRange: [0.024, 0.064],
+    radiusWave: 0.14,
+    breatheSpeed: 0.22,
+    width: 0.32,
+    foldAmp: 0.11,
+    foldFreq: 2.1,
+    foldSpeed: 0.54,
+    sheetAmp: 0.16,
+    sheetFreq: 2.5,
+    sheetSpeed: 0.48,
+    tangentAmp: 0.08,
+    tangentFreq: 3,
+    tangentSpeed: 0.7,
+    depth: 0.18,
+    depthAmp: 0.2,
+    depthFreq: 1.7,
+    depthSpeed: 0.44,
   },
 ];
 
@@ -167,8 +216,8 @@ export function createLandingScene(container, { triggerElement } = {}) {
   const starfield = createStarfield(sprite);
   const dust = createDustField(sprite);
   const auraLayer = createRibbonLayer(sprite, AURA_COUNT, {
-    pointSize: 0.06,
-    opacity: 0.11,
+    pointSize: 0.07,
+    opacity: 0.12,
     brightnessRange: [0.84, 0.98],
     widthScale: 1.24,
     depthScale: 1.45,
@@ -176,8 +225,18 @@ export function createLandingScene(container, { triggerElement } = {}) {
     speedScale: 0.92,
     depthOffset: 0,
   });
+  const glowLayer = createRibbonLayer(sprite, GLOW_COUNT, {
+    pointSize: 0.095,
+    opacity: 0.07,
+    brightnessRange: [0.9, 1],
+    widthScale: 1.08,
+    depthScale: 1.1,
+    tangentScale: 0.82,
+    speedScale: 0.88,
+    depthOffset: 0,
+  });
   const coreLayer = createRibbonLayer(sprite, CORE_COUNT, {
-    pointSize: 0.017,
+    pointSize: 0.018,
     opacity: 0.9,
     brightnessRange: [0.8, 1],
     widthScale: 1.02,
@@ -187,7 +246,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
     depthOffset: 0,
   });
   const filamentLayer = createRibbonLayer(sprite, FILAMENT_COUNT, {
-    pointSize: 0.028,
+    pointSize: 0.032,
     opacity: 0.98,
     brightnessRange: [0.92, 1],
     widthScale: 0.9,
@@ -197,7 +256,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
     depthOffset: 0,
   });
   const backBokeh = createRibbonLayer(sprite, BOKEH_BACK_COUNT, {
-    pointSize: 0.22,
+    pointSize: 0.26,
     opacity: 0.18,
     brightnessRange: [0.84, 0.96],
     widthScale: 1.34,
@@ -207,7 +266,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
     depthOffset: -3.8,
   });
   const frontBokeh = createRibbonLayer(sprite, BOKEH_FRONT_COUNT, {
-    pointSize: 0.28,
+    pointSize: 0.34,
     opacity: 0.2,
     brightnessRange: [0.88, 1],
     widthScale: 1.18,
@@ -220,6 +279,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
   scene.add(starfield);
   scene.add(dust);
   wreathGroup.add(auraLayer.points);
+  wreathGroup.add(glowLayer.points);
   wreathGroup.add(backBokeh.points);
   wreathGroup.add(coreLayer.points);
   wreathGroup.add(filamentLayer.points);
@@ -256,13 +316,15 @@ export function createLandingScene(container, { triggerElement } = {}) {
     root.position.y = THREE.MathUtils.lerp(root.position.y, pointer.y * 0.06, 0.03);
 
     updateRibbonLayer(auraLayer, elapsed, focus);
+    updateRibbonLayer(glowLayer, elapsed, focus);
     updateRibbonLayer(backBokeh, elapsed, focus);
     updateRibbonLayer(coreLayer, elapsed, focus);
     updateRibbonLayer(filamentLayer, elapsed, focus);
     updateRibbonLayer(frontBokeh, elapsed, focus);
     updateDustField(dust, elapsed);
 
-    auraLayer.material.opacity = 0.11 + focus * 0.03;
+    auraLayer.material.opacity = 0.12 + focus * 0.03;
+    glowLayer.material.opacity = 0.07 + focus * 0.025;
     coreLayer.material.opacity = 0.9 + focus * 0.05;
     filamentLayer.material.opacity = 0.98 + focus * 0.02;
     backBokeh.material.opacity = 0.18 + focus * 0.03;
@@ -541,6 +603,16 @@ function updateRibbonLayer(layer, elapsed, focus) {
       flow +
       Math.sin(elapsed * 0.22 + phaseA) * 0.012 +
       Math.sin(elapsed * 0.44 + phaseB + flow * 9) * 0.01 * density;
+    const clusterWave =
+      0.5 +
+      0.5 *
+        Math.sin(
+          angleProgress * TWO_PI * (2.6 + density * 2.2) -
+            elapsed * (0.9 + speed * 6) +
+            phaseA * 0.7,
+        );
+    const clusterCompression = THREE.MathUtils.lerp(1.18, 0.66, clusterWave);
+    const clusterLift = THREE.MathUtils.lerp(0.92, 1.16, clusterWave);
     const angle = THREE.MathUtils.lerp(spec.startAngle, spec.endAngle, angleProgress) + macroSpin;
     const radius =
       spec.radius +
@@ -559,21 +631,24 @@ function updateRibbonLayer(layer, elapsed, focus) {
       Math.sin(angleProgress * TWO_PI * spec.foldFreq + elapsed * spec.foldSpeed + phaseA) *
         spec.foldAmp *
         density *
-        layerConfig.widthScale;
+        layerConfig.widthScale *
+        clusterCompression;
     const sheet =
       Math.cos(angleProgress * TWO_PI * spec.sheetFreq - elapsed * spec.sheetSpeed + phaseB) *
       spec.sheetAmp *
       density *
       tension *
-      layerConfig.widthScale;
+      layerConfig.widthScale *
+      clusterCompression;
     const tangentDrift =
       Math.sin(angleProgress * TWO_PI * spec.tangentFreq + elapsed * spec.tangentSpeed + phaseB) *
       spec.tangentAmp *
       density *
-      layerConfig.tangentScale;
+      layerConfig.tangentScale *
+      clusterLift;
     const swirl =
-      Math.sin(elapsed * 1.1 + phaseA + angleProgress * 14) * 0.04 * density * energy +
-      Math.cos(elapsed * 0.8 + phaseB + angleProgress * 9) * 0.03 * tension;
+      Math.sin(elapsed * 1.1 + phaseA + angleProgress * 14) * 0.04 * density * energy * clusterLift +
+      Math.cos(elapsed * 0.8 + phaseB + angleProgress * 9) * 0.03 * tension * clusterLift;
     const depth =
       depthOffset +
       depthSeed +
@@ -581,7 +656,8 @@ function updateRibbonLayer(layer, elapsed, focus) {
         spec.depthAmp *
         density +
       sheet * 0.42 +
-      swirl * 0.5;
+      swirl * 0.5 +
+      (clusterWave - 0.5) * 0.16 * density;
 
     positions[i * 3] = pathX + normalX * (fold + sheet * 0.56) + tangentX * tangentDrift + swirl;
     positions[i * 3 + 1] = pathY + normalY * (fold + sheet * 0.56) + tangentY * tangentDrift;

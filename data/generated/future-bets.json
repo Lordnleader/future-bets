@@ -352,7 +352,7 @@
       ]
     },
     "time_horizon": "Long term: 3-10 years",
-    "confidence": "High",
+    "confidence": "Medium",
     "ranking": {
       "score": 2.551,
       "components": {
@@ -366,9 +366,9 @@
         "structural_count": 1
       }
     },
-    "summary": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
-    "implication": "People choosing where to build, manufacture, or expand should treat water resilience as a real operating variable.",
-    "why_now": "Short-term hazard reporting matters more when long-term urban demand is still climbing.",
+    "summary": "Direct groundwater depletion reporting, reinforcing heat-stress coverage, and continuing urban growth suggest that urban water stress in India is becoming a more structural operating constraint.",
+    "implication": "Teams deciding where to build, manufacture, or expand should treat water resilience and cooling resilience as real site-selection variables.",
+    "why_now": "A direct urban groundwater warning matters more when near-term heat pressure and long-term urban demand are still rising together.",
     "topic_tags": [
       "urban-water-pressure-india",
       "water-stress",
@@ -435,13 +435,13 @@
         "source_id": "gdelt",
         "title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
         "url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
-        "note": "Verified cached article match for urban-water-pressure-india: Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News from timesofindia.indiatimes.com in India."
+        "note": "Verified primary cached article for urban-water-pressure-india: Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News from timesofindia.indiatimes.com in India."
       },
       {
         "source_id": "gdelt",
         "title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
         "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
-        "note": "Verified cached article match for urban-water-pressure-india: Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities from freepressjournal.in in India."
+        "note": "Verified reinforcing cached article for urban-water-pressure-india: Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities from freepressjournal.in in India. Basis: Used as a reinforcing heat-stress signal for the same India water-pressure thesis when combined with a direct groundwater depletion article."
       },
       {
         "source_id": "world_bank_indicators",

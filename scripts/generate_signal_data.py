@@ -287,14 +287,23 @@ def titles_compatible(expected: str | None, actual: str | None) -> bool:
     return expected_norm == actual_norm or expected_norm in actual_norm or actual_norm in expected_norm
 
 
-def verified_manual_signal_summary(article: dict[str, Any], watchlist: dict[str, Any]) -> str:
+def verified_manual_signal_summary(
+    article: dict[str, Any],
+    watchlist: dict[str, Any],
+    *,
+    accepted_via: str,
+    manual_basis: str | None = None,
+) -> str:
     title = article.get("title") or f"Verified article for {watchlist['id']}"
     domain = article.get("domain") or urllib.parse.urlparse(article.get("url") or article.get("url_mobile") or "").netloc
     source_country = article.get("sourcecountry") or article.get("sourceCountry")
     suffix = f" from {domain}" if domain else ""
     if source_country:
         suffix += f" in {source_country}"
-    return f"Verified cached article match for {watchlist['id']}: {title}{suffix}."
+    if accepted_via == "manual_basis_override":
+        basis_suffix = f" Basis: {manual_basis}" if manual_basis else ""
+        return f"Verified reinforcing cached article for {watchlist['id']}: {title}{suffix}.{basis_suffix}"
+    return f"Verified primary cached article for {watchlist['id']}: {title}{suffix}."
 
 
 def manual_signal_relevance_score(article: dict[str, Any], watchlist: dict[str, Any], *, accepted_via: str) -> float:
@@ -618,7 +627,12 @@ def fetch_manual_signals(watchlist: dict[str, Any]) -> tuple[list[dict[str, Any]
             "geography": build_geography(watchlist["geography"]),
             "detected_at": detected_at,
             "signal_title": article.get("title") or item["title"],
-            "signal_summary": verified_manual_signal_summary(article, watchlist),
+            "signal_summary": verified_manual_signal_summary(
+                article,
+                watchlist,
+                accepted_via=accepted_via,
+                manual_basis=item.get("verification_basis"),
+            ),
             "strength": item.get("strength", infer_strength_from_position(index)),
             "url": article_url,
             "verification": {
@@ -1169,6 +1183,10 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
         if convergence_score < minimum_score:
             continue
 
+        has_manual_override = any(
+            (signal.get("verification") or {}).get("accepted_via") == "manual_basis_override"
+            for signal in selected_events
+        )
         confidence = "Low"
         if official_only:
             if convergence_score >= 2.4 and len(selected_events) >= 3:
@@ -1176,7 +1194,12 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
             elif convergence_score >= 1.7 and len(selected_events) >= 2:
                 confidence = "Medium"
         else:
-            if convergence_score >= 2.35 and len(selected_events) >= 2 and domain_count >= 2:
+            if (
+                convergence_score >= 2.35
+                and len(selected_events) >= 2
+                and domain_count >= 2
+                and not has_manual_override
+            ):
                 confidence = "High"
             elif convergence_score >= 1.75:
                 confidence = "Medium"

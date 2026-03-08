@@ -9,7 +9,7 @@
         "IDN"
       ]
     },
-    "detected_at": "2026-03-08T12:38:14Z",
+    "detected_at": "2026-03-08T12:46:57Z",
     "time_horizon": "Near term: 0-12 months",
     "convergence_title": "Seismic readiness systems in Indonesia",
     "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
@@ -87,7 +87,7 @@
         "PHL"
       ]
     },
-    "detected_at": "2026-03-08T12:38:14Z",
+    "detected_at": "2026-03-08T12:46:57Z",
     "time_horizon": "Near term: 0-12 months",
     "convergence_title": "Seismic readiness systems in the Philippines",
     "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live systems priority in the Philippines.",
@@ -165,7 +165,7 @@
         "CHL"
       ]
     },
-    "detected_at": "2026-03-08T12:38:14Z",
+    "detected_at": "2026-03-08T12:46:57Z",
     "time_horizon": "Near term: 0-12 months",
     "convergence_title": "Seismic resilience systems in Chile",
     "convergence_summary": "Repeated official earthquake activity suggests resilience systems remain strategically relevant in Chile.",
@@ -243,10 +243,10 @@
         "IND"
       ]
     },
-    "detected_at": "2026-03-08T12:38:14Z",
+    "detected_at": "2026-03-08T12:46:57Z",
     "time_horizon": "Long term: 3-10 years",
     "convergence_title": "Treating urban water stress as a temporary inconvenience",
-    "convergence_summary": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
+    "convergence_summary": "Direct groundwater depletion reporting, reinforcing heat-stress coverage, and continuing urban growth suggest that urban water stress in India is becoming a more structural operating constraint.",
     "signal_ids": [
       "sig-8bb85e76582e",
       "sig-7100bd236e01",
@@ -279,8 +279,8 @@
       }
     ],
     "pattern_type": "custom",
-    "inference": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
-    "confidence": "High",
+    "inference": "Direct groundwater depletion reporting, reinforcing heat-stress coverage, and continuing urban growth suggest that urban water stress in India is becoming a more structural operating constraint.",
+    "confidence": "Medium",
     "ranking": {
       "score": 2.551,
       "components": {
