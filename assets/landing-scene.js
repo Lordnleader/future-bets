@@ -6,6 +6,7 @@ const CORE_COUNT = 22000;
 const FILAMENT_COUNT = 9200;
 const AURA_COUNT = 4200;
 const GLOW_COUNT = 3200;
+const CURRENT_COUNT = 4600;
 const BOKEH_BACK_COUNT = 1600;
 const BOKEH_FRONT_COUNT = 1300;
 const TWO_PI = Math.PI * 2;
@@ -193,6 +194,20 @@ export function createLandingScene(container, { triggerElement } = {}) {
     speedScale: 0.88,
     depthOffset: 0,
   });
+  const currentLayer = createRibbonLayer(sprite, CURRENT_COUNT, {
+    pointSize: 0.09,
+    opacity: 0.72,
+    brightnessRange: [0.95, 1],
+    widthScale: 0.54,
+    depthScale: 0.72,
+    tangentScale: 1.8,
+    speedScale: 0.94,
+    depthOffset: 0,
+    waveResponse: 2.2,
+    brightnessResponse: 1.45,
+    waveDriftScale: 2.4,
+    streakResponse: 2,
+  });
   const coreLayer = createRibbonLayer(sprite, CORE_COUNT, {
     pointSize: 0.028,
     opacity: 0.9,
@@ -240,6 +255,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
   wreathGroup.add(glowLayer.points);
   wreathGroup.add(backBokeh.points);
   wreathGroup.add(coreLayer.points);
+  wreathGroup.add(currentLayer.points);
   wreathGroup.add(filamentLayer.points);
   wreathGroup.add(frontBokeh.points);
 
@@ -277,6 +293,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
     updateRibbonLayer(glowLayer, elapsed, focus);
     updateRibbonLayer(backBokeh, elapsed, focus);
     updateRibbonLayer(coreLayer, elapsed, focus);
+    updateRibbonLayer(currentLayer, elapsed, focus);
     updateRibbonLayer(filamentLayer, elapsed, focus);
     updateRibbonLayer(frontBokeh, elapsed, focus);
     updateDustField(dust, elapsed);
@@ -284,6 +301,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
     auraLayer.material.opacity = 0.12 + focus * 0.03;
     glowLayer.material.opacity = 0.12 + focus * 0.03;
     coreLayer.material.opacity = 0.9 + focus * 0.05;
+    currentLayer.material.opacity = 0.72 + focus * 0.08;
     filamentLayer.material.opacity = 0.98 + focus * 0.02;
     backBokeh.material.opacity = 0.22 + focus * 0.03;
     frontBokeh.material.opacity = 0.25 + focus * 0.04;
@@ -542,6 +560,10 @@ function updateRibbonLayer(layer, elapsed, focus) {
   const { positions, meta, geometry, layerConfig } = layer;
   const colors = geometry.attributes.color.array;
   const energy = 1 + focus * 0.4;
+  const waveResponse = layerConfig.waveResponse ?? 1;
+  const brightnessResponse = layerConfig.brightnessResponse ?? 1;
+  const waveDriftScale = layerConfig.waveDriftScale ?? 1;
+  const streakResponse = layerConfig.streakResponse ?? 1;
 
   for (let i = 0; i < positions.length / 3; i += 1) {
     const metaIndex = i * 12;
@@ -567,11 +589,12 @@ function updateRibbonLayer(layer, elapsed, focus) {
     let angle = THREE.MathUtils.lerp(spec.startAngle, spec.endAngle, angleProgress) + macroSpin;
     const lowerBias = 0.84 + ((1 - Math.sin(angle)) * 0.5) * 0.2;
     const waveField = sampleWaveField(angle, elapsed);
-    angle += waveField.drift * 0.03 * direction;
-    const compressionMix = THREE.MathUtils.clamp((waveField.density - 0.72) / 0.78, 0, 1);
-    const clusterCompression = THREE.MathUtils.lerp(1.02, 0.72, compressionMix);
-    const clusterLift = THREE.MathUtils.lerp(0.98, 1.15, compressionMix);
-    const streakBias = 1 + waveField.stretch * 0.7;
+    angle += waveField.drift * 0.03 * direction * waveDriftScale;
+    const compressionMix = THREE.MathUtils.clamp(((waveField.density - 0.72) / 0.78) * waveResponse, 0, 1);
+    const clusterCompression = THREE.MathUtils.lerp(1.02, 0.54, compressionMix);
+    const clusterLift = THREE.MathUtils.lerp(0.98, 1.22, compressionMix);
+    const streakBias = 1 + waveField.stretch * 0.7 * streakResponse;
+    const currentPulse = Math.max(0, waveField.density - 0.96) * waveResponse;
     const radius =
       spec.radius +
       Math.sin(angle * 1.4 + phaseA + elapsed * spec.breatheSpeed) * spec.radiusWave * density * lowerBias +
@@ -607,10 +630,12 @@ function updateRibbonLayer(layer, elapsed, focus) {
       density *
       layerConfig.tangentScale *
       clusterLift *
-      streakBias;
+      streakBias +
+      currentPulse * 0.09 * direction;
     const swirl =
       Math.sin(elapsed * 0.46 + phaseA + angle * 2.6) * 0.045 * density * energy * clusterLift +
-      Math.cos(elapsed * 0.34 + phaseB + angle * 1.8) * 0.035 * tension * clusterLift;
+      Math.cos(elapsed * 0.34 + phaseB + angle * 1.8) * 0.035 * tension * clusterLift +
+      currentPulse * 0.045 * direction;
     const depth =
       depthOffset +
       depthSeed +
@@ -619,16 +644,18 @@ function updateRibbonLayer(layer, elapsed, focus) {
         density +
       sheet * 0.42 +
       swirl * 0.5 +
-      (waveField.density - 0.82) * 0.18 * density;
+      (waveField.density - 0.82) * 0.18 * density +
+      currentPulse * 0.06;
 
     positions[i * 3] = pathX + normalX * (fold + sheet * 0.56) + tangentX * tangentDrift + swirl;
     positions[i * 3 + 1] = pathY + normalY * (fold + sheet * 0.56) + tangentY * tangentDrift;
     positions[i * 3 + 2] = depth;
 
     const brightness = THREE.MathUtils.clamp(
-      baseBrightness * (0.9 + (waveField.density - 0.72) * 0.48 + lowerBias * 0.08),
+      baseBrightness *
+        (0.88 + (waveField.density - 0.72) * 0.48 * brightnessResponse + lowerBias * 0.08 + currentPulse * 0.22),
       0,
-      1.1,
+      1.25,
     );
     colors[i * 3] = brightness;
     colors[i * 3 + 1] = brightness;
