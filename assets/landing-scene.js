@@ -1,146 +1,78 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js";
 
-const STARFIELD_COUNT = 2200;
-const DUST_COUNT = 720;
-const CORE_COUNT = 22000;
-const FILAMENT_COUNT = 9200;
-const AURA_COUNT = 4200;
-const GLOW_COUNT = 3200;
-const CURRENT_COUNT = 4600;
-const BOKEH_BACK_COUNT = 1600;
-const BOKEH_FRONT_COUNT = 1300;
+const STARFIELD_COUNT = 1600;
+const DUST_COUNT = 420;
+const AURA_COUNT = 5600;
+const CORE_COUNT = 26000;
+const CURRENT_COUNT = 7200;
+const GLOW_COUNT = 3600;
+const BOKEH_BACK_COUNT = 1800;
+const BOKEH_FRONT_COUNT = 1500;
+
 const TWO_PI = Math.PI * 2;
+const BAND_RADIUS = 3.16;
+const BAND_WIDTH = 1.04;
+const BAND_DEPTH = 0.34;
+const MACRO_SPEED = 0.017;
+
 const WAVE_SPECS = [
-  { offset: 0.08 * TWO_PI, speed: 0.05, width: 0.34, amplitude: 0.52, stretch: 0.08, drift: 0.06 },
-  { offset: 0.29 * TWO_PI, speed: 0.034, width: 0.56, amplitude: 0.42, stretch: 0.05, drift: 0.04 },
-  { offset: 0.54 * TWO_PI, speed: 0.061, width: 0.28, amplitude: 0.58, stretch: 0.1, drift: 0.07 },
-  { offset: 0.77 * TWO_PI, speed: 0.041, width: 0.48, amplitude: 0.38, stretch: 0.06, drift: 0.05 },
-];
-
-const RIBBON_SPECS = [
   {
-    startAngle: 0,
-    endAngle: TWO_PI,
-    radius: 3.1,
-    weight: 3.2,
-    macroSpeed: 0.022,
-    flowRange: [0.006, 0.016],
-    radiusWave: 0.08,
-    breatheSpeed: 0.08,
-    width: 0.9,
-    foldAmp: 0.16,
-    foldFreq: 1.6,
-    foldSpeed: 0.16,
-    sheetAmp: 0.22,
-    sheetFreq: 2.1,
-    sheetSpeed: 0.12,
-    tangentAmp: 0.08,
-    tangentFreq: 2.4,
-    tangentSpeed: 0.14,
-    depth: 0.26,
-    depthAmp: 0.22,
-    depthFreq: 1.6,
-    depthSpeed: 0.12,
-  },
-  {
-    startAngle: 0,
-    endAngle: TWO_PI,
-    radius: 3.2,
-    weight: 4.2,
-    macroSpeed: 0.024,
-    flowRange: [0.008, 0.018],
-    radiusWave: 0.1,
-    breatheSpeed: 0.09,
-    width: 1.12,
-    foldAmp: 0.22,
-    foldFreq: 1.9,
-    foldSpeed: 0.18,
-    sheetAmp: 0.3,
-    sheetFreq: 2.5,
-    sheetSpeed: 0.14,
-    tangentAmp: 0.14,
-    tangentFreq: 2.8,
-    tangentSpeed: 0.18,
-    depth: 0.34,
-    depthAmp: 0.3,
-    depthFreq: 1.8,
-    depthSpeed: 0.14,
-  },
-  {
-    startAngle: 0,
-    endAngle: TWO_PI,
-    radius: 3.02,
-    weight: 2.9,
-    macroSpeed: 0.02,
-    flowRange: [0.006, 0.015],
-    radiusWave: 0.08,
-    breatheSpeed: 0.08,
-    width: 0.82,
-    foldAmp: 0.18,
-    foldFreq: 1.7,
-    foldSpeed: 0.16,
-    sheetAmp: 0.22,
-    sheetFreq: 2.2,
-    sheetSpeed: 0.12,
-    tangentAmp: 0.12,
-    tangentFreq: 2.6,
-    tangentSpeed: 0.16,
-    depth: 0.3,
-    depthAmp: 0.26,
-    depthFreq: 1.7,
-    depthSpeed: 0.12,
-  },
-  {
-    startAngle: 0,
-    endAngle: TWO_PI,
-    radius: 3.26,
-    weight: 2.4,
-    macroSpeed: 0.018,
-    flowRange: [0.005, 0.013],
-    radiusWave: 0.07,
-    breatheSpeed: 0.07,
+    offset: 0.08 * TWO_PI,
+    speed: 0.02,
     width: 0.68,
-    foldAmp: 0.14,
-    foldFreq: 1.5,
-    foldSpeed: 0.12,
-    sheetAmp: 0.18,
-    sheetFreq: 1.9,
-    sheetSpeed: 0.1,
-    tangentAmp: 0.1,
-    tangentFreq: 2.2,
-    tangentSpeed: 0.13,
-    depth: 0.24,
-    depthAmp: 0.2,
-    depthFreq: 1.5,
-    depthSpeed: 0.1,
+    amplitude: 0.34,
+    lineFreq: 5.6,
+    lineSpeed: 0.22,
+    secondaryFreq: 3.4,
+    secondarySpeed: 0.14,
+    tangentAmp: 0.055,
+    radialAmp: 0.052,
+    depthAmp: 0.078,
+    drift: 0.055,
   },
   {
-    startAngle: 0,
-    endAngle: TWO_PI,
-    radius: 3.14,
-    weight: 1.5,
-    macroSpeed: 0.021,
-    flowRange: [0.006, 0.014],
-    radiusWave: 0.09,
-    breatheSpeed: 0.08,
-    width: 0.56,
-    foldAmp: 0.12,
-    foldFreq: 1.8,
-    foldSpeed: 0.14,
-    sheetAmp: 0.16,
-    sheetFreq: 2.1,
-    sheetSpeed: 0.11,
-    tangentAmp: 0.08,
-    tangentFreq: 2.4,
-    tangentSpeed: 0.14,
-    depth: 0.22,
-    depthAmp: 0.18,
-    depthFreq: 1.6,
-    depthSpeed: 0.11,
+    offset: 0.29 * TWO_PI,
+    speed: 0.014,
+    width: 0.82,
+    amplitude: 0.26,
+    lineFreq: 4.1,
+    lineSpeed: 0.16,
+    secondaryFreq: 2.8,
+    secondarySpeed: 0.11,
+    tangentAmp: 0.038,
+    radialAmp: 0.035,
+    depthAmp: 0.052,
+    drift: 0.036,
+  },
+  {
+    offset: 0.54 * TWO_PI,
+    speed: 0.024,
+    width: 0.58,
+    amplitude: 0.42,
+    lineFreq: 6.9,
+    lineSpeed: 0.24,
+    secondaryFreq: 4.2,
+    secondarySpeed: 0.17,
+    tangentAmp: 0.072,
+    radialAmp: 0.058,
+    depthAmp: 0.088,
+    drift: 0.068,
+  },
+  {
+    offset: 0.77 * TWO_PI,
+    speed: 0.016,
+    width: 0.74,
+    amplitude: 0.28,
+    lineFreq: 4.9,
+    lineSpeed: 0.18,
+    secondaryFreq: 3.1,
+    secondarySpeed: 0.13,
+    tangentAmp: 0.042,
+    radialAmp: 0.036,
+    depthAmp: 0.054,
+    drift: 0.042,
   },
 ];
-
-const RIBBON_WEIGHTS = buildWeightTable();
 
 export function createLandingScene(container, { triggerElement } = {}) {
   const renderer = new THREE.WebGLRenderer({
@@ -154,7 +86,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
   container.append(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x030303, 0.032);
+  scene.fog = new THREE.FogExp2(0x030303, 0.028);
 
   const camera = new THREE.PerspectiveCamera(
     30,
@@ -167,101 +99,87 @@ export function createLandingScene(container, { triggerElement } = {}) {
   const root = new THREE.Group();
   scene.add(root);
 
-  const wreathGroup = new THREE.Group();
-  wreathGroup.scale.set(1, 1, 1);
-  root.add(wreathGroup);
+  const ringGroup = new THREE.Group();
+  ringGroup.scale.set(1, 1, 1);
+  root.add(ringGroup);
 
   const sprite = createCircularSprite();
   const starfield = createStarfield(sprite);
   const dust = createDustField(sprite);
-  const auraLayer = createRibbonLayer(sprite, AURA_COUNT, {
-    pointSize: 0.094,
-    opacity: 0.12,
-    brightnessRange: [0.84, 0.98],
-    widthScale: 1.24,
-    depthScale: 1.45,
-    tangentScale: 1.05,
-    speedScale: 0.92,
+
+  const auraLayer = createBandLayer(sprite, AURA_COUNT, {
+    pointSize: 0.108,
+    opacity: 0.13,
+    brightnessRange: [0.8, 0.94],
+    widthScale: 1.12,
+    depthScale: 1.12,
+    currentInfluence: 0.9,
+    brightnessResponse: 0.82,
     depthOffset: 0,
   });
-  const glowLayer = createRibbonLayer(sprite, GLOW_COUNT, {
-    pointSize: 0.18,
-    opacity: 0.16,
-    brightnessRange: [0.9, 1],
-    widthScale: 1.08,
-    depthScale: 1.1,
-    tangentScale: 0.82,
-    speedScale: 0.88,
-    depthOffset: 0,
-  });
-  const currentLayer = createRibbonLayer(sprite, CURRENT_COUNT, {
-    pointSize: 0.09,
-    opacity: 0.72,
-    brightnessRange: [0.95, 1],
-    widthScale: 0.54,
-    depthScale: 0.72,
-    tangentScale: 1.8,
-    speedScale: 0.94,
-    depthOffset: 0,
-    waveResponse: 2.2,
-    brightnessResponse: 1.45,
-    waveDriftScale: 2.4,
-    streakResponse: 2,
-  });
-  const coreLayer = createRibbonLayer(sprite, CORE_COUNT, {
-    pointSize: 0.028,
+  const coreLayer = createBandLayer(sprite, CORE_COUNT, {
+    pointSize: 0.034,
     opacity: 0.9,
-    brightnessRange: [0.8, 1],
-    widthScale: 1.02,
-    depthScale: 0.92,
-    tangentScale: 1,
-    speedScale: 1,
+    brightnessRange: [0.84, 1],
+    widthScale: 1,
+    depthScale: 1,
+    currentInfluence: 1,
+    brightnessResponse: 1,
     depthOffset: 0,
   });
-  const filamentLayer = createRibbonLayer(sprite, FILAMENT_COUNT, {
-    pointSize: 0.052,
-    opacity: 0.98,
-    brightnessRange: [0.92, 1],
-    widthScale: 0.9,
-    depthScale: 0.8,
-    tangentScale: 1.18,
-    speedScale: 1.08,
+  const currentLayer = createBandLayer(sprite, CURRENT_COUNT, {
+    pointSize: 0.084,
+    opacity: 0.96,
+    brightnessRange: [0.95, 1],
+    widthScale: 0.78,
+    depthScale: 0.76,
+    currentInfluence: 1.16,
+    brightnessResponse: 1.82,
     depthOffset: 0,
   });
-  const backBokeh = createRibbonLayer(sprite, BOKEH_BACK_COUNT, {
+  const glowLayer = createBandLayer(sprite, GLOW_COUNT, {
+    pointSize: 0.23,
+    opacity: 0.18,
+    brightnessRange: [0.9, 0.98],
+    widthScale: 0.94,
+    depthScale: 0.9,
+    currentInfluence: 1.08,
+    brightnessResponse: 1.46,
+    depthOffset: 0,
+  });
+  const backBokeh = createBandLayer(sprite, BOKEH_BACK_COUNT, {
     pointSize: 0.34,
-    opacity: 0.22,
-    brightnessRange: [0.84, 0.96],
-    widthScale: 1.34,
-    depthScale: 2.2,
-    tangentScale: 0.9,
-    speedScale: 0.82,
-    depthOffset: -3.8,
+    opacity: 0.2,
+    brightnessRange: [0.84, 0.94],
+    widthScale: 1.08,
+    depthScale: 2.3,
+    currentInfluence: 0.94,
+    brightnessResponse: 0.7,
+    depthOffset: -3.9,
   });
-  const frontBokeh = createRibbonLayer(sprite, BOKEH_FRONT_COUNT, {
+  const frontBokeh = createBandLayer(sprite, BOKEH_FRONT_COUNT, {
     pointSize: 0.42,
-    opacity: 0.25,
+    opacity: 0.24,
     brightnessRange: [0.88, 1],
-    widthScale: 1.18,
-    depthScale: 2.05,
-    tangentScale: 0.92,
-    speedScale: 0.9,
-    depthOffset: 3.55,
+    widthScale: 1.02,
+    depthScale: 2.15,
+    currentInfluence: 0.98,
+    brightnessResponse: 0.8,
+    depthOffset: 3.65,
   });
 
   scene.add(starfield);
   scene.add(dust);
-  wreathGroup.add(auraLayer.points);
-  wreathGroup.add(glowLayer.points);
-  wreathGroup.add(backBokeh.points);
-  wreathGroup.add(coreLayer.points);
-  wreathGroup.add(currentLayer.points);
-  wreathGroup.add(filamentLayer.points);
-  wreathGroup.add(frontBokeh.points);
+  ringGroup.add(auraLayer.points);
+  ringGroup.add(backBokeh.points);
+  ringGroup.add(coreLayer.points);
+  ringGroup.add(currentLayer.points);
+  ringGroup.add(glowLayer.points);
+  ringGroup.add(frontBokeh.points);
 
-  scene.add(new THREE.AmbientLight(0xf2f0eb, 0.42));
-  const frontLight = new THREE.PointLight(0xffffff, 0.78, 30);
-  frontLight.position.set(0, 0.15, 8.4);
+  scene.add(new THREE.AmbientLight(0xf2f0eb, 0.4));
+  const frontLight = new THREE.PointLight(0xffffff, 0.76, 30);
+  frontLight.position.set(0, 0.15, 8.2);
   scene.add(frontLight);
 
   const pointer = { x: 0, y: 0, rawX: 0, rawY: 0 };
@@ -284,30 +202,28 @@ export function createLandingScene(container, { triggerElement } = {}) {
     const elapsed = clock.getElapsedTime();
     const focus = computeFocusIntensity();
 
-    root.rotation.x = THREE.MathUtils.lerp(root.rotation.x, pointer.y * 0.024, 0.03);
-    root.rotation.y = THREE.MathUtils.lerp(root.rotation.y, pointer.x * 0.035, 0.03);
-    root.position.x = THREE.MathUtils.lerp(root.position.x, pointer.x * 0.14, 0.03);
-    root.position.y = THREE.MathUtils.lerp(root.position.y, pointer.y * 0.06, 0.03);
+    root.rotation.x = THREE.MathUtils.lerp(root.rotation.x, pointer.y * 0.02, 0.03);
+    root.rotation.y = THREE.MathUtils.lerp(root.rotation.y, pointer.x * 0.03, 0.03);
+    root.position.x = THREE.MathUtils.lerp(root.position.x, pointer.x * 0.12, 0.03);
+    root.position.y = THREE.MathUtils.lerp(root.position.y, pointer.y * 0.05, 0.03);
 
-    updateRibbonLayer(auraLayer, elapsed, focus);
-    updateRibbonLayer(glowLayer, elapsed, focus);
-    updateRibbonLayer(backBokeh, elapsed, focus);
-    updateRibbonLayer(coreLayer, elapsed, focus);
-    updateRibbonLayer(currentLayer, elapsed, focus);
-    updateRibbonLayer(filamentLayer, elapsed, focus);
-    updateRibbonLayer(frontBokeh, elapsed, focus);
+    updateBandLayer(auraLayer, elapsed, focus);
+    updateBandLayer(backBokeh, elapsed, focus);
+    updateBandLayer(coreLayer, elapsed, focus);
+    updateBandLayer(currentLayer, elapsed, focus);
+    updateBandLayer(glowLayer, elapsed, focus);
+    updateBandLayer(frontBokeh, elapsed, focus);
     updateDustField(dust, elapsed);
 
-    auraLayer.material.opacity = 0.12 + focus * 0.03;
-    glowLayer.material.opacity = 0.12 + focus * 0.03;
-    coreLayer.material.opacity = 0.9 + focus * 0.05;
-    currentLayer.material.opacity = 0.72 + focus * 0.08;
-    filamentLayer.material.opacity = 0.98 + focus * 0.02;
-    backBokeh.material.opacity = 0.22 + focus * 0.03;
-    frontBokeh.material.opacity = 0.25 + focus * 0.04;
+    auraLayer.material.opacity = 0.13 + focus * 0.02;
+    coreLayer.material.opacity = 0.9 + focus * 0.04;
+    currentLayer.material.opacity = 0.96 + focus * 0.03;
+    glowLayer.material.opacity = 0.18 + focus * 0.03;
+    backBokeh.material.opacity = 0.2 + focus * 0.02;
+    frontBokeh.material.opacity = 0.24 + focus * 0.03;
 
-    starfield.rotation.y += 0.000015;
-    starfield.rotation.x = Math.sin(elapsed * 0.05) * 0.01;
+    starfield.rotation.y += 0.000012;
+    starfield.rotation.x = Math.sin(elapsed * 0.05) * 0.008;
 
     renderer.render(scene, camera);
   }
@@ -367,25 +283,6 @@ export function createLandingScene(container, { triggerElement } = {}) {
   }
 }
 
-function buildWeightTable() {
-  let total = 0;
-  return RIBBON_SPECS.map((spec) => {
-    total += spec.weight;
-    return total;
-  });
-}
-
-function pickRibbonIndex() {
-  const target = Math.random() * RIBBON_WEIGHTS[RIBBON_WEIGHTS.length - 1];
-  for (let i = 0; i < RIBBON_WEIGHTS.length; i += 1) {
-    if (target <= RIBBON_WEIGHTS[i]) {
-      return i;
-    }
-  }
-
-  return RIBBON_WEIGHTS.length - 1;
-}
-
 function createCircularSprite() {
   const size = 96;
   const canvas = document.createElement("canvas");
@@ -411,7 +308,7 @@ function createStarfield(sprite) {
   const colors = new Float32Array(STARFIELD_COUNT * 3);
 
   for (let i = 0; i < STARFIELD_COUNT; i += 1) {
-    const radius = THREE.MathUtils.randFloat(12, 36);
+    const radius = THREE.MathUtils.randFloat(12, 34);
     const theta = Math.random() * TWO_PI;
     const phi = Math.acos(THREE.MathUtils.randFloatSpread(2));
 
@@ -434,7 +331,7 @@ function createStarfield(sprite) {
       map: sprite,
       size: 0.016,
       transparent: true,
-      opacity: 0.22,
+      opacity: 0.18,
       alphaTest: 0.02,
       vertexColors: true,
       depthWrite: false,
@@ -460,7 +357,7 @@ function createDustField(sprite) {
     meta[i * 4 + 2] = positions[i * 3 + 2];
     meta[i * 4 + 3] = Math.random() * TWO_PI;
 
-    const tint = THREE.MathUtils.randFloat(0.7, 0.94);
+    const tint = THREE.MathUtils.randFloat(0.7, 0.92);
     colors[i * 3] = tint;
     colors[i * 3 + 1] = tint;
     colors[i * 3 + 2] = tint;
@@ -473,9 +370,9 @@ function createDustField(sprite) {
     geometry,
     new THREE.PointsMaterial({
       map: sprite,
-      size: 0.024,
+      size: 0.022,
       transparent: true,
-      opacity: 0.035,
+      opacity: 0.028,
       alphaTest: 0.02,
       vertexColors: true,
       depthWrite: false,
@@ -494,37 +391,31 @@ function updateDustField(points, elapsed) {
 
   for (let i = 0; i < DUST_COUNT; i += 1) {
     const phase = meta[i * 4 + 3];
-    positions[i * 3] = meta[i * 4] + Math.sin(elapsed * 0.08 + phase) * 0.05;
-    positions[i * 3 + 1] = meta[i * 4 + 1] + Math.cos(elapsed * 0.07 + phase * 0.6) * 0.04;
-    positions[i * 3 + 2] = meta[i * 4 + 2] + Math.sin(elapsed * 0.09 + phase * 1.1) * 0.06;
+    positions[i * 3] = meta[i * 4] + Math.sin(elapsed * 0.08 + phase) * 0.04;
+    positions[i * 3 + 1] = meta[i * 4 + 1] + Math.cos(elapsed * 0.07 + phase * 0.6) * 0.035;
+    positions[i * 3 + 2] = meta[i * 4 + 2] + Math.sin(elapsed * 0.09 + phase * 1.1) * 0.05;
   }
 
   points.geometry.attributes.position.needsUpdate = true;
 }
 
-function createRibbonLayer(sprite, count, layerConfig) {
+function createBandLayer(sprite, count, config) {
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
-  const meta = new Float32Array(count * 12);
+  const meta = new Float32Array(count * 8);
 
   for (let i = 0; i < count; i += 1) {
-    const ribbonIndex = pickRibbonIndex();
-    const spec = RIBBON_SPECS[ribbonIndex];
-    const brightness = THREE.MathUtils.randFloat(layerConfig.brightnessRange[0], layerConfig.brightnessRange[1]);
+    const brightness = THREE.MathUtils.randFloat(config.brightnessRange[0], config.brightnessRange[1]);
 
-    meta[i * 12] = ribbonIndex;
-    meta[i * 12 + 1] = Math.random();
-    meta[i * 12 + 2] = THREE.MathUtils.randFloat(spec.flowRange[0], spec.flowRange[1]) * layerConfig.speedScale;
-    meta[i * 12 + 3] = THREE.MathUtils.randFloatSpread(spec.width * layerConfig.widthScale);
-    meta[i * 12 + 4] = THREE.MathUtils.randFloatSpread(spec.depth * layerConfig.depthScale);
-    meta[i * 12 + 5] = Math.random() * TWO_PI;
-    meta[i * 12 + 6] = Math.random() * TWO_PI;
-    meta[i * 12 + 7] = THREE.MathUtils.randFloat(0.45, 1);
-    meta[i * 12 + 8] = Math.random() > 0.5 ? 1 : -1;
-    meta[i * 12 + 9] = THREE.MathUtils.randFloat(0.55, 1.25);
-    meta[i * 12 + 10] = layerConfig.depthOffset;
-    meta[i * 12 + 11] = brightness;
+    meta[i * 8] = Math.random() * TWO_PI;
+    meta[i * 8 + 1] = THREE.MathUtils.randFloatSpread(1);
+    meta[i * 8 + 2] = THREE.MathUtils.randFloatSpread(1);
+    meta[i * 8 + 3] = Math.random() * TWO_PI;
+    meta[i * 8 + 4] = Math.random() * TWO_PI;
+    meta[i * 8 + 5] = THREE.MathUtils.randFloat(0.45, 1);
+    meta[i * 8 + 6] = Math.random() > 0.5 ? 1 : -1;
+    meta[i * 8 + 7] = brightness;
 
     colors[i * 3] = brightness;
     colors[i * 3 + 1] = brightness;
@@ -536,9 +427,9 @@ function createRibbonLayer(sprite, count, layerConfig) {
 
   const material = new THREE.PointsMaterial({
     map: sprite,
-    size: layerConfig.pointSize,
+    size: config.pointSize,
     transparent: true,
-    opacity: layerConfig.opacity,
+    opacity: config.opacity,
     alphaTest: 0.02,
     vertexColors: true,
     depthWrite: false,
@@ -552,110 +443,79 @@ function createRibbonLayer(sprite, count, layerConfig) {
     positions,
     meta,
     material,
-    layerConfig,
+    config,
   };
 }
 
-function updateRibbonLayer(layer, elapsed, focus) {
-  const { positions, meta, geometry, layerConfig } = layer;
+function updateBandLayer(layer, elapsed, focus) {
+  const { positions, meta, geometry, config } = layer;
   const colors = geometry.attributes.color.array;
-  const energy = 1 + focus * 0.4;
-  const waveResponse = layerConfig.waveResponse ?? 1;
-  const brightnessResponse = layerConfig.brightnessResponse ?? 1;
-  const waveDriftScale = layerConfig.waveDriftScale ?? 1;
-  const streakResponse = layerConfig.streakResponse ?? 1;
+  const energy = 1 + focus * 0.35;
 
   for (let i = 0; i < positions.length / 3; i += 1) {
-    const metaIndex = i * 12;
-    const spec = RIBBON_SPECS[Math.floor(meta[metaIndex])];
-    const baseT = meta[metaIndex + 1];
-    const speed = meta[metaIndex + 2];
-    const widthSeed = meta[metaIndex + 3];
-    const depthSeed = meta[metaIndex + 4];
-    const phaseA = meta[metaIndex + 5];
-    const phaseB = meta[metaIndex + 6];
-    const density = meta[metaIndex + 7];
-    const direction = meta[metaIndex + 8];
-    const tension = meta[metaIndex + 9];
-    const depthOffset = meta[metaIndex + 10];
-    const baseBrightness = meta[metaIndex + 11];
+    const metaIndex = i * 8;
+    const baseAngle = meta[metaIndex];
+    const radialSeed = meta[metaIndex + 1];
+    const depthSeed = meta[metaIndex + 2];
+    const phaseA = meta[metaIndex + 3];
+    const phaseB = meta[metaIndex + 4];
+    const laneBias = meta[metaIndex + 5];
+    const direction = meta[metaIndex + 6];
+    const baseBrightness = meta[metaIndex + 7];
 
-    const flow = mod1(baseT + elapsed * speed);
-    const macroSpin = -elapsed * spec.macroSpeed;
-    const angleProgress =
-      flow +
-      Math.sin(elapsed * 0.08 + phaseA) * 0.006 +
-      Math.sin(elapsed * 0.14 + phaseB + flow * 4.2) * 0.005 * density;
-    let angle = THREE.MathUtils.lerp(spec.startAngle, spec.endAngle, angleProgress) + macroSpin;
-    const lowerBias = 0.84 + ((1 - Math.sin(angle)) * 0.5) * 0.2;
-    const waveField = sampleWaveField(angle, elapsed);
-    angle += waveField.drift * 0.03 * direction * waveDriftScale;
-    const compressionMix = THREE.MathUtils.clamp(((waveField.density - 0.72) / 0.78) * waveResponse, 0, 1);
-    const clusterCompression = THREE.MathUtils.lerp(1.02, 0.54, compressionMix);
-    const clusterLift = THREE.MathUtils.lerp(0.98, 1.22, compressionMix);
-    const streakBias = 1 + waveField.stretch * 0.7 * streakResponse;
-    const currentPulse = Math.max(0, waveField.density - 0.96) * waveResponse;
+    const macroAngle = baseAngle - elapsed * MACRO_SPEED;
+    const laneCenter =
+      Math.sin(macroAngle * 1.6 - elapsed * 0.085 + phaseA) * 0.19 +
+      Math.sin(macroAngle * 2.85 + elapsed * 0.062 + phaseB) * 0.08;
+    const lane =
+      radialSeed * 0.68 +
+      laneCenter * (0.88 - Math.abs(radialSeed) * 0.34) +
+      Math.sin(elapsed * 0.045 + phaseA + phaseB) * 0.018;
+
+    const field = sampleWaveField(macroAngle, lane, elapsed, phaseA, phaseB);
+    const angle =
+      macroAngle +
+      field.drift * 0.05 * config.currentInfluence +
+      Math.sin(elapsed * 0.04 + phaseA) * 0.0025 +
+      Math.sin(elapsed * 0.07 + phaseB + macroAngle * 1.8) * 0.0015;
+
+    const lowerBias = 0.94 + ((1 - Math.sin(angle)) * 0.5) * 0.09;
+    const compression = THREE.MathUtils.lerp(
+      1,
+      0.6,
+      THREE.MathUtils.clamp((field.squeeze - 0.08) * 0.34 * config.currentInfluence, 0, 0.88),
+    );
+    const currentStrength = Math.max(0, field.density - 0.98) * config.currentInfluence * energy;
+
     const radius =
-      spec.radius +
-      Math.sin(angle * 1.4 + phaseA + elapsed * spec.breatheSpeed) * spec.radiusWave * density * lowerBias +
-      Math.sin(angle * 2.8 + phaseB) * 0.05 * tension;
+      BAND_RADIUS +
+      lane * BAND_WIDTH * config.widthScale * compression +
+      field.radial * config.currentInfluence * lowerBias;
+    const tangent =
+      field.tangent * config.currentInfluence +
+      Math.sin(angle * 2.2 + phaseA + lane * 3.8 + elapsed * 0.11) * 0.012 * laneBias +
+      currentStrength * 0.032 * direction;
 
-    const pathX = Math.cos(angle) * radius;
-    const pathY = Math.sin(angle) * radius;
-    const normalX = Math.cos(angle);
-    const normalY = Math.sin(angle);
-    const tangentX = -Math.sin(angle);
-    const tangentY = Math.cos(angle);
+    const x = Math.cos(angle) * radius - Math.sin(angle) * tangent;
+    const y = Math.sin(angle) * radius + Math.cos(angle) * tangent;
+    const z =
+      config.depthOffset +
+      depthSeed * BAND_DEPTH * config.depthScale * (0.84 + compression * 0.16) +
+      field.depth * config.currentInfluence +
+      currentStrength * 0.04 * Math.sign(depthSeed || 1);
 
-    const fold =
-      widthSeed +
-      Math.sin(angle * spec.foldFreq + elapsed * spec.foldSpeed + phaseA) *
-        spec.foldAmp *
-        density *
-        layerConfig.widthScale *
-        clusterCompression *
-        lowerBias;
-    const sheet =
-      Math.cos(angle * spec.sheetFreq - elapsed * spec.sheetSpeed + phaseB) *
-      spec.sheetAmp *
-      density *
-      tension *
-      layerConfig.widthScale *
-      clusterCompression *
-      lowerBias *
-      streakBias;
-    const tangentDrift =
-      Math.sin(angle * spec.tangentFreq + elapsed * spec.tangentSpeed + phaseB) *
-      spec.tangentAmp *
-      density *
-      layerConfig.tangentScale *
-      clusterLift *
-      streakBias +
-      currentPulse * 0.09 * direction;
-    const swirl =
-      Math.sin(elapsed * 0.46 + phaseA + angle * 2.6) * 0.045 * density * energy * clusterLift +
-      Math.cos(elapsed * 0.34 + phaseB + angle * 1.8) * 0.035 * tension * clusterLift +
-      currentPulse * 0.045 * direction;
-    const depth =
-      depthOffset +
-      depthSeed +
-      Math.sin(angle * spec.depthFreq + elapsed * spec.depthSpeed + phaseA) *
-        spec.depthAmp *
-        density +
-      sheet * 0.42 +
-      swirl * 0.5 +
-      (waveField.density - 0.82) * 0.18 * density +
-      currentPulse * 0.06;
-
-    positions[i * 3] = pathX + normalX * (fold + sheet * 0.56) + tangentX * tangentDrift + swirl;
-    positions[i * 3 + 1] = pathY + normalY * (fold + sheet * 0.56) + tangentY * tangentDrift;
-    positions[i * 3 + 2] = depth;
+    positions[i * 3] = x;
+    positions[i * 3 + 1] = y;
+    positions[i * 3 + 2] = z;
 
     const brightness = THREE.MathUtils.clamp(
       baseBrightness *
-        (0.88 + (waveField.density - 0.72) * 0.48 * brightnessResponse + lowerBias * 0.08 + currentPulse * 0.22),
+        (0.9 +
+          (field.brightness - 0.82) * 0.42 * config.brightnessResponse +
+          currentStrength * 0.24 +
+          lowerBias * 0.04),
       0,
-      1.25,
+      1.28,
     );
     colors[i * 3] = brightness;
     colors[i * 3 + 1] = brightness;
@@ -666,31 +526,51 @@ function updateRibbonLayer(layer, elapsed, focus) {
   geometry.attributes.color.needsUpdate = true;
 }
 
-function mod1(value) {
-  return ((value % 1) + 1) % 1;
-}
-
-function sampleWaveField(angle, elapsed) {
-  let density = 0.72;
-  let stretch = 0;
+function sampleWaveField(angle, lane, elapsed, phaseA, phaseB) {
+  let density = 0.94;
+  let brightness = 0.84;
+  let tangent = 0;
+  let radial = 0;
+  let depth = 0;
   let drift = 0;
+  let squeeze = 0;
 
-  for (const spec of WAVE_SPECS) {
-    const center = wrapAngle(spec.offset - elapsed * spec.speed);
+  for (const wave of WAVE_SPECS) {
+    const center = wrapAngle(wave.offset - elapsed * wave.speed);
     const delta = shortestAngularDistance(angle, center);
-    const gaussian = Math.exp(-(delta * delta) / (2 * spec.width * spec.width));
-    density += gaussian * spec.amplitude;
-    stretch += gaussian * spec.stretch * Math.sin(delta * 5 + elapsed * 0.12 + spec.offset * 3);
-    drift += gaussian * spec.drift * (-delta / Math.max(spec.width, 0.001));
+    const gaussian = Math.exp(-(delta * delta) / (2 * wave.width * wave.width));
+    const lanePhase = lane * wave.lineFreq * 0.58;
+    const crestA = 0.5 + 0.5 * Math.sin(delta * wave.lineFreq - elapsed * wave.lineSpeed + lanePhase + phaseA * 0.55);
+    const crestB =
+      0.5 + 0.5 * Math.sin(delta * wave.secondaryFreq + elapsed * wave.secondarySpeed - lane * 4.2 + phaseB * 0.75);
+    const packet = gaussian * (0.32 + crestA * 0.68) * (0.76 + crestB * 0.24);
+    const fold = Math.sin(delta * (wave.lineFreq * 0.78) - elapsed * (wave.lineSpeed * 0.82) + lane * 5.1 + phaseB);
+    const eddy = Math.cos(delta * (wave.secondaryFreq * 1.05) + elapsed * (wave.secondarySpeed * 0.9) - lane * 4.6 + phaseA);
+
+    density += packet * wave.amplitude;
+    brightness += packet * 0.34;
+    tangent += gaussian * (fold * 0.58 + eddy * 0.42) * wave.tangentAmp;
+    radial += gaussian * (eddy * 0.62 + fold * 0.38) * wave.radialAmp;
+    depth += packet * (fold * 0.6 + eddy * 0.4) * wave.depthAmp;
+    drift += gaussian * wave.drift * (0.42 + crestA * 0.58);
+    squeeze += packet;
   }
 
-  density += Math.sin(angle * 1.2 - elapsed * 0.09) * 0.06;
-  density += Math.sin(angle * 2.1 + elapsed * 0.05) * 0.04;
+  const ribbonNoise =
+    Math.sin(angle * 1.9 - elapsed * 0.06 + phaseA) * 0.034 +
+    Math.sin(angle * 3.6 + elapsed * 0.048 + phaseB + lane * 1.8) * 0.028 +
+    Math.sin(angle * 6.2 - elapsed * 0.03 + phaseA * 0.7 + lane * 3.4) * 0.018;
+  density += ribbonNoise;
+  brightness += ribbonNoise * 0.42;
 
   return {
-    density: THREE.MathUtils.clamp(density, 0.68, 1.5),
-    stretch,
+    density: THREE.MathUtils.clamp(density, 0.84, 1.62),
+    brightness: THREE.MathUtils.clamp(brightness, 0.8, 1.34),
+    tangent,
+    radial,
+    depth,
     drift,
+    squeeze: THREE.MathUtils.clamp(squeeze, 0, 1.85),
   };
 }
 
