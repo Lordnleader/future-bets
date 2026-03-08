@@ -287,6 +287,16 @@ def titles_compatible(expected: str | None, actual: str | None) -> bool:
     return expected_norm == actual_norm or expected_norm in actual_norm or actual_norm in expected_norm
 
 
+def verified_manual_signal_summary(article: dict[str, Any], watchlist: dict[str, Any]) -> str:
+    title = article.get("title") or f"Verified article for {watchlist['id']}"
+    domain = article.get("domain") or urllib.parse.urlparse(article.get("url") or article.get("url_mobile") or "").netloc
+    source_country = article.get("sourcecountry") or article.get("sourceCountry")
+    suffix = f" from {domain}" if domain else ""
+    if source_country:
+        suffix += f" in {source_country}"
+    return f"Verified cached article match for {watchlist['id']}: {title}{suffix}."
+
+
 def row_value(row: dict[str, Any], *keys: str) -> str:
     for key in keys:
         if key in row and row.get(key) not in (None, ""):
@@ -598,7 +608,7 @@ def fetch_manual_signals(watchlist: dict[str, Any]) -> tuple[list[dict[str, Any]
             "geography": build_geography(watchlist["geography"]),
             "detected_at": detected_at,
             "signal_title": article.get("title") or item["title"],
-            "signal_summary": item.get("signal_summary") or f"Curated fallback signal for {watchlist['id']} from {domain}.",
+            "signal_summary": verified_manual_signal_summary(article, watchlist),
             "strength": item.get("strength", infer_strength_from_position(index)),
             "url": article_url,
             "verification": {
@@ -659,6 +669,49 @@ def fetch_manual_signals(watchlist: dict[str, Any]) -> tuple[list[dict[str, Any]
             }
         )
     return signals, verified, rejected
+
+
+def signal_verification_modifier(signal: dict[str, Any]) -> float:
+    verification = signal.get("verification") or {}
+    if verification.get("status") != "verified":
+        return 0.0
+    if verification.get("accepted_via") == "watchlist_match":
+        return 0.04
+    if verification.get("accepted_via") == "manual_basis_override":
+        return -0.02
+    return 0.0
+
+
+def ranking_score(
+    watchlist: dict[str, Any],
+    selected_events: list[dict[str, Any]],
+    primary_structural: dict[str, Any] | None,
+    convergence_score: float,
+    domain_count: int,
+    news_count: int,
+    official_count: int,
+) -> tuple[float, dict[str, Any]]:
+    verification_modifier = round(sum(signal_verification_modifier(signal) for signal in selected_events), 4)
+    source_mix_bonus = 0.0
+    if news_count and primary_structural:
+        source_mix_bonus += 0.05
+    if official_count and primary_structural:
+        source_mix_bonus += 0.04
+    if news_count and official_count:
+        source_mix_bonus += 0.03
+    domain_bonus = round(min(domain_count, 2) * 0.02, 4)
+    freshness_bonus = 0.02 if all(signal.get("freshness_bucket") == "fresh" for signal in selected_events) else 0.0
+    score = round(convergence_score + verification_modifier + source_mix_bonus + domain_bonus + freshness_bonus, 4)
+    return score, {
+        "convergence_score": convergence_score,
+        "verification_modifier": verification_modifier,
+        "source_mix_bonus": round(source_mix_bonus, 4),
+        "domain_bonus": domain_bonus,
+        "freshness_bonus": freshness_bonus,
+        "news_count": news_count,
+        "official_count": official_count,
+        "structural_count": 1 if primary_structural else 0,
+    }
 
 
 def parse_world_bank_response(payload: Any) -> list[dict[str, Any]]:
@@ -1118,6 +1171,15 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
             elif convergence_score >= 1.75:
                 confidence = "Medium"
 
+        editorial_rank, ranking_detail = ranking_score(
+            watchlist,
+            selected_events,
+            primary_structural,
+            convergence_score,
+            domain_count,
+            news_count,
+            official_count,
+        )
         convergence_id = stable_id("conv", watchlist["id"], *signal_ids)
         pattern_type = "hazard_plus_infrastructure" if any(signal["source_type"] == "official_feed" for signal in selected_events) else "custom"
 
@@ -1135,6 +1197,10 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
                 "pattern_type": pattern_type,
                 "inference": watchlist["bet"]["summary"],
                 "confidence": confidence,
+                "ranking": {
+                    "score": editorial_rank,
+                    "components": ranking_detail,
+                },
                 "topic_tags": signal_topic_tags(watchlist, pattern_type),
                 "freshness": {
                     "bucket": "fresh" if fresh_events else "active",
@@ -1161,6 +1227,10 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
                 "geography": build_geography(watchlist["geography"]),
                 "time_horizon": watchlist["time_horizon"],
                 "confidence": confidence,
+                "ranking": {
+                    "score": editorial_rank,
+                    "components": ranking_detail,
+                },
                 "summary": watchlist["bet"]["summary"],
                 "implication": watchlist["bet"]["implication"],
                 "why_now": watchlist["bet"]["why_now"],
@@ -1186,6 +1256,8 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
             }
         )
 
+    convergences.sort(key=lambda item: (item.get("ranking", {}).get("score", 0), item.get("confidence", ""), item["detected_at"]), reverse=True)
+    future_bets.sort(key=lambda item: (item.get("ranking", {}).get("score", 0), item.get("confidence", ""), item["title"]), reverse=True)
     return convergences, future_bets
 
 

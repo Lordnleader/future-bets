@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-08T10:37:52Z",
+  "generated_at": "2026-03-08T12:25:29Z",
   "pipeline_version": "0.4",
   "sources": [
     {
@@ -272,7 +272,7 @@
           "IDN"
         ]
       },
-      "detected_at": "2026-03-08T10:37:52Z",
+      "detected_at": "2026-03-08T12:25:29Z",
       "time_horizon": "Near term: 0-12 months",
       "convergence_title": "Seismic readiness systems in Indonesia",
       "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
@@ -310,6 +310,19 @@
       "pattern_type": "hazard_plus_infrastructure",
       "inference": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
       "confidence": "High",
+      "ranking": {
+        "score": 2.93,
+        "components": {
+          "convergence_score": 2.91,
+          "verification_modifier": 0.0,
+          "source_mix_bonus": 0.0,
+          "domain_bonus": 0.0,
+          "freshness_bonus": 0.02,
+          "news_count": 0,
+          "official_count": 3,
+          "structural_count": 0
+        }
+      },
       "topic_tags": [
         "indonesia-seismic-readiness",
         "seismic-risk",
@@ -344,6 +357,19 @@
       },
       "time_horizon": "Near term: 0-12 months",
       "confidence": "High",
+      "ranking": {
+        "score": 2.93,
+        "components": {
+          "convergence_score": 2.91,
+          "verification_modifier": 0.0,
+          "source_mix_bonus": 0.0,
+          "domain_bonus": 0.0,
+          "freshness_bonus": 0.02,
+          "news_count": 0,
+          "official_count": 3,
+          "structural_count": 0
+        }
+      },
       "summary": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
       "implication": "Builders, utilities, logistics operators, and public-sector teams should treat inspection, monitoring, and response systems as active demand rather than a background concern.",
       "why_now": "A cluster of recent official quakes matters because it keeps resilience spending tied to current operational risk, not abstract history.",

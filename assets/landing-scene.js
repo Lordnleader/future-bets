@@ -349,26 +349,23 @@ function createRingSystem(sprite, count, config) {
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
-  const meta = new Float32Array(count * 12);
+  const meta = new Float32Array(count * 10);
 
   for (let i = 0; i < count; i += 1) {
     const orbit = config.clustered ? sampleOrbitAngle() : Math.random() * TWO_PI;
     const cross = Math.random() * TWO_PI;
-    const shapeBias = computeShapeBias(orbit);
     const brightness = THREE.MathUtils.randFloat(config.brightnessRange[0], config.brightnessRange[1]);
 
-    meta[i * 12] = orbit;
-    meta[i * 12 + 1] = cross;
-    meta[i * 12 + 2] = THREE.MathUtils.randFloatSpread(config.tubeRadius * 0.5);
-    meta[i * 12 + 3] = THREE.MathUtils.randFloatSpread(config.depth * 0.45);
-    meta[i * 12 + 4] = THREE.MathUtils.randFloat(config.driftRange[0], config.driftRange[1]);
-    meta[i * 12 + 5] = THREE.MathUtils.randFloat(config.crossRange[0], config.crossRange[1]);
-    meta[i * 12 + 6] = Math.random() * TWO_PI;
-    meta[i * 12 + 7] = THREE.MathUtils.randFloat(0.45, 1.1);
-    meta[i * 12 + 8] = Math.random() > 0.5 ? 1 : -1;
-    meta[i * 12 + 9] = THREE.MathUtils.randFloat(0.04, config.orbitAmplitude);
-    meta[i * 12 + 10] = shapeBias;
-    meta[i * 12 + 11] = THREE.MathUtils.randFloat(0.3, 1);
+    meta[i * 10] = orbit;
+    meta[i * 10 + 1] = cross;
+    meta[i * 10 + 2] = THREE.MathUtils.randFloatSpread(config.tubeRadius * 0.5);
+    meta[i * 10 + 3] = THREE.MathUtils.randFloatSpread(config.depth * 0.45);
+    meta[i * 10 + 4] = THREE.MathUtils.randFloat(config.driftRange[0], config.driftRange[1]);
+    meta[i * 10 + 5] = THREE.MathUtils.randFloat(config.crossRange[0], config.crossRange[1]);
+    meta[i * 10 + 6] = Math.random() * TWO_PI;
+    meta[i * 10 + 7] = THREE.MathUtils.randFloat(0.4, 1);
+    meta[i * 10 + 8] = Math.random() > 0.5 ? 1 : -1;
+    meta[i * 10 + 9] = THREE.MathUtils.randFloat(0.04, config.orbitAmplitude);
 
     colors[i * 3] = brightness;
     colors[i * 3 + 1] = brightness;
@@ -401,36 +398,20 @@ function createRingSystem(sprite, count, config) {
 }
 
 function sampleOrbitAngle() {
-  if (Math.random() < 0.18) {
+  if (Math.random() < 0.46) {
     return Math.random() * TWO_PI;
   }
 
   const clusterCenters = [
-    -0.14 * Math.PI,
-    0.04 * Math.PI,
-    0.22 * Math.PI,
+    -0.08 * Math.PI,
+    0.18 * Math.PI,
     0.86 * Math.PI,
-    1.08 * Math.PI,
-    1.26 * Math.PI,
-    1.46 * Math.PI,
-    1.7 * Math.PI,
+    1.1 * Math.PI,
+    1.34 * Math.PI,
+    1.62 * Math.PI,
   ];
   const center = clusterCenters[Math.floor(Math.random() * clusterCenters.length)];
-  return center + THREE.MathUtils.randFloatSpread(0.34);
-}
-
-function computeShapeBias(angle) {
-  const normalized = ((angle % TWO_PI) + TWO_PI) % TWO_PI;
-  const lowerBand = gaussianAngular(normalized, 1.5 * Math.PI, 0.68);
-  const rightColumn = gaussianAngular(normalized, 0.1 * Math.PI, 0.36);
-  const leftShoulder = gaussianAngular(normalized, 0.9 * Math.PI, 0.34);
-  const topVoid = gaussianAngular(normalized, 0.5 * Math.PI, 0.46);
-  return lowerBand * 1.1 + rightColumn * 0.72 + leftShoulder * 0.58 - topVoid * 0.92;
-}
-
-function gaussianAngular(angle, center, width) {
-  const delta = Math.atan2(Math.sin(angle - center), Math.cos(angle - center));
-  return Math.exp(-(delta * delta) / (2 * width * width));
+  return center + THREE.MathUtils.randFloatSpread(0.46);
 }
 
 function updateRingSystem(system, elapsed, focus, energyMultiplier) {
@@ -439,7 +420,7 @@ function updateRingSystem(system, elapsed, focus, energyMultiplier) {
   const macroSpin = -elapsed * config.macroSpeed;
 
   for (let i = 0; i < positions.length / 3; i += 1) {
-    const metaIndex = i * 12;
+    const metaIndex = i * 10;
     const baseOrbit = meta[metaIndex];
     const baseCross = meta[metaIndex + 1];
     const radialSeed = meta[metaIndex + 2];
@@ -450,47 +431,33 @@ function updateRingSystem(system, elapsed, focus, energyMultiplier) {
     const densityBias = meta[metaIndex + 7];
     const direction = meta[metaIndex + 8];
     const orbitAmplitude = meta[metaIndex + 9];
-    const shapeBias = meta[metaIndex + 10];
-    const filamentBias = meta[metaIndex + 11];
 
     const localTime = elapsed * 0.46;
-    const sheetPulse = Math.sin(localTime * 1.7 + baseOrbit * 3.4 + phase) * 0.5 + 0.5;
     const orbitDrift =
       Math.sin(localTime * driftSpeed * 7.5 + phase) * orbitAmplitude +
-      direction * Math.sin(localTime * driftSpeed * 1.3 + phase * 0.7) * (0.026 + shapeBias * 0.018) * energy;
+      direction * Math.sin(localTime * driftSpeed * 1.3 + phase * 0.7) * 0.026 * energy;
     const orbit = baseOrbit + macroSpin + orbitDrift;
 
     const cross =
       baseCross +
-      Math.sin(localTime * crossSpeed * 5.5 + phase + baseOrbit * 2.8) *
-        config.crossAmplitude *
-        (1 + shapeBias * 0.22) *
-        energy +
+      Math.sin(localTime * crossSpeed * 5.5 + phase + baseOrbit * 2.8) * config.crossAmplitude * energy +
       Math.cos(localTime * 1.1 + phase * 1.7 + baseOrbit * 6) * 0.22 * densityBias +
-      Math.sin(localTime * 2.8 + phase * 1.9) * (0.11 + filamentBias * 0.06) * energy;
+      Math.sin(localTime * 2.8 + phase * 1.9) * 0.11 * energy;
 
     const densityWave =
       1 +
-      Math.sin(baseOrbit * 4.3 + elapsed * 0.34 + phase) * (0.18 + shapeBias * 0.08) +
-      Math.sin(baseOrbit * 9.4 - elapsed * 0.24 + phase * 0.8) * (0.12 + filamentBias * 0.08);
+      Math.sin(baseOrbit * 4.3 + elapsed * 0.34 + phase) * 0.18 +
+      Math.sin(baseOrbit * 9.4 - elapsed * 0.24 + phase * 0.8) * 0.12;
 
     const tube =
       config.tubeRadius +
-      radialSeed * densityWave * (1 + shapeBias * 0.24) +
-      Math.sin(localTime * 2 + phase + baseOrbit * 5.6) *
-        config.tubeWave *
-        densityBias *
-        (1 + shapeBias * 0.3) *
-        energy;
+      radialSeed * densityWave +
+      Math.sin(localTime * 2 + phase + baseOrbit * 5.6) * config.tubeWave * densityBias * energy;
 
     const majorRadiusX =
-      config.majorRadiusX +
-      Math.sin(baseOrbit * 2.1 + elapsed * 0.12 + phase * 0.2) * config.majorWave +
-      shapeBias * 0.08;
+      config.majorRadiusX + Math.sin(baseOrbit * 2.1 + elapsed * 0.12 + phase * 0.2) * config.majorWave;
     const majorRadiusY =
-      config.majorRadiusY +
-      Math.cos(baseOrbit * 2.6 - elapsed * 0.1 + phase * 0.15) * config.majorWave * 1.2 +
-      shapeBias * 0.16;
+      config.majorRadiusY + Math.cos(baseOrbit * 2.6 - elapsed * 0.1 + phase * 0.15) * config.majorWave * 1.2;
 
     const ringX = Math.cos(orbit) * majorRadiusX;
     const ringY = Math.sin(orbit) * majorRadiusY;
@@ -500,19 +467,12 @@ function updateRingSystem(system, elapsed, focus, energyMultiplier) {
     const tangentY = Math.cos(orbit);
 
     const tangentDrift =
-      Math.sin(localTime * 1.8 + phase * 1.4 + baseOrbit * 11) *
-      config.tangentAmplitude *
-      densityBias *
-      (1 + shapeBias * 0.4) *
-      energy;
-    const flutter =
-      Math.sin(localTime * 2.6 + phase * 0.8) * 0.022 * densityBias * energy +
-      Math.sin(localTime * 3.8 + phase * 1.6 + baseOrbit * 14) * 0.038 * filamentBias * sheetPulse;
+      Math.sin(localTime * 1.8 + phase * 1.4 + baseOrbit * 11) * config.tangentAmplitude * densityBias * energy;
+    const flutter = Math.sin(localTime * 2.6 + phase * 0.8) * 0.022 * densityBias * energy;
     const depth =
-      Math.sin(cross) * config.depth * (0.8 + sheetPulse * 0.2) +
+      Math.sin(cross) * config.depth +
       depthSeed +
-      Math.sin(localTime * 1.4 + phase + baseOrbit * 4.1) * (0.26 + filamentBias * 0.14) * densityBias +
-      shapeBias * 0.18;
+      Math.sin(localTime * 1.4 + phase + baseOrbit * 4.1) * 0.26 * densityBias;
 
     positions[i * 3] = ringX + Math.cos(cross) * normalX * tube + tangentX * tangentDrift + flutter;
     positions[i * 3 + 1] = ringY + Math.cos(cross) * normalY * tube + tangentY * tangentDrift;
