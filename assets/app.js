@@ -104,7 +104,9 @@ async function bootLandingScene() {
 
   try {
     const { createLandingScene } = await import("./landing-scene.js");
-    landingSceneController = createLandingScene(landingScene);
+    landingSceneController = createLandingScene(landingScene, {
+      triggerElement: enterButton,
+    });
   } catch (error) {
     console.error("Landing scene failed to load.", error);
     landingScreen.classList.add("landing-screen--fallback");

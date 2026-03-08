@@ -128,8 +128,8 @@ img {
   justify-content: center;
   padding: 32px;
   background:
-    radial-gradient(circle at 50% 18%, rgba(200, 235, 154, 0.08), transparent 16%),
-    linear-gradient(180deg, rgba(6, 6, 6, 0.88), rgba(6, 6, 6, 0.98));
+    radial-gradient(circle at 50% 56%, rgba(255, 255, 255, 0.018), transparent 20%),
+    linear-gradient(180deg, rgba(6, 6, 6, 0.92), rgba(6, 6, 6, 0.985));
   transition:
     opacity 360ms ease,
     visibility 360ms ease;
@@ -146,7 +146,7 @@ img {
   height: 100%;
   display: block;
   opacity: 0.98;
-  filter: saturate(0.92) contrast(1.04);
+  filter: saturate(0.9) contrast(1.06);
 }
 
 .landing-screen__haze,
@@ -158,11 +158,11 @@ img {
 
 .landing-screen__haze {
   background:
-    radial-gradient(circle at 50% 52%, rgba(255, 255, 255, 0.055), transparent 15%),
-    radial-gradient(circle at 48% 58%, rgba(255, 255, 255, 0.035), transparent 22%),
-    radial-gradient(circle at 22% 80%, rgba(255, 255, 255, 0.02), transparent 20%);
-  filter: blur(34px);
-  opacity: 0.72;
+    radial-gradient(circle at 50% 56%, rgba(255, 255, 255, 0.03), transparent 14%),
+    radial-gradient(circle at 50% 56%, rgba(255, 255, 255, 0.016), transparent 23%),
+    radial-gradient(circle at 50% 72%, rgba(255, 255, 255, 0.012), transparent 18%);
+  filter: blur(28px);
+  opacity: 0.42;
 }
 
 .landing-screen__marks {
