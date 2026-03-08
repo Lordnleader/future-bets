@@ -70,11 +70,14 @@ export function createLandingScene(container) {
     root.position.y = THREE.MathUtils.lerp(root.position.y, pointer.y * 0.28 + 0.1, 0.03);
 
     galaxy.group.rotation.y = Math.sin(elapsed * 0.05) * 0.02;
-    galaxy.group.rotation.z = elapsed * 0.018;
+    galaxy.group.rotation.z = Math.sin(elapsed * 0.045) * 0.012;
     galaxy.group.position.y = Math.sin(elapsed * 0.1) * 0.03;
-    galaxy.dust.rotation.z = elapsed * 0.024;
-    galaxy.core.rotation.z = elapsed * 0.03;
-    galaxy.lines.rotation.z = elapsed * 0.016;
+    galaxy.dust.rotation.z = elapsed * 0.012;
+    galaxy.core.rotation.z = elapsed * 0.015;
+    galaxy.lines.rotation.z = elapsed * 0.008;
+    galaxy.dust.rotation.y = Math.sin(elapsed * 0.08) * 0.02;
+    galaxy.core.rotation.y = Math.sin(elapsed * 0.1) * 0.026;
+    galaxy.lines.rotation.y = Math.sin(elapsed * 0.07) * 0.016;
 
     glowCloud.rotation.z = elapsed * 0.012;
     glowCloud.material.opacity = 0.06 + Math.sin(elapsed * 0.22) * 0.012;

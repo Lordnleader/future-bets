@@ -158,12 +158,11 @@ img {
 
 .landing-screen__haze {
   background:
-    radial-gradient(circle at 50% 17%, rgba(192, 233, 141, 0.2), transparent 10%),
-    radial-gradient(circle at 50% 22%, rgba(255, 255, 255, 0.07), transparent 18%),
-    radial-gradient(circle at 50% 54%, rgba(192, 233, 141, 0.035), transparent 18%),
-    radial-gradient(circle at 22% 80%, rgba(255, 255, 255, 0.03), transparent 20%);
+    radial-gradient(circle at 50% 52%, rgba(255, 255, 255, 0.055), transparent 15%),
+    radial-gradient(circle at 48% 58%, rgba(255, 255, 255, 0.035), transparent 22%),
+    radial-gradient(circle at 22% 80%, rgba(255, 255, 255, 0.02), transparent 20%);
   filter: blur(34px);
-  opacity: 0.92;
+  opacity: 0.72;
 }
 
 .landing-screen__marks {
