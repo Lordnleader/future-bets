@@ -2,10 +2,11 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.m
 
 const STARFIELD_COUNT = 5200;
 const DUST_COUNT = 1800;
-const CORE_RING_COUNT = 12600;
-const FILAMENT_RING_COUNT = 3600;
-const BOKEH_BACK_COUNT = 1100;
-const BOKEH_FRONT_COUNT = 900;
+const CORE_RING_COUNT = 17600;
+const FILAMENT_RING_COUNT = 6200;
+const AURA_RING_COUNT = 2600;
+const BOKEH_BACK_COUNT = 1450;
+const BOKEH_FRONT_COUNT = 1180;
 const TWO_PI = Math.PI * 2;
 
 export function createLandingScene(container, { triggerElement } = {}) {
@@ -34,7 +35,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
   scene.add(root);
 
   const ringGroup = new THREE.Group();
-  ringGroup.scale.set(0.94, 1.18, 1);
+  ringGroup.scale.set(0.88, 1.15, 1);
   root.add(ringGroup);
 
   const sprite = createCircularSprite();
@@ -42,60 +43,83 @@ export function createLandingScene(container, { triggerElement } = {}) {
   const farStars = createStarfield(sprite);
   const dustField = createDustField(sprite);
   const coreRing = createRingSystem(sprite, CORE_RING_COUNT, {
-    majorRadiusX: 4.6,
-    majorRadiusY: 4.6,
-    tubeRadius: 0.86,
-    depth: 1.5,
-    pointSize: 0.0155,
-    opacity: 0.7,
+    majorRadiusX: 4.12,
+    majorRadiusY: 4.12,
+    tubeRadius: 1.02,
+    depth: 1.08,
+    pointSize: 0.016,
+    opacity: 0.76,
     brightnessRange: [0.74, 0.99],
-    driftRange: [0.024, 0.064],
-    crossRange: [0.28, 0.62],
-    orbitAmplitude: 0.16,
-    crossAmplitude: 0.86,
-    tangentAmplitude: 0.12,
-    tubeWave: 0.18,
-    majorWave: 0.1,
+    driftRange: [0.026, 0.072],
+    crossRange: [0.34, 0.74],
+    macroSpeed: 0.082,
+    orbitAmplitude: 0.18,
+    crossAmplitude: 0.94,
+    tangentAmplitude: 0.14,
+    tubeWave: 0.22,
+    majorWave: 0.12,
     clustered: true,
   });
   const filamentRing = createRingSystem(sprite, FILAMENT_RING_COUNT, {
-    majorRadiusX: 4.58,
-    majorRadiusY: 4.58,
-    tubeRadius: 0.62,
-    depth: 1.18,
-    pointSize: 0.025,
-    opacity: 0.92,
+    majorRadiusX: 4.08,
+    majorRadiusY: 4.08,
+    tubeRadius: 0.82,
+    depth: 0.88,
+    pointSize: 0.026,
+    opacity: 0.94,
     brightnessRange: [0.9, 1],
-    driftRange: [0.038, 0.095],
-    crossRange: [0.44, 0.88],
-    orbitAmplitude: 0.22,
-    crossAmplitude: 1.05,
-    tangentAmplitude: 0.18,
-    tubeWave: 0.12,
-    majorWave: 0.06,
+    driftRange: [0.042, 0.11],
+    crossRange: [0.56, 1.02],
+    macroSpeed: 0.093,
+    orbitAmplitude: 0.26,
+    crossAmplitude: 1.18,
+    tangentAmplitude: 0.22,
+    tubeWave: 0.15,
+    majorWave: 0.08,
+    clustered: true,
+  });
+  const auraRing = createRingSystem(sprite, AURA_RING_COUNT, {
+    majorRadiusX: 4.1,
+    majorRadiusY: 4.1,
+    tubeRadius: 0.94,
+    depth: 1.22,
+    pointSize: 0.051,
+    opacity: 0.1,
+    brightnessRange: [0.84, 0.98],
+    driftRange: [0.02, 0.048],
+    crossRange: [0.22, 0.52],
+    macroSpeed: 0.076,
+    orbitAmplitude: 0.12,
+    crossAmplitude: 0.64,
+    tangentAmplitude: 0.08,
+    tubeWave: 0.14,
+    majorWave: 0.08,
     clustered: true,
   });
   const bokehBack = createBokehLayer(sprite, BOKEH_BACK_COUNT, {
-    majorRadiusX: 4.72,
-    majorRadiusY: 4.72,
-    tubeRadius: 1.12,
-    depthOffset: -2.8,
-    depthSpread: 1.05,
-    pointSize: 0.12,
-    opacity: 0.085,
+    majorRadiusX: 4.22,
+    majorRadiusY: 4.22,
+    tubeRadius: 1.22,
+    macroSpeed: 0.078,
+    depthOffset: -3.45,
+    depthSpread: 1.34,
+    pointSize: 0.17,
+    opacity: 0.13,
   });
   const bokehFront = createBokehLayer(sprite, BOKEH_FRONT_COUNT, {
-    majorRadiusX: 4.48,
-    majorRadiusY: 4.48,
-    tubeRadius: 0.96,
-    depthOffset: 2.5,
-    depthSpread: 0.82,
-    pointSize: 0.145,
-    opacity: 0.11,
+    majorRadiusX: 4.02,
+    majorRadiusY: 4.02,
+    tubeRadius: 1.08,
+    macroSpeed: 0.09,
+    depthOffset: 3.25,
+    depthSpread: 1.08,
+    pointSize: 0.22,
+    opacity: 0.17,
   });
 
   scene.add(farStars);
   scene.add(dustField);
+  ringGroup.add(auraRing.points);
   ringGroup.add(coreRing.points);
   ringGroup.add(filamentRing.points);
   ringGroup.add(bokehBack);
@@ -133,14 +157,16 @@ export function createLandingScene(container, { triggerElement } = {}) {
 
     updateRingSystem(coreRing, elapsed, focus, 0.9);
     updateRingSystem(filamentRing, elapsed, focus, 1.3);
+    updateRingSystem(auraRing, elapsed, focus, 0.55);
     updateBokehLayer(bokehBack, elapsed, focus, 0.65);
     updateBokehLayer(bokehFront, elapsed, focus, 1);
     updateDustField(dustField, elapsed);
 
-    coreRing.material.opacity = 0.7 + focus * 0.12;
-    filamentRing.material.opacity = 0.9 + focus * 0.08;
-    bokehBack.material.opacity = 0.085 + focus * 0.02;
-    bokehFront.material.opacity = 0.11 + focus * 0.028;
+    auraRing.material.opacity = 0.1 + focus * 0.03;
+    coreRing.material.opacity = 0.76 + focus * 0.12;
+    filamentRing.material.opacity = 0.94 + focus * 0.06;
+    bokehBack.material.opacity = 0.13 + focus * 0.02;
+    bokehFront.material.opacity = 0.17 + focus * 0.03;
 
     farStars.rotation.y += 0.00002;
     farStars.rotation.x = Math.sin(elapsed * 0.05) * 0.012;
@@ -251,7 +277,7 @@ function createStarfield(sprite) {
       map: sprite,
       size: 0.018,
       transparent: true,
-      opacity: 0.42,
+      opacity: 0.34,
       alphaTest: 0.02,
       vertexColors: true,
       depthWrite: false,
@@ -292,7 +318,7 @@ function createDustField(sprite) {
       map: sprite,
       size: 0.026,
       transparent: true,
-      opacity: 0.08,
+      opacity: 0.05,
       alphaTest: 0.02,
       vertexColors: true,
       depthWrite: false,
@@ -391,6 +417,7 @@ function sampleOrbitAngle() {
 function updateRingSystem(system, elapsed, focus, energyMultiplier) {
   const { positions, meta, geometry, config } = system;
   const energy = 1 + focus * 0.55 * energyMultiplier;
+  const macroSpin = -elapsed * config.macroSpeed;
 
   for (let i = 0; i < positions.length / 3; i += 1) {
     const metaIndex = i * 10;
@@ -409,12 +436,13 @@ function updateRingSystem(system, elapsed, focus, energyMultiplier) {
     const orbitDrift =
       Math.sin(localTime * driftSpeed * 7.5 + phase) * orbitAmplitude +
       direction * Math.sin(localTime * driftSpeed * 1.3 + phase * 0.7) * 0.026 * energy;
-    const orbit = baseOrbit + orbitDrift;
+    const orbit = baseOrbit + macroSpin + orbitDrift;
 
     const cross =
       baseCross +
       Math.sin(localTime * crossSpeed * 5.5 + phase + baseOrbit * 2.8) * config.crossAmplitude * energy +
-      Math.cos(localTime * 1.1 + phase * 1.7 + baseOrbit * 6) * 0.22 * densityBias;
+      Math.cos(localTime * 1.1 + phase * 1.7 + baseOrbit * 6) * 0.22 * densityBias +
+      Math.sin(localTime * 2.8 + phase * 1.9) * 0.11 * energy;
 
     const densityWave =
       1 +
@@ -502,9 +530,10 @@ function updateBokehLayer(points, elapsed, focus, energyMultiplier) {
   const meta = points.userData.metaRef;
   const config = points.userData.configRef;
   const energy = 1 + focus * 0.4 * energyMultiplier;
+  const macroSpin = -elapsed * config.macroSpeed;
 
   for (let i = 0; i < positions.length / 3; i += 1) {
-    const orbit = meta[i * 5] + Math.sin(elapsed * 0.22 + meta[i * 5 + 3]) * 0.06;
+    const orbit = meta[i * 5] + macroSpin + Math.sin(elapsed * 0.22 + meta[i * 5 + 3]) * 0.06;
     const cross = meta[i * 5 + 1] + Math.sin(elapsed * 0.38 + meta[i * 5 + 3]) * 0.45 * energy;
     const radius = config.tubeRadius + Math.sin(elapsed * 0.31 + meta[i * 5 + 3]) * 0.1;
     const majorRadiusX = config.majorRadiusX;
