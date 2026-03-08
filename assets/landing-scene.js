@@ -12,36 +12,35 @@ export function createLandingScene(container) {
   container.append(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x020302, 0.072);
+  scene.fog = new THREE.FogExp2(0x040504, 0.05);
 
   const camera = new THREE.PerspectiveCamera(
-    42,
+    34,
     container.clientWidth / Math.max(container.clientHeight, 1),
     0.1,
-    100,
+    120,
   );
-  camera.position.set(0, 0.35, 11.5);
+  camera.position.set(0, 0.5, 13.5);
 
   const root = new THREE.Group();
-  root.position.set(0, 0.4, 0);
+  root.position.set(0, 0.1, 0);
   scene.add(root);
 
-  const ambient = new THREE.AmbientLight(0xd7f3b3, 0.55);
-  scene.add(ambient);
+  const sprite = createCircularSprite();
+  const farStars = createFarStars(sprite);
+  const galaxy = createGalaxy(sprite);
+  const glowCloud = createGlowCloud(sprite);
 
-  const point = new THREE.PointLight(0xe9ffcb, 1.4, 30);
-  point.position.set(0, 1.8, 7.5);
-  scene.add(point);
+  scene.add(farStars);
+  root.add(galaxy.group);
+  root.add(glowCloud);
 
-  const stars = createStarField();
-  scene.add(stars);
-
-  const cloud = createCloud();
-  root.add(cloud);
-
-  const form = createSignalForm();
-  form.position.set(0, 0.2, 0);
-  root.add(form);
+  const ambient = new THREE.AmbientLight(0xf0f6e3, 0.44);
+  const front = new THREE.PointLight(0xf8ffe8, 1.3, 42);
+  const rim = new THREE.PointLight(0xd8efad, 0.9, 56);
+  front.position.set(0, 3, 10);
+  rim.position.set(-5, 1.5, -4);
+  scene.add(ambient, front, rim);
 
   const pointer = { x: 0, y: 0 };
   const clock = new THREE.Clock();
@@ -60,24 +59,26 @@ export function createLandingScene(container) {
 
   function animate() {
     rafId = window.requestAnimationFrame(animate);
-
     const elapsed = clock.getElapsedTime();
-    root.rotation.y += 0.0007;
-    root.rotation.x = THREE.MathUtils.lerp(root.rotation.x, pointer.y * 0.16, 0.04);
-    root.rotation.z = THREE.MathUtils.lerp(root.rotation.z, pointer.x * -0.08, 0.04);
-    root.position.x = THREE.MathUtils.lerp(root.position.x, pointer.x * 0.45, 0.035);
-    root.position.y = THREE.MathUtils.lerp(root.position.y, 0.4 + pointer.y * 0.28, 0.035);
 
-    stars.rotation.y += 0.00012;
-    stars.rotation.x = Math.sin(elapsed * 0.08) * 0.03;
+    root.rotation.z = THREE.MathUtils.lerp(root.rotation.z, pointer.x * -0.04, 0.03);
+    root.rotation.x = THREE.MathUtils.lerp(root.rotation.x, pointer.y * 0.06 - 0.12, 0.03);
+    root.position.x = THREE.MathUtils.lerp(root.position.x, pointer.x * 0.55, 0.03);
+    root.position.y = THREE.MathUtils.lerp(root.position.y, pointer.y * 0.28 + 0.1, 0.03);
 
-    cloud.rotation.y = elapsed * 0.035;
-    cloud.rotation.z = Math.sin(elapsed * 0.18) * 0.05;
-    cloud.material.opacity = 0.24 + Math.sin(elapsed * 0.45) * 0.04;
+    galaxy.group.rotation.y = elapsed * 0.035;
+    galaxy.group.rotation.z = Math.sin(elapsed * 0.14) * 0.035;
+    galaxy.group.position.y = Math.sin(elapsed * 0.18) * 0.08;
 
-    form.rotation.y = elapsed * 0.16;
-    form.rotation.x = Math.sin(elapsed * 0.22) * 0.07;
-    form.position.y = 0.2 + Math.sin(elapsed * 0.3) * 0.18;
+    glowCloud.rotation.y = elapsed * 0.028;
+    glowCloud.material.opacity = 0.08 + Math.sin(elapsed * 0.35) * 0.016;
+
+    farStars.rotation.y += 0.00008;
+    farStars.rotation.x = Math.sin(elapsed * 0.06) * 0.02;
+
+    galaxy.dust.material.opacity = 0.55 + Math.sin(elapsed * 0.3) * 0.03;
+    galaxy.core.material.opacity = 0.72 + Math.sin(elapsed * 0.24) * 0.04;
+    galaxy.lines.material.opacity = 0.11 + Math.sin(elapsed * 0.26) * 0.02;
 
     renderer.render(scene, camera);
   }
@@ -112,6 +113,7 @@ export function createLandingScene(container) {
     container.removeEventListener("pointerleave", resetPointer);
     window.removeEventListener("resize", handleResize);
     renderer.dispose();
+    sprite.dispose();
     disposeObject(scene);
     if (renderer.domElement.parentNode === container) {
       container.removeChild(renderer.domElement);
@@ -119,132 +121,286 @@ export function createLandingScene(container) {
   }
 }
 
-function createStarField() {
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(5200 * 3);
-  const colors = new Float32Array(5200 * 3);
+function createCircularSprite() {
+  const size = 96;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const context = canvas.getContext("2d");
+  const gradient = context.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  gradient.addColorStop(0, "rgba(255,255,255,1)");
+  gradient.addColorStop(0.32, "rgba(255,255,255,0.95)");
+  gradient.addColorStop(0.62, "rgba(255,255,255,0.34)");
+  gradient.addColorStop(1, "rgba(255,255,255,0)");
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, size, size);
 
-  for (let i = 0; i < 5200; i += 1) {
-    const radius = THREE.MathUtils.randFloat(9, 26);
-    const theta = THREE.MathUtils.randFloat(0, Math.PI * 2);
-    const phi = Math.acos(THREE.MathUtils.randFloatSpread(2));
-
-    const x = radius * Math.sin(phi) * Math.cos(theta);
-    const y = radius * Math.cos(phi) * 0.72;
-    const z = radius * Math.sin(phi) * Math.sin(theta);
-
-    positions[i * 3] = x;
-    positions[i * 3 + 1] = y;
-    positions[i * 3 + 2] = z;
-
-    const tint = THREE.MathUtils.randFloat(0.78, 1);
-    colors[i * 3] = tint * 0.92;
-    colors[i * 3 + 1] = tint;
-    colors[i * 3 + 2] = tint * 0.94;
-  }
-
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-
-  const material = new THREE.PointsMaterial({
-    size: 0.055,
-    transparent: true,
-    opacity: 0.85,
-    vertexColors: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-  });
-
-  return new THREE.Points(geometry, material);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  return texture;
 }
 
-function createCloud() {
+function createFarStars(sprite) {
+  const count = 7000;
   const geometry = new THREE.BufferGeometry();
-  const count = 2600;
   const positions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
 
   for (let i = 0; i < count; i += 1) {
-    const spread = THREE.MathUtils.randFloat(0.4, 1);
-    const angle = THREE.MathUtils.randFloat(0, Math.PI * 2);
-    const radius = Math.pow(Math.random(), 0.6) * 4.2;
-    const x = Math.cos(angle) * radius * 1.35;
-    const y = THREE.MathUtils.randFloatSpread(1.4) * spread;
-    const z = Math.sin(angle) * radius * 0.78;
+    const radius = THREE.MathUtils.randFloat(16, 42);
+    const theta = THREE.MathUtils.randFloat(0, Math.PI * 2);
+    const phi = Math.acos(THREE.MathUtils.randFloatSpread(2));
 
-    positions[i * 3] = x;
-    positions[i * 3 + 1] = y;
-    positions[i * 3 + 2] = z;
+    positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+    positions[i * 3 + 1] = radius * Math.cos(phi) * 0.65;
+    positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
 
-    colors[i * 3] = 0.78;
-    colors[i * 3 + 1] = 0.92 + Math.random() * 0.04;
-    colors[i * 3 + 2] = 0.68;
+    const tint = THREE.MathUtils.randFloat(0.82, 1);
+    colors[i * 3] = tint * 0.94;
+    colors[i * 3 + 1] = tint;
+    colors[i * 3 + 2] = tint * 0.96;
   }
 
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
   geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
   const material = new THREE.PointsMaterial({
-    size: 0.12,
+    map: sprite,
+    size: 0.03,
     transparent: true,
-    opacity: 0.24,
+    opacity: 0.72,
+    alphaTest: 0.02,
     vertexColors: true,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
   });
 
   return new THREE.Points(geometry, material);
 }
 
-function createSignalForm() {
+function createGalaxy(sprite) {
   const group = new THREE.Group();
-  const base = new THREE.IcosahedronGeometry(2.55, 18);
-  const positions = base.attributes.position;
-  const vector = new THREE.Vector3();
+  group.rotation.x = -0.42;
+  group.rotation.z = 0.18;
+  group.scale.set(1.28, 1, 1);
 
-  for (let i = 0; i < positions.count; i += 1) {
-    vector.fromBufferAttribute(positions, i);
-    const normalized = vector.clone().normalize();
-    const wave =
-      Math.sin(normalized.y * 7.2) * 0.25 +
-      Math.sin(normalized.x * 5.4) * 0.18 +
-      Math.cos(normalized.z * 6.2) * 0.12;
-    const stretch = 1 + Math.max(normalized.y, 0) * 0.85;
+  const nodePositions = [];
+  const nodeGeometry = new THREE.BufferGeometry();
+  const nodeCount = 240;
+  const nodeCoords = new Float32Array(nodeCount * 3);
 
-    vector.multiplyScalar((2.2 + wave) * stretch);
-    vector.y *= 1.7;
-    vector.x *= 0.92;
-    vector.z *= 0.72;
-    positions.setXYZ(i, vector.x, vector.y, vector.z);
+  for (let i = 0; i < nodeCount; i += 1) {
+    const point = generateGalaxyPoint(i, nodeCount);
+    nodeCoords[i * 3] = point.x;
+    nodeCoords[i * 3 + 1] = point.y;
+    nodeCoords[i * 3 + 2] = point.z;
+    nodePositions.push(point);
   }
 
-  base.computeVertexNormals();
+  nodeGeometry.setAttribute("position", new THREE.BufferAttribute(nodeCoords, 3));
 
-  const wire = new THREE.LineSegments(
-    new THREE.WireframeGeometry(base),
-    new THREE.LineBasicMaterial({
-      color: 0xf1f4ef,
-      transparent: true,
-      opacity: 0.18,
-      blending: THREE.AdditiveBlending,
-    }),
-  );
-  group.add(wire);
+  const nodeMaterial = new THREE.PointsMaterial({
+    map: sprite,
+    color: 0xf4f5f0,
+    size: 0.045,
+    transparent: true,
+    opacity: 0.84,
+    alphaTest: 0.02,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
+  });
 
-  const points = new THREE.Points(
-    base,
+  const stars = new THREE.Points(nodeGeometry, nodeMaterial);
+  group.add(stars);
+
+  const dustGeometry = new THREE.BufferGeometry();
+  const dustCount = 6800;
+  const dustCoords = new Float32Array(dustCount * 3);
+  const dustColors = new Float32Array(dustCount * 3);
+
+  for (let i = 0; i < dustCount; i += 1) {
+    const point = generateGalaxyPoint(i, dustCount, true);
+    dustCoords[i * 3] = point.x;
+    dustCoords[i * 3 + 1] = point.y;
+    dustCoords[i * 3 + 2] = point.z;
+
+    const tint = THREE.MathUtils.randFloat(0.76, 0.98);
+    dustColors[i * 3] = tint * 0.9;
+    dustColors[i * 3 + 1] = tint;
+    dustColors[i * 3 + 2] = tint * 0.92;
+  }
+
+  dustGeometry.setAttribute("position", new THREE.BufferAttribute(dustCoords, 3));
+  dustGeometry.setAttribute("color", new THREE.BufferAttribute(dustColors, 3));
+
+  const dustMaterial = new THREE.PointsMaterial({
+    map: sprite,
+    size: 0.018,
+    transparent: true,
+    opacity: 0.56,
+    alphaTest: 0.02,
+    vertexColors: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
+  });
+
+  const dust = new THREE.Points(dustGeometry, dustMaterial);
+  group.add(dust);
+
+  const coreGeometry = new THREE.BufferGeometry();
+  const coreCount = 2600;
+  const coreCoords = new Float32Array(coreCount * 3);
+  const coreColors = new Float32Array(coreCount * 3);
+
+  for (let i = 0; i < coreCount; i += 1) {
+    const radius = Math.pow(Math.random(), 0.7) * 1.9;
+    const angle = Math.random() * Math.PI * 2;
+    const x = Math.cos(angle) * radius * 1.85;
+    const y = THREE.MathUtils.randFloatSpread(0.12);
+    const z = Math.sin(angle) * radius * 0.62 + THREE.MathUtils.randFloatSpread(0.28);
+
+    coreCoords[i * 3] = x;
+    coreCoords[i * 3 + 1] = y;
+    coreCoords[i * 3 + 2] = z;
+    coreColors[i * 3] = 0.84;
+    coreColors[i * 3 + 1] = 0.96;
+    coreColors[i * 3 + 2] = 0.7;
+  }
+
+  coreGeometry.setAttribute("position", new THREE.BufferAttribute(coreCoords, 3));
+  coreGeometry.setAttribute("color", new THREE.BufferAttribute(coreColors, 3));
+
+  const coreMaterial = new THREE.PointsMaterial({
+    map: sprite,
+    size: 0.028,
+    transparent: true,
+    opacity: 0.74,
+    alphaTest: 0.02,
+    vertexColors: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
+  });
+
+  const core = new THREE.Points(coreGeometry, coreMaterial);
+  group.add(core);
+
+  const lineSegments = buildGalaxyLines(nodePositions);
+  const lineGeometry = new THREE.BufferGeometry();
+  const lineCoords = new Float32Array(lineSegments.length * 6);
+
+  lineSegments.forEach((segment, index) => {
+    lineCoords[index * 6] = segment.from.x;
+    lineCoords[index * 6 + 1] = segment.from.y;
+    lineCoords[index * 6 + 2] = segment.from.z;
+    lineCoords[index * 6 + 3] = segment.to.x;
+    lineCoords[index * 6 + 4] = segment.to.y;
+    lineCoords[index * 6 + 5] = segment.to.z;
+  });
+
+  lineGeometry.setAttribute("position", new THREE.BufferAttribute(lineCoords, 3));
+  const lineMaterial = new THREE.LineBasicMaterial({
+    color: 0xf4f2ea,
+    transparent: true,
+    opacity: 0.11,
+    blending: THREE.AdditiveBlending,
+  });
+  const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+  group.add(lines);
+
+  return {
+    group,
+    dust,
+    core,
+    lines,
+  };
+}
+
+function createGlowCloud(sprite) {
+  const geometry = new THREE.BufferGeometry();
+  const count = 1200;
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i += 1) {
+    const radius = Math.pow(Math.random(), 0.72) * 4.4;
+    const angle = Math.random() * Math.PI * 2;
+
+    positions[i * 3] = Math.cos(angle) * radius * 1.4;
+    positions[i * 3 + 1] = THREE.MathUtils.randFloatSpread(0.35);
+    positions[i * 3 + 2] = Math.sin(angle) * radius * 0.78;
+
+    colors[i * 3] = 0.74;
+    colors[i * 3 + 1] = 0.9;
+    colors[i * 3 + 2] = 0.58;
+  }
+
+  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+  return new THREE.Points(
+    geometry,
     new THREE.PointsMaterial({
-      color: 0xf4f7f2,
-      size: 0.038,
+      map: sprite,
+      size: 0.22,
       transparent: true,
-      opacity: 0.82,
+      opacity: 0.08,
+      alphaTest: 0.01,
+      vertexColors: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
     }),
   );
-  group.add(points);
+}
 
-  return group;
+function generateGalaxyPoint(index, total, isDust = false) {
+  const armCount = 4;
+  const arm = index % armCount;
+  const progress = Math.pow(Math.random(), isDust ? 0.78 : 0.92);
+  const radius = progress * (isDust ? 6.8 : 6.2);
+  const armOffset = (arm / armCount) * Math.PI * 2;
+  const twist = radius * 0.82;
+  const angle = armOffset + twist + THREE.MathUtils.randFloatSpread(isDust ? 0.9 : 0.46);
+  const bandJitter = isDust ? 0.18 : 0.09;
+  const x = Math.cos(angle) * radius * 1.65 + THREE.MathUtils.randFloatSpread(isDust ? 0.5 : 0.16);
+  const y = THREE.MathUtils.randFloatSpread(bandJitter) * (1.4 - progress);
+  const z = Math.sin(angle) * radius * 0.56 + THREE.MathUtils.randFloatSpread(isDust ? 0.24 : 0.08);
+
+  return new THREE.Vector3(x, y, z);
+}
+
+function buildGalaxyLines(points) {
+  const segments = [];
+  const dedupe = new Set();
+
+  points.forEach((point, index) => {
+    const nearest = points
+      .map((candidate, candidateIndex) => ({
+        candidate,
+        candidateIndex,
+        distance: candidateIndex === index ? Infinity : point.distanceTo(candidate),
+      }))
+      .filter((entry) => entry.distance < 1.42)
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 3);
+
+    nearest.forEach((entry) => {
+      const key = [index, entry.candidateIndex].sort((a, b) => a - b).join(":");
+      if (!dedupe.has(key)) {
+        dedupe.add(key);
+        segments.push({
+          from: point,
+          to: entry.candidate,
+        });
+      }
+    });
+  });
+
+  return segments;
 }
 
 function disposeObject(object) {
