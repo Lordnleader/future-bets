@@ -124,15 +124,28 @@ img {
   inset: 0;
   z-index: 30;
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: clamp(120px, 18vh, 180px) clamp(24px, 8vw, 120px);
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
   background:
-    radial-gradient(circle at 48% 16%, rgba(255, 255, 255, 0.12), transparent 14%),
+    radial-gradient(circle at 50% 18%, rgba(200, 235, 154, 0.08), transparent 16%),
     linear-gradient(180deg, rgba(6, 6, 6, 0.88), rgba(6, 6, 6, 0.98));
   transition:
     opacity 360ms ease,
     visibility 360ms ease;
+}
+
+.landing-screen__scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.landing-screen__scene canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0.92;
 }
 
 .landing-screen__haze,
@@ -144,10 +157,11 @@ img {
 
 .landing-screen__haze {
   background:
-    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.12), transparent 10%),
-    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.03), transparent 20%);
-  filter: blur(18px);
-  opacity: 0.8;
+    radial-gradient(circle at 50% 22%, rgba(192, 233, 141, 0.16), transparent 11%),
+    radial-gradient(circle at 50% 26%, rgba(255, 255, 255, 0.08), transparent 17%),
+    radial-gradient(circle at 22% 80%, rgba(255, 255, 255, 0.03), transparent 20%);
+  filter: blur(26px);
+  opacity: 0.85;
 }
 
 .landing-screen__marks {
@@ -167,14 +181,17 @@ img {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: 18px;
-  max-width: 32rem;
+  justify-items: center;
+  gap: 22px;
+  max-width: 42rem;
+  text-align: center;
 }
 
 .landing-screen__eyebrow {
   margin: 0;
   color: var(--text);
   font-size: 1rem;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.12);
 }
 
 .landing-screen__button,
@@ -194,11 +211,12 @@ img {
 
 .landing-screen__button {
   width: fit-content;
-  padding: 12px 18px;
+  padding: 14px 26px;
   font-family: var(--mono);
   font-size: 0.76rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
 }
 
 .landing-screen__button:hover,
@@ -217,6 +235,10 @@ img {
 .is-entered .landing-screen {
   opacity: 0;
   visibility: hidden;
+}
+
+.landing-screen--fallback .landing-screen__scene {
+  display: none;
 }
 
 .home-topbar {

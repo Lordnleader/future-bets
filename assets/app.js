@@ -8,6 +8,7 @@ import {
 
 const homeShell = document.querySelector("#home-shell");
 const landingScreen = document.querySelector("#landing-screen");
+const landingScene = document.querySelector("#landing-scene");
 const enterButton = document.querySelector("#enter-button");
 const topbarStatus = document.querySelector("#topbar-status");
 const resetButton = document.querySelector("#reset-button");
@@ -26,6 +27,8 @@ const state = {
   selectedSlug: null,
   hoveredSlug: null,
 };
+
+let landingSceneController = null;
 
 const supportNodes = [
   { id: "s-01", x: 112, y: 140 },
@@ -91,7 +94,22 @@ window.addEventListener("resize", render);
 networkStage.addEventListener("pointermove", handleParallax);
 networkStage.addEventListener("pointerleave", resetParallax);
 
+bootLandingScene();
 render();
+
+async function bootLandingScene() {
+  if (!landingScene) {
+    return;
+  }
+
+  try {
+    const { createLandingScene } = await import("./landing-scene.js");
+    landingSceneController = createLandingScene(landingScene);
+  } catch (error) {
+    console.error("Landing scene failed to load.", error);
+    landingScreen.classList.add("landing-screen--fallback");
+  }
+}
 
 function handleEnter() {
   state.entered = true;
