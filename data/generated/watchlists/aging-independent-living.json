@@ -77,59 +77,59 @@
   ],
   "raw_signals": [
     {
-      "id": "sig-4fa4ba063b61",
-      "watchlist_id": "us-entry-level-work-friction",
+      "id": "sig-70563521e8e0",
+      "watchlist_id": "aging-independent-living",
       "source": "world_bank_indicators",
       "source_type": "institutional_dataset",
-      "category": "Work & Labour",
+      "category": "Demographics & Society",
       "subcategories": [
-        "us-entry-level-work-friction",
+        "aging-independent-living",
         "structural_context"
       ],
       "geography": {
-        "label": "United States",
+        "label": "Japan",
         "scope": "country",
         "country_codes": [
-          "USA"
+          "JPN"
         ]
       },
-      "detected_at": "2025-01-01T00:00:00Z",
-      "signal_title": "Youth unemployment remains a useful stress signal",
-      "signal_summary": "Youth and early-career employment data help show whether first-rung labour market access is tightening. Latest observed value for United States: 9.34.",
-      "strength": "Medium",
-      "url": "https://api.worldbank.org/v2/country/USA/indicator/SL.UEM.1524.ZS?format=json&mrnev=2&per_page=200",
+      "detected_at": "2024-01-01T00:00:00Z",
+      "signal_title": "Older population share remains elevated",
+      "signal_summary": "A large and rising older population creates structural demand for systems that support independence and daily care. Latest observed value for Japan: 29.7807703973917.",
+      "strength": "Low",
+      "url": "https://api.worldbank.org/v2/country/JPN/indicator/SP.POP.65UP.TO.ZS?format=json&mrnev=2&per_page=200",
       "structured_metrics": {
-        "value": 9.34,
+        "value": 29.7807703973917,
         "unit": null,
-        "baseline_value": 8.92,
-        "baseline_period": "2024",
-        "change_abs": 0.41999999999999993,
-        "change_pct": 4.708520179372196,
-        "series_code": "SL.UEM.1524.ZS",
+        "baseline_value": 29.5618100807812,
+        "baseline_period": "2023",
+        "change_abs": 0.21896031661049875,
+        "change_pct": 0.7406864329760706,
+        "series_code": "SP.POP.65UP.TO.ZS",
         "dimensions": {
-          "country": "United States",
-          "indicator": "Unemployment, youth total (% of total labor force ages 15-24) (modeled ILO estimate)",
-          "latest_period": "2025"
+          "country": "Japan",
+          "indicator": "Population ages 65 and above (% of total population)",
+          "latest_period": "2024"
         }
       },
       "entities": [
-        "United States",
-        "Unemployment, youth total (% of total labor force ages 15-24) (modeled ILO estimate)"
+        "Japan",
+        "Population ages 65 and above (% of total population)"
       ],
       "themes": [
-        "us-entry-level-work-friction",
+        "aging-independent-living",
         "world_bank"
       ],
       "topic_tags": [
-        "us-entry-level-work-friction",
-        "entry-level-work",
-        "labour-friction",
-        "automation",
-        "knowledge-work",
+        "aging-independent-living",
+        "aging",
+        "care-economy",
+        "assistive-tech",
+        "independent-living",
         "structural_context"
       ],
       "keywords": [
-        "SL.UEM.1524.ZS"
+        "SP.POP.65UP.TO.ZS"
       ],
       "relevance_score": 0.82,
       "quality_score": 0.9,
@@ -145,8 +145,5 @@
   "signal_clusters": [],
   "signal_convergences": [],
   "future_bets": [],
-  "errors": [
-    "GDELT fetch failed for us-entry-level-work-friction: <urlopen error [Errno 8] nodename nor servname provided, or not known>",
-    "ILOSTAT fetch failed for us-entry-level-work-friction / UNE_2EAP_SEX_AGE_RT_A: <urlopen error [Errno 8] nodename nor servname provided, or not known>"
-  ]
+  "errors": []
 }

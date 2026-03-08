@@ -26,11 +26,24 @@ export function slugToBet(slug) {
   return futureBets.find((item) => item.slug === slug);
 }
 
+export function createFilterQuery(params = {}) {
+  const query = new URLSearchParams();
+
+  Object.entries(params).forEach(([key, value]) => {
+    if (value && value !== "all") {
+      query.set(key, value);
+    }
+  });
+
+  const queryString = query.toString();
+  return queryString ? `&${queryString}` : "";
+}
+
 export function createMetaBadge(label, value) {
   return `<span class="badge"><span class="detail-meta__label">${label}</span>${value}</span>`;
 }
 
-export function renderCard(item) {
+export function renderCard(item, index = 0, filterQuery = "") {
   return `
     <article class="card">
       <div class="card__top">
@@ -49,7 +62,7 @@ export function renderCard(item) {
       <div class="card__meta">
         <span class="badge">${item.time_horizon}</span>
         <span class="badge">${item.paired_signals.length} signals</span>
-        <a class="badge" href="./detail.html?slug=${item.slug}">Open brief</a>
+        <a class="badge" href="./detail.html?slug=${encodeURIComponent(item.slug)}${filterQuery}">Open brief</a>
       </div>
     </article>
   `;
@@ -62,7 +75,7 @@ export function renderSourceList(sources) {
         <li>
           <strong>${source.title}</strong>
           <p>${source.note}</p>
-          <a href="${source.url}" target="_blank" rel="noreferrer">Source link</a>
+          <a href="${source.url}" target="_blank" rel="noopener noreferrer">Source link</a>
         </li>
       `,
     )

@@ -1,0 +1,434 @@
+{
+  "generated_at": "2026-03-08T10:04:36Z",
+  "pipeline_version": "0.4",
+  "sources": [
+    {
+      "id": "gdelt",
+      "name": "GDELT",
+      "source_type": "news_aggregation",
+      "source_tier": "news_discovery",
+      "access": "open",
+      "update_cadence": "Near real time",
+      "coverage": "Global news and event discovery",
+      "url": "https://www.gdeltproject.org/",
+      "notes": "Use for topic detection, clustering, geography hints, and media-attention bursts. Do not use as the sole basis for a final bet.",
+      "license_notes": "Free/open platform; verify reuse terms per downstream workflow."
+    },
+    {
+      "id": "world_bank_indicators",
+      "name": "World Bank Indicators API",
+      "source_type": "institutional_dataset",
+      "source_tier": "structural_context",
+      "access": "open",
+      "update_cadence": "Dataset dependent",
+      "coverage": "Global macro and development indicators",
+      "url": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation",
+      "notes": "Use for structural baselines and country comparisons.",
+      "license_notes": "Open World Bank data; confirm per-series usage terms if redistributed."
+    },
+    {
+      "id": "ilostat",
+      "name": "ILOSTAT Bulk Download Facility",
+      "source_type": "institutional_dataset",
+      "source_tier": "structural_context",
+      "access": "open",
+      "update_cadence": "Daily bulk refresh",
+      "coverage": "Labour-market and employment statistics",
+      "url": "https://rplumber.ilo.org/data/indicator/",
+      "notes": "Use the official bulk indicator CSV downloads for labour structure, participation, unemployment, sector dynamics, and informality.",
+      "license_notes": "Public bulk download access exposed by ILOSTAT; verify per-dataset reuse terms if redistributed."
+    },
+    {
+      "id": "usgs_earthquakes",
+      "name": "USGS Earthquake Feeds",
+      "source_type": "official_feed",
+      "source_tier": "official_hazard",
+      "access": "open",
+      "update_cadence": "Real time feeds",
+      "coverage": "Global earthquake events",
+      "url": "https://earthquake.usgs.gov/earthquakes/feed/",
+      "notes": "Use for precise hazard confirmation with timestamps and magnitude.",
+      "license_notes": "Machine-readable feeds exposed publicly by USGS."
+    },
+    {
+      "id": "overpass",
+      "name": "OpenStreetMap Overpass API",
+      "source_type": "geospatial_query",
+      "source_tier": "geo_context",
+      "access": "open",
+      "update_cadence": "Near real time with some lag",
+      "coverage": "Global map and infrastructure features",
+      "url": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "notes": "Use for infrastructure density, place context, proximity checks, and asset lookup.",
+      "license_notes": "Read-only API over OSM data; respect OSM/instance usage expectations."
+    },
+    {
+      "id": "eia",
+      "name": "EIA API",
+      "source_type": "institutional_dataset",
+      "source_tier": "structural_context",
+      "access": "free_with_key",
+      "update_cadence": "Dataset dependent",
+      "coverage": "Energy markets, electricity, fuels, and system data",
+      "url": "https://www.eia.gov/opendata/documentation.php",
+      "notes": "Use for energy system context and supply-demand stress.",
+      "license_notes": "Free API, but requires an API key."
+    }
+  ],
+  "raw_signals": [
+    {
+      "id": "sig-14f3de098b76",
+      "watchlist_id": "indonesia-seismic-readiness",
+      "source": "usgs_earthquakes",
+      "source_type": "official_feed",
+      "category": "Cities & Infrastructure",
+      "subcategories": [
+        "indonesia-seismic-readiness",
+        "official_hazard"
+      ],
+      "geography": {
+        "label": "Indonesia",
+        "scope": "country",
+        "country_codes": [
+          "IDN"
+        ]
+      },
+      "detected_at": "2026-03-06T17:55:53.065000Z",
+      "signal_title": "Recent strong seismic activity near Indonesia",
+      "signal_summary": "A recent high-magnitude quake keeps seismic exposure operationally live for Indonesian infrastructure and response systems. Strongest matching event magnitude: 5.3.",
+      "strength": "Medium",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2m9",
+      "structured_metrics": {
+        "value": 5.3,
+        "unit": "magnitude",
+        "window": "all_week",
+        "dimensions": {
+          "place": "66 km E of Tobelo, Indonesia",
+          "latitude": 1.6563,
+          "longitude": 128.6057
+        }
+      },
+      "entities": [
+        "66 km E of Tobelo, Indonesia"
+      ],
+      "themes": [
+        "indonesia-seismic-readiness",
+        "usgs"
+      ],
+      "topic_tags": [
+        "indonesia-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "emergency-response",
+        "indonesia",
+        "official_hazard"
+      ],
+      "keywords": [
+        "earthquake",
+        "seismic"
+      ],
+      "relevance_score": 0.9,
+      "quality_score": 0.96,
+      "freshness": {
+        "bucket": "fresh",
+        "age_days": 1,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
+    },
+    {
+      "id": "sig-0ae1c90dfc39",
+      "watchlist_id": "indonesia-seismic-readiness",
+      "source": "usgs_earthquakes",
+      "source_type": "official_feed",
+      "category": "Cities & Infrastructure",
+      "subcategories": [
+        "indonesia-seismic-readiness",
+        "official_hazard"
+      ],
+      "geography": {
+        "label": "Indonesia",
+        "scope": "country",
+        "country_codes": [
+          "IDN"
+        ]
+      },
+      "detected_at": "2026-03-06T15:27:47.797000Z",
+      "signal_title": "Another recent significant quake near Indonesia",
+      "signal_summary": "A second recent quake shows the signal is not just a single isolated event. Strongest matching event magnitude: 5.1.",
+      "strength": "Medium",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2ip",
+      "structured_metrics": {
+        "value": 5.1,
+        "unit": "magnitude",
+        "window": "all_week",
+        "dimensions": {
+          "place": "132 km ENE of Masohi, Indonesia",
+          "latitude": -3.0251,
+          "longitude": 130.1319
+        }
+      },
+      "entities": [
+        "132 km ENE of Masohi, Indonesia"
+      ],
+      "themes": [
+        "indonesia-seismic-readiness",
+        "usgs"
+      ],
+      "topic_tags": [
+        "indonesia-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "emergency-response",
+        "indonesia",
+        "official_hazard"
+      ],
+      "keywords": [
+        "earthquake",
+        "seismic"
+      ],
+      "relevance_score": 0.9,
+      "quality_score": 0.96,
+      "freshness": {
+        "bucket": "fresh",
+        "age_days": 1,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
+    },
+    {
+      "id": "sig-552f5ee24a4e",
+      "watchlist_id": "indonesia-seismic-readiness",
+      "source": "usgs_earthquakes",
+      "source_type": "official_feed",
+      "category": "Cities & Infrastructure",
+      "subcategories": [
+        "indonesia-seismic-readiness",
+        "official_hazard"
+      ],
+      "geography": {
+        "label": "Indonesia",
+        "scope": "country",
+        "country_codes": [
+          "IDN"
+        ]
+      },
+      "detected_at": "2026-03-06T20:51:28.711000Z",
+      "signal_title": "Continued quake activity near Indonesia",
+      "signal_summary": "A third recent quake reinforces that seismic volatility remains active in the region. Strongest matching event magnitude: 4.9.",
+      "strength": "Medium",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2n1",
+      "structured_metrics": {
+        "value": 4.9,
+        "unit": "magnitude",
+        "window": "all_week",
+        "dimensions": {
+          "place": "47 km NNW of Waingapu, Indonesia",
+          "latitude": -9.2498,
+          "longitude": 120.1385
+        }
+      },
+      "entities": [
+        "47 km NNW of Waingapu, Indonesia"
+      ],
+      "themes": [
+        "indonesia-seismic-readiness",
+        "usgs"
+      ],
+      "topic_tags": [
+        "indonesia-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "emergency-response",
+        "indonesia",
+        "official_hazard"
+      ],
+      "keywords": [
+        "earthquake",
+        "seismic"
+      ],
+      "relevance_score": 0.9,
+      "quality_score": 0.96,
+      "freshness": {
+        "bucket": "fresh",
+        "age_days": 1,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
+    }
+  ],
+  "signal_clusters": [],
+  "signal_convergences": [
+    {
+      "id": "conv-c7605b8bc03f",
+      "category": "Cities & Infrastructure",
+      "geography": {
+        "label": "Indonesia",
+        "scope": "country",
+        "country_codes": [
+          "IDN"
+        ]
+      },
+      "detected_at": "2026-03-08T10:04:36Z",
+      "time_horizon": "Near term: 0-12 months",
+      "convergence_title": "Seismic readiness systems in Indonesia",
+      "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
+      "signal_ids": [
+        "sig-552f5ee24a4e",
+        "sig-14f3de098b76",
+        "sig-0ae1c90dfc39"
+      ],
+      "paired_signals": [
+        {
+          "signal_id": "sig-552f5ee24a4e",
+          "signal_title": "Continued quake activity near Indonesia",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+          "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+        },
+        {
+          "signal_id": "sig-14f3de098b76",
+          "signal_title": "Recent strong seismic activity near Indonesia",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+          "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+        },
+        {
+          "signal_id": "sig-0ae1c90dfc39",
+          "signal_title": "Another recent significant quake near Indonesia",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+          "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+        }
+      ],
+      "pattern_type": "hazard_plus_infrastructure",
+      "inference": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
+      "confidence": "High",
+      "topic_tags": [
+        "indonesia-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "emergency-response",
+        "indonesia",
+        "hazard_plus_infrastructure"
+      ],
+      "freshness": {
+        "bucket": "fresh",
+        "fresh_event_count": 3,
+        "active_event_count": 3,
+        "max_event_age_days": 1,
+        "reinforced": false
+      },
+      "reasoning_notes": "Convergence score 2.91 using 3 recent/active official hazard signals."
+    }
+  ],
+  "future_bets": [
+    {
+      "id": "bet-11277c8e950f",
+      "slug": "seismic-readiness-systems-in-indonesia",
+      "title": "Seismic readiness systems in Indonesia",
+      "type": "good",
+      "category": "Cities & Infrastructure",
+      "geography": {
+        "label": "Indonesia",
+        "scope": "country",
+        "country_codes": [
+          "IDN"
+        ]
+      },
+      "time_horizon": "Near term: 0-12 months",
+      "confidence": "High",
+      "summary": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
+      "implication": "Builders, utilities, logistics operators, and public-sector teams should treat inspection, monitoring, and response systems as active demand rather than a background concern.",
+      "why_now": "A cluster of recent official quakes matters because it keeps resilience spending tied to current operational risk, not abstract history.",
+      "topic_tags": [
+        "indonesia-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "emergency-response",
+        "indonesia",
+        "good"
+      ],
+      "freshness": {
+        "bucket": "fresh",
+        "fresh_event_count": 3,
+        "active_event_count": 3,
+        "max_event_age_days": 1,
+        "reinforced": false
+      },
+      "paired_signals": [
+        {
+          "signal_id": "sig-552f5ee24a4e",
+          "signal_title": "Continued quake activity near Indonesia",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+          "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+        },
+        {
+          "signal_id": "sig-14f3de098b76",
+          "signal_title": "Recent strong seismic activity near Indonesia",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+          "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+        },
+        {
+          "signal_id": "sig-0ae1c90dfc39",
+          "signal_title": "Another recent significant quake near Indonesia",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+          "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+        }
+      ],
+      "second_order_effects": [
+        "Inspection, monitoring, and emergency communications tools become easier to justify.",
+        "Procurement for retrofit and response capacity may stay active longer than a single-event spike."
+      ],
+      "what_to_watch": [
+        "Further official quakes in populated or infrastructure-heavy corridors.",
+        "Public or private resilience spending linked to inspection and emergency response."
+      ],
+      "what_could_change_this": [
+        "A sustained quiet period could reduce urgency in the short term.",
+        "If funding tightens, readiness upgrades may be delayed even if risk remains."
+      ],
+      "source_logic": {
+        "current_event_count": 0,
+        "structural_count": 0,
+        "official_or_geo_count": 3,
+        "convergence_ids": [
+          "conv-c7605b8bc03f"
+        ]
+      },
+      "sources": [
+        {
+          "source_id": "usgs_earthquakes",
+          "title": "Continued quake activity near Indonesia",
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2n1",
+          "note": "A third recent quake reinforces that seismic volatility remains active in the region. Strongest matching event magnitude: 4.9."
+        },
+        {
+          "source_id": "usgs_earthquakes",
+          "title": "Recent strong seismic activity near Indonesia",
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2m9",
+          "note": "A recent high-magnitude quake keeps seismic exposure operationally live for Indonesian infrastructure and response systems. Strongest matching event magnitude: 5.3."
+        },
+        {
+          "source_id": "usgs_earthquakes",
+          "title": "Another recent significant quake near Indonesia",
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2ip",
+          "note": "A second recent quake shows the signal is not just a single isolated event. Strongest matching event magnitude: 5.1."
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

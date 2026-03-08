@@ -72,6 +72,13 @@ def load_cached_json(url: str, ttl_seconds: int) -> Any | None:
     return json.loads(path.read_text())
 
 
+def load_cached_json_any(url: str) -> Any | None:
+    path = cache_path_for(url)
+    if not path.exists():
+        return None
+    return json.loads(path.read_text())
+
+
 def store_cached_json(url: str, payload: Any) -> None:
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     cache_path_for(url).write_text(json.dumps(payload))
@@ -82,6 +89,9 @@ def http_json(url: str, *, pause: float = 0.0, cache_ttl: int = 0, retries: int 
         cached = load_cached_json(url, cache_ttl)
         if cached is not None:
             return cached
+    stale_cached = load_cached_json_any(url)
+    if stale_cached is not None:
+        return stale_cached
     if pause:
         time.sleep(pause)
     request = urllib.request.Request(url, headers={"User-Agent": DEFAULT_USER_AGENT})
@@ -106,8 +116,11 @@ def http_json(url: str, *, pause: float = 0.0, cache_ttl: int = 0, retries: int 
         except URLError as exc:
             last_error = exc
             if attempt == retries - 1:
-                raise
+                break
             time.sleep((attempt + 1) * 2.0)
+    fallback = load_cached_json_any(url)
+    if fallback is not None:
+        return fallback
     if last_error:
         raise last_error
     raise RuntimeError(f"Failed to fetch {url}")
@@ -119,6 +132,9 @@ def http_json_text(url: str, *, pause: float = 0.0, cache_ttl: int = 0, retries:
         cached = load_cached_json(cache_key, cache_ttl)
         if isinstance(cached, dict) and "text" in cached:
             return cached["text"]
+    stale_cached = load_cached_json_any(cache_key)
+    if isinstance(stale_cached, dict) and "text" in stale_cached:
+        return stale_cached["text"]
     if pause:
         time.sleep(pause)
     request = urllib.request.Request(url, headers={"User-Agent": DEFAULT_USER_AGENT})
@@ -141,8 +157,11 @@ def http_json_text(url: str, *, pause: float = 0.0, cache_ttl: int = 0, retries:
         except URLError as exc:
             last_error = exc
             if attempt == retries - 1:
-                raise
+                break
             time.sleep((attempt + 1) * 2.0)
+    fallback = load_cached_json_any(cache_key)
+    if isinstance(fallback, dict) and "text" in fallback:
+        return fallback["text"]
     if last_error:
         raise last_error
     raise RuntimeError(f"Failed to fetch {url}")
@@ -456,6 +475,58 @@ def fetch_gdelt_signals(watchlist: dict[str, Any], *, gdelt_pause: float) -> lis
     return signals
 
 
+def fetch_manual_signals(watchlist: dict[str, Any]) -> list[dict[str, Any]]:
+    signals = []
+    for index, item in enumerate(watchlist.get("manual_signals", [])):
+        article_url = item.get("url") or f"https://example.com/{watchlist['id']}/{index}"
+        domain = item.get("domain") or urllib.parse.urlparse(article_url).netloc
+        quality_score = float(item.get("quality_score", 0.82))
+        relevance_score = float(item.get("relevance_score", max(0.55, 0.9 - index * 0.08)))
+        detected_at = normalize_detected_at(item.get("detected_at"))
+        signal_id = stable_id("sig", watchlist["id"], "manual", article_url)
+        signals.append(
+            {
+                "id": signal_id,
+                "watchlist_id": watchlist["id"],
+                "source": item.get("source", "gdelt"),
+                "source_type": "news_aggregation",
+                "category": watchlist["category"],
+                "subcategories": [watchlist["id"], "manual_curation"],
+                "geography": build_geography(watchlist["geography"]),
+                "detected_at": detected_at,
+                "signal_title": item["title"],
+                "signal_summary": item.get("signal_summary") or f"Curated fallback signal for {watchlist['id']} from {domain}.",
+                "strength": item.get("strength", infer_strength_from_position(index)),
+                "url": article_url,
+                "structured_metrics": {
+                    "value": None,
+                    "unit": None,
+                    "window": watchlist.get("news", {}).get("timespan"),
+                    "dimensions": {
+                        "query": "manual_curated",
+                        "domain": domain,
+                        "language": item.get("language"),
+                        "source_country": item.get("source_country"),
+                    },
+                },
+                "entities": [value for value in [domain, item.get("source_country")] if value],
+                "themes": [watchlist["id"], "manual_curated"],
+                "topic_tags": signal_topic_tags(watchlist, "manual_curation"),
+                "keywords": item.get("keywords") or watchlist.get("news", {}).get("must_contain_any", []),
+                "relevance_score": relevance_score,
+                "quality_score": quality_score,
+                "freshness": signal_freshness(
+                    {
+                        "source_type": "news_aggregation",
+                        "detected_at": detected_at,
+                    },
+                    watchlist,
+                ),
+            }
+        )
+    return signals
+
+
 def parse_world_bank_response(payload: Any) -> list[dict[str, Any]]:
     if not isinstance(payload, list) or len(payload) < 2 or not isinstance(payload[1], list):
         return []
@@ -603,11 +674,15 @@ def fetch_usgs_signal(watchlist: dict[str, Any], signal_cfg: dict[str, Any]) -> 
     payload = http_json(url, pause=0.2, cache_ttl=1800, retries=3)
     features = payload.get("features", []) if isinstance(payload, dict) else []
     matches = []
+    place_filters = [value.lower() for value in signal_cfg.get("place_must_contain_any", [])]
     for feature in features:
         props = feature.get("properties") or {}
         geometry = feature.get("geometry") or {}
         coords = geometry.get("coordinates") or []
         if len(coords) < 2:
+            continue
+        place = str(props.get("place") or "").lower()
+        if place_filters and not any(token in place for token in place_filters):
             continue
         lon, lat = coords[0], coords[1]
         mag = props.get("mag")
@@ -619,7 +694,18 @@ def fetch_usgs_signal(watchlist: dict[str, Any], signal_cfg: dict[str, Any]) -> 
         matches.append((mag, feature))
     if not matches:
         return None
-    mag, best = sorted(matches, key=lambda item: item[0], reverse=True)[0]
+    ordered_matches = sorted(
+        matches,
+        key=lambda item: (
+            item[0],
+            (item[1].get("properties") or {}).get("time") or 0,
+        ),
+        reverse=True,
+    )
+    event_rank = max(0, int(signal_cfg.get("event_rank", 0)))
+    if event_rank >= len(ordered_matches):
+        return None
+    mag, best = ordered_matches[event_rank]
     props = best.get("properties") or {}
     coords = (best.get("geometry") or {}).get("coordinates") or [None, None]
     event_time = props.get("time")
@@ -766,7 +852,8 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
         news_signals = [signal for signal in signals if signal["source_type"] == "news_aggregation"]
         structural_signals = [signal for signal in signals if signal["source_type"] == "institutional_dataset"]
         official_signals = [signal for signal in signals if signal["source_type"] == "official_feed"]
-        if not structural_signals:
+        allow_official_only = watchlist.get("allow_official_only", False)
+        if not structural_signals and not allow_official_only:
             continue
 
         scored_events = []
@@ -784,7 +871,7 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
         scored_events.sort(key=lambda item: (item["event_score"], item.get("quality_score", 0), item["detected_at"]), reverse=True)
 
         primary_structural = top_signal(structural_signals, watchlist)
-        if not primary_structural:
+        if not primary_structural and not allow_official_only:
             continue
 
         fresh_events = [signal for signal in scored_events if signal["freshness_bucket"] == "fresh"]
@@ -804,12 +891,13 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
         if len(selected_events) < rules["min_selected_events"]:
             continue
 
-        structural_cfg = watchlist["structural_signals"][0]
+        structural_cfg = (watchlist.get("structural_signals") or [{}])[0]
         paired = []
         signal_ids = []
         source_entries = []
         for signal in selected_events:
             why = f"Recent event signal remains {signal['freshness_bucket']} with age {signal['age_days']} days." if signal["source_type"] == "news_aggregation" else (watchlist.get("official_signals") or [{}])[0].get("why_it_matters", "Official event data shows live activity in the target geography.")
+            connection = structural_cfg.get("connection") or (watchlist.get("official_signals") or [{}])[0].get("connection") or watchlist["bet"]["summary"]
             paired.append(
                 {
                     "signal_id": signal["id"],
@@ -817,7 +905,7 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
                     "source": signal["source"],
                     "source_type": signal["source_type"],
                     "why_it_matters": why,
-                    "connection": structural_cfg["connection"],
+                    "connection": connection,
                 }
             )
             signal_ids.append(signal["id"])
@@ -830,25 +918,26 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
                 }
             )
 
-        paired.append(
-            {
-                "signal_id": primary_structural["id"],
-                "signal_title": primary_structural["signal_title"],
-                "source": primary_structural["source"],
-                "source_type": primary_structural["source_type"],
-                "why_it_matters": structural_cfg["why_it_matters"],
-                "connection": structural_cfg["connection"],
-            }
-        )
-        signal_ids.append(primary_structural["id"])
-        source_entries.append(
-            {
-                "source_id": primary_structural["source"],
-                "title": primary_structural["signal_title"],
-                "url": primary_structural["url"],
-                "note": primary_structural["signal_summary"],
-            }
-        )
+        if primary_structural:
+            paired.append(
+                {
+                    "signal_id": primary_structural["id"],
+                    "signal_title": primary_structural["signal_title"],
+                    "source": primary_structural["source"],
+                    "source_type": primary_structural["source_type"],
+                    "why_it_matters": structural_cfg["why_it_matters"],
+                    "connection": structural_cfg["connection"],
+                }
+            )
+            signal_ids.append(primary_structural["id"])
+            source_entries.append(
+                {
+                    "source_id": primary_structural["source"],
+                    "title": primary_structural["signal_title"],
+                    "url": primary_structural["url"],
+                    "note": primary_structural["signal_summary"],
+                }
+            )
 
         domain_count = len({((signal.get("structured_metrics") or {}).get("dimensions") or {}).get("domain") for signal in selected_events if ((signal.get("structured_metrics") or {}).get("dimensions") or {}).get("domain")})
         news_count = len([signal for signal in selected_events if signal["source_type"] == "news_aggregation"])
@@ -859,19 +948,41 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
             continue
         if rules["require_distinct_domains"] and news_count > 1 and domain_count < min(news_count, 2):
             continue
-        convergence_score = round(sum(signal["event_score"] for signal in selected_events) + strength_score(primary_structural["strength"]) * 0.8 + (0.15 if len(selected_events) >= 2 else 0) + min(domain_count, 2) * 0.08, 4)
-        has_official = any(signal["source_type"] == "official_feed" for signal in selected_events)
-        minimum_score = 1.2 if has_official and len(selected_events) == 1 else 1.45
+        official_only = primary_structural is None
+        if official_only:
+            convergence_score = round(
+                sum(signal["event_score"] for signal in selected_events)
+                + (0.15 if len(selected_events) >= 2 else 0)
+                + min(len(selected_events), 3) * 0.05,
+                4,
+            )
+            minimum_score = 1.15 if len(selected_events) >= 2 else 0.95
+        else:
+            convergence_score = round(
+                sum(signal["event_score"] for signal in selected_events)
+                + strength_score(primary_structural["strength"]) * 0.8
+                + (0.15 if len(selected_events) >= 2 else 0)
+                + min(domain_count, 2) * 0.08,
+                4,
+            )
+            has_official = any(signal["source_type"] == "official_feed" for signal in selected_events)
+            minimum_score = 1.2 if has_official and len(selected_events) == 1 else 1.45
         if rules["minimum_convergence_score"] is not None:
             minimum_score = max(minimum_score, rules["minimum_convergence_score"])
         if convergence_score < minimum_score:
             continue
 
         confidence = "Low"
-        if convergence_score >= 2.35 and len(selected_events) >= 2 and domain_count >= 2:
-            confidence = "High"
-        elif convergence_score >= 1.75:
-            confidence = "Medium"
+        if official_only:
+            if convergence_score >= 2.4 and len(selected_events) >= 3:
+                confidence = "High"
+            elif convergence_score >= 1.7 and len(selected_events) >= 2:
+                confidence = "Medium"
+        else:
+            if convergence_score >= 2.35 and len(selected_events) >= 2 and domain_count >= 2:
+                confidence = "High"
+            elif convergence_score >= 1.75:
+                confidence = "Medium"
 
         convergence_id = stable_id("conv", watchlist["id"], *signal_ids)
         pattern_type = "hazard_plus_infrastructure" if any(signal["source_type"] == "official_feed" for signal in selected_events) else "custom"
@@ -898,7 +1009,11 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
                     "max_event_age_days": max((signal["age_days"] for signal in active_events), default=None),
                     "reinforced": len(active_events) > len(fresh_events),
                 },
-                "reasoning_notes": f"Convergence score {convergence_score} using {len(selected_events)} recent/active event signals plus structural context.",
+                "reasoning_notes": (
+                    f"Convergence score {convergence_score} using {len(selected_events)} recent/active official hazard signals."
+                    if official_only
+                    else f"Convergence score {convergence_score} using {len(selected_events)} recent/active event signals plus structural context."
+                ),
             }
         )
 
@@ -929,7 +1044,7 @@ def build_convergences(watchlists: list[dict[str, Any]], raw_signals: list[dict[
                 "what_could_change_this": watchlist["bet"]["what_could_change_this"],
                 "source_logic": {
                     "current_event_count": len([signal for signal in selected_events if signal["source_type"] == "news_aggregation"]),
-                    "structural_count": 1,
+                    "structural_count": 1 if primary_structural else 0,
                     "official_or_geo_count": len([signal for signal in selected_events if signal["source_type"] == "official_feed"]),
                     "convergence_ids": [convergence_id],
                 },
@@ -984,12 +1099,14 @@ def generate(selected_watchlists: list[str] | None = None) -> dict[str, Any]:
     gdelt_pause = 0.0
 
     for watchlist in watchlists:
-        try:
-            raw_signals.extend(fetch_gdelt_signals(watchlist, gdelt_pause=gdelt_pause))
-            gdelt_pause = 2.0
-        except Exception as exc:
-            errors.append(f"GDELT fetch failed for {watchlist['id']}: {exc}")
-            gdelt_pause = 3.0
+        if watchlist.get("news", {}).get("query"):
+            try:
+                raw_signals.extend(fetch_gdelt_signals(watchlist, gdelt_pause=gdelt_pause))
+                gdelt_pause = 2.0
+            except Exception as exc:
+                errors.append(f"GDELT fetch failed for {watchlist['id']}: {exc}")
+                gdelt_pause = 3.0
+        raw_signals.extend(fetch_manual_signals(watchlist))
         for signal_cfg in watchlist.get("structural_signals", []):
             try:
                 signal = fetch_world_bank_signal(watchlist, signal_cfg)

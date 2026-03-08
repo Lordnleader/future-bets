@@ -1,0 +1,434 @@
+{
+  "generated_at": "2026-03-08T10:04:36Z",
+  "pipeline_version": "0.4",
+  "sources": [
+    {
+      "id": "gdelt",
+      "name": "GDELT",
+      "source_type": "news_aggregation",
+      "source_tier": "news_discovery",
+      "access": "open",
+      "update_cadence": "Near real time",
+      "coverage": "Global news and event discovery",
+      "url": "https://www.gdeltproject.org/",
+      "notes": "Use for topic detection, clustering, geography hints, and media-attention bursts. Do not use as the sole basis for a final bet.",
+      "license_notes": "Free/open platform; verify reuse terms per downstream workflow."
+    },
+    {
+      "id": "world_bank_indicators",
+      "name": "World Bank Indicators API",
+      "source_type": "institutional_dataset",
+      "source_tier": "structural_context",
+      "access": "open",
+      "update_cadence": "Dataset dependent",
+      "coverage": "Global macro and development indicators",
+      "url": "https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation",
+      "notes": "Use for structural baselines and country comparisons.",
+      "license_notes": "Open World Bank data; confirm per-series usage terms if redistributed."
+    },
+    {
+      "id": "ilostat",
+      "name": "ILOSTAT Bulk Download Facility",
+      "source_type": "institutional_dataset",
+      "source_tier": "structural_context",
+      "access": "open",
+      "update_cadence": "Daily bulk refresh",
+      "coverage": "Labour-market and employment statistics",
+      "url": "https://rplumber.ilo.org/data/indicator/",
+      "notes": "Use the official bulk indicator CSV downloads for labour structure, participation, unemployment, sector dynamics, and informality.",
+      "license_notes": "Public bulk download access exposed by ILOSTAT; verify per-dataset reuse terms if redistributed."
+    },
+    {
+      "id": "usgs_earthquakes",
+      "name": "USGS Earthquake Feeds",
+      "source_type": "official_feed",
+      "source_tier": "official_hazard",
+      "access": "open",
+      "update_cadence": "Real time feeds",
+      "coverage": "Global earthquake events",
+      "url": "https://earthquake.usgs.gov/earthquakes/feed/",
+      "notes": "Use for precise hazard confirmation with timestamps and magnitude.",
+      "license_notes": "Machine-readable feeds exposed publicly by USGS."
+    },
+    {
+      "id": "overpass",
+      "name": "OpenStreetMap Overpass API",
+      "source_type": "geospatial_query",
+      "source_tier": "geo_context",
+      "access": "open",
+      "update_cadence": "Near real time with some lag",
+      "coverage": "Global map and infrastructure features",
+      "url": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+      "notes": "Use for infrastructure density, place context, proximity checks, and asset lookup.",
+      "license_notes": "Read-only API over OSM data; respect OSM/instance usage expectations."
+    },
+    {
+      "id": "eia",
+      "name": "EIA API",
+      "source_type": "institutional_dataset",
+      "source_tier": "structural_context",
+      "access": "free_with_key",
+      "update_cadence": "Dataset dependent",
+      "coverage": "Energy markets, electricity, fuels, and system data",
+      "url": "https://www.eia.gov/opendata/documentation.php",
+      "notes": "Use for energy system context and supply-demand stress.",
+      "license_notes": "Free API, but requires an API key."
+    }
+  ],
+  "raw_signals": [
+    {
+      "id": "sig-fa9896f39fa8",
+      "watchlist_id": "chile-seismic-readiness",
+      "source": "usgs_earthquakes",
+      "source_type": "official_feed",
+      "category": "Cities & Infrastructure",
+      "subcategories": [
+        "chile-seismic-readiness",
+        "official_hazard"
+      ],
+      "geography": {
+        "label": "Chile",
+        "scope": "country",
+        "country_codes": [
+          "CHL"
+        ]
+      },
+      "detected_at": "2026-03-05T01:08:19.968000Z",
+      "signal_title": "Recent strong seismic activity near Chile",
+      "signal_summary": "A recent official quake keeps seismic resilience directly relevant for Chilean infrastructure and response planning. Strongest matching event magnitude: 4.8.",
+      "strength": "Medium",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s259",
+      "structured_metrics": {
+        "value": 4.8,
+        "unit": "magnitude",
+        "window": "all_week",
+        "dimensions": {
+          "place": "43 km NW of Coquimbo, Chile",
+          "latitude": -29.651,
+          "longitude": -71.6266
+        }
+      },
+      "entities": [
+        "43 km NW of Coquimbo, Chile"
+      ],
+      "themes": [
+        "chile-seismic-readiness",
+        "usgs"
+      ],
+      "topic_tags": [
+        "chile-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "infrastructure",
+        "chile",
+        "official_hazard"
+      ],
+      "keywords": [
+        "earthquake",
+        "seismic"
+      ],
+      "relevance_score": 0.9,
+      "quality_score": 0.96,
+      "freshness": {
+        "bucket": "fresh",
+        "age_days": 3,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
+    },
+    {
+      "id": "sig-2e1f3955c4be",
+      "watchlist_id": "chile-seismic-readiness",
+      "source": "usgs_earthquakes",
+      "source_type": "official_feed",
+      "category": "Cities & Infrastructure",
+      "subcategories": [
+        "chile-seismic-readiness",
+        "official_hazard"
+      ],
+      "geography": {
+        "label": "Chile",
+        "scope": "country",
+        "country_codes": [
+          "CHL"
+        ]
+      },
+      "detected_at": "2026-03-03T21:30:26.064000Z",
+      "signal_title": "Another recent significant quake near Chile",
+      "signal_summary": "A second official event suggests continued seismic activity rather than a one-off disruption. Strongest matching event magnitude: 4.6.",
+      "strength": "Medium",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s1tv",
+      "structured_metrics": {
+        "value": 4.6,
+        "unit": "magnitude",
+        "window": "all_week",
+        "dimensions": {
+          "place": "101 km WNW of La Ligua, Chile",
+          "latitude": -32.1225,
+          "longitude": -72.2316
+        }
+      },
+      "entities": [
+        "101 km WNW of La Ligua, Chile"
+      ],
+      "themes": [
+        "chile-seismic-readiness",
+        "usgs"
+      ],
+      "topic_tags": [
+        "chile-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "infrastructure",
+        "chile",
+        "official_hazard"
+      ],
+      "keywords": [
+        "earthquake",
+        "seismic"
+      ],
+      "relevance_score": 0.9,
+      "quality_score": 0.96,
+      "freshness": {
+        "bucket": "fresh",
+        "age_days": 4,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
+    },
+    {
+      "id": "sig-fd89de29adcf",
+      "watchlist_id": "chile-seismic-readiness",
+      "source": "usgs_earthquakes",
+      "source_type": "official_feed",
+      "category": "Cities & Infrastructure",
+      "subcategories": [
+        "chile-seismic-readiness",
+        "official_hazard"
+      ],
+      "geography": {
+        "label": "Chile",
+        "scope": "country",
+        "country_codes": [
+          "CHL"
+        ]
+      },
+      "detected_at": "2026-03-01T01:37:06.134000Z",
+      "signal_title": "Continued quake activity near Chile",
+      "signal_summary": "A third event reinforces that seismic activity remains active in the near term. Strongest matching event magnitude: 4.6.",
+      "strength": "Medium",
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s15h",
+      "structured_metrics": {
+        "value": 4.6,
+        "unit": "magnitude",
+        "window": "all_week",
+        "dimensions": {
+          "place": "44 km N of Valpara\u00edso, Chile",
+          "latitude": -32.6402,
+          "longitude": -71.6883
+        }
+      },
+      "entities": [
+        "44 km N of Valpara\u00edso, Chile"
+      ],
+      "themes": [
+        "chile-seismic-readiness",
+        "usgs"
+      ],
+      "topic_tags": [
+        "chile-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "infrastructure",
+        "chile",
+        "official_hazard"
+      ],
+      "keywords": [
+        "earthquake",
+        "seismic"
+      ],
+      "relevance_score": 0.9,
+      "quality_score": 0.96,
+      "freshness": {
+        "bucket": "fresh",
+        "age_days": 7,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
+    }
+  ],
+  "signal_clusters": [],
+  "signal_convergences": [
+    {
+      "id": "conv-8a0716b05069",
+      "category": "Cities & Infrastructure",
+      "geography": {
+        "label": "Chile",
+        "scope": "country",
+        "country_codes": [
+          "CHL"
+        ]
+      },
+      "detected_at": "2026-03-08T10:04:36Z",
+      "time_horizon": "Near term: 0-12 months",
+      "convergence_title": "Seismic resilience systems in Chile",
+      "convergence_summary": "Repeated official earthquake activity suggests resilience systems remain strategically relevant in Chile.",
+      "signal_ids": [
+        "sig-fa9896f39fa8",
+        "sig-2e1f3955c4be",
+        "sig-fd89de29adcf"
+      ],
+      "paired_signals": [
+        {
+          "signal_id": "sig-fa9896f39fa8",
+          "signal_title": "Recent strong seismic activity near Chile",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+          "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+        },
+        {
+          "signal_id": "sig-2e1f3955c4be",
+          "signal_title": "Another recent significant quake near Chile",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+          "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+        },
+        {
+          "signal_id": "sig-fd89de29adcf",
+          "signal_title": "Continued quake activity near Chile",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+          "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+        }
+      ],
+      "pattern_type": "hazard_plus_infrastructure",
+      "inference": "Repeated official earthquake activity suggests resilience systems remain strategically relevant in Chile.",
+      "confidence": "High",
+      "topic_tags": [
+        "chile-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "infrastructure",
+        "chile",
+        "hazard_plus_infrastructure"
+      ],
+      "freshness": {
+        "bucket": "fresh",
+        "fresh_event_count": 3,
+        "active_event_count": 3,
+        "max_event_age_days": 7,
+        "reinforced": false
+      },
+      "reasoning_notes": "Convergence score 2.91 using 3 recent/active official hazard signals."
+    }
+  ],
+  "future_bets": [
+    {
+      "id": "bet-93573736386b",
+      "slug": "seismic-resilience-systems-in-chile",
+      "title": "Seismic resilience systems in Chile",
+      "type": "good",
+      "category": "Cities & Infrastructure",
+      "geography": {
+        "label": "Chile",
+        "scope": "country",
+        "country_codes": [
+          "CHL"
+        ]
+      },
+      "time_horizon": "Near term: 0-12 months",
+      "confidence": "High",
+      "summary": "Repeated official earthquake activity suggests resilience systems remain strategically relevant in Chile.",
+      "implication": "Infrastructure, insurance, and emergency-response teams should keep retrofit, monitoring, and continuity tooling high on the priority list.",
+      "why_now": "Recent official quake activity makes resilience demand feel current rather than merely historic.",
+      "topic_tags": [
+        "chile-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "infrastructure",
+        "chile",
+        "good"
+      ],
+      "freshness": {
+        "bucket": "fresh",
+        "fresh_event_count": 3,
+        "active_event_count": 3,
+        "max_event_age_days": 7,
+        "reinforced": false
+      },
+      "paired_signals": [
+        {
+          "signal_id": "sig-fa9896f39fa8",
+          "signal_title": "Recent strong seismic activity near Chile",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+          "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+        },
+        {
+          "signal_id": "sig-2e1f3955c4be",
+          "signal_title": "Another recent significant quake near Chile",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+          "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+        },
+        {
+          "signal_id": "sig-fd89de29adcf",
+          "signal_title": "Continued quake activity near Chile",
+          "source": "usgs_earthquakes",
+          "source_type": "official_feed",
+          "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+          "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+        }
+      ],
+      "second_order_effects": [
+        "Building inspection and monitoring tools can remain easier to justify.",
+        "Continuity planning and response logistics may stay active budget lines."
+      ],
+      "what_to_watch": [
+        "Further official quakes near populated corridors.",
+        "Signals of resilience spending or procurement tied to continuity and retrofit."
+      ],
+      "what_could_change_this": [
+        "A sustained lull could reduce urgency in the short term.",
+        "If the market is already crowded, new entrant upside may be constrained."
+      ],
+      "source_logic": {
+        "current_event_count": 0,
+        "structural_count": 0,
+        "official_or_geo_count": 3,
+        "convergence_ids": [
+          "conv-8a0716b05069"
+        ]
+      },
+      "sources": [
+        {
+          "source_id": "usgs_earthquakes",
+          "title": "Recent strong seismic activity near Chile",
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s259",
+          "note": "A recent official quake keeps seismic resilience directly relevant for Chilean infrastructure and response planning. Strongest matching event magnitude: 4.8."
+        },
+        {
+          "source_id": "usgs_earthquakes",
+          "title": "Another recent significant quake near Chile",
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s1tv",
+          "note": "A second official event suggests continued seismic activity rather than a one-off disruption. Strongest matching event magnitude: 4.6."
+        },
+        {
+          "source_id": "usgs_earthquakes",
+          "title": "Continued quake activity near Chile",
+          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s15h",
+          "note": "A third event reinforces that seismic activity remains active in the near term. Strongest matching event magnitude: 4.6."
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

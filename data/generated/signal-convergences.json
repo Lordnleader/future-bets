@@ -1,43 +1,262 @@
 [
   {
-    "id": "conv-d558305a9a11",
-    "category": "Cities & Infrastructure",
+    "id": "conv-68476f9910ba",
+    "category": "Climate & Environment",
     "geography": {
-      "label": "Japan",
+      "label": "India",
       "scope": "country",
       "country_codes": [
-        "JPN"
+        "IND"
       ]
     },
-    "detected_at": "2026-03-07T20:56:37Z",
+    "detected_at": "2026-03-08T10:04:36Z",
     "time_horizon": "Long term: 3-10 years",
-    "convergence_title": "Seismic retrofit and resilience systems in Japan",
-    "convergence_summary": "Preparedness coverage, dense urban exposure, and recent official seismic activity together make resilience systems more strategically important.",
+    "convergence_title": "Treating urban water stress as a temporary inconvenience",
+    "convergence_summary": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
     "signal_ids": [
-      "sig-cee25bf7230e",
-      "sig-107aaa27a295"
+      "sig-8bb85e76582e",
+      "sig-7100bd236e01",
+      "sig-f9f2ddd2049c"
     ],
     "paired_signals": [
       {
-        "signal_id": "sig-cee25bf7230e",
-        "signal_title": "Recent seismic activity near Japan",
-        "source": "usgs_earthquakes",
-        "source_type": "official_feed",
-        "why_it_matters": "Official hazard activity strengthens the case for preparedness as a practical systems priority.",
-        "connection": "When current seismic activity or preparedness attention meets high urban exposure, resilience systems become more strategically important."
+        "signal_id": "sig-8bb85e76582e",
+        "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+        "source": "gdelt",
+        "source_type": "news_aggregation",
+        "why_it_matters": "Recent event signal remains fresh with age 1 days.",
+        "connection": "When water-stress reporting meets a growing urban base, cheap and stable water assumptions weaken."
       },
       {
-        "signal_id": "sig-107aaa27a295",
-        "signal_title": "Urban exposure remains high in Japan",
+        "signal_id": "sig-7100bd236e01",
+        "signal_title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+        "source": "gdelt",
+        "source_type": "news_aggregation",
+        "why_it_matters": "Recent event signal remains fresh with age 1 days.",
+        "connection": "When water-stress reporting meets a growing urban base, cheap and stable water assumptions weaken."
+      },
+      {
+        "signal_id": "sig-f9f2ddd2049c",
+        "signal_title": "Urban population share continues to rise",
         "source": "world_bank_indicators",
         "source_type": "institutional_dataset",
-        "why_it_matters": "Dense urban systems increase the value of preparedness, retrofit, and rapid-response infrastructure.",
-        "connection": "When current seismic activity or preparedness attention meets high urban exposure, resilience systems become more strategically important."
+        "why_it_matters": "Fast urbanization makes environmental stress more operationally consequential.",
+        "connection": "When water-stress reporting meets a growing urban base, cheap and stable water assumptions weaken."
+      }
+    ],
+    "pattern_type": "custom",
+    "inference": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
+    "confidence": "High",
+    "topic_tags": [
+      "urban-water-pressure-india",
+      "water-stress",
+      "urbanization",
+      "heat-risk",
+      "india",
+      "custom"
+    ],
+    "freshness": {
+      "bucket": "fresh",
+      "fresh_event_count": 2,
+      "active_event_count": 2,
+      "max_event_age_days": 1,
+      "reinforced": false
+    },
+    "reasoning_notes": "Convergence score 2.438 using 2 recent/active event signals plus structural context."
+  },
+  {
+    "id": "conv-c7605b8bc03f",
+    "category": "Cities & Infrastructure",
+    "geography": {
+      "label": "Indonesia",
+      "scope": "country",
+      "country_codes": [
+        "IDN"
+      ]
+    },
+    "detected_at": "2026-03-08T10:04:36Z",
+    "time_horizon": "Near term: 0-12 months",
+    "convergence_title": "Seismic readiness systems in Indonesia",
+    "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
+    "signal_ids": [
+      "sig-552f5ee24a4e",
+      "sig-14f3de098b76",
+      "sig-0ae1c90dfc39"
+    ],
+    "paired_signals": [
+      {
+        "signal_id": "sig-552f5ee24a4e",
+        "signal_title": "Continued quake activity near Indonesia",
+        "source": "usgs_earthquakes",
+        "source_type": "official_feed",
+        "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+        "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+      },
+      {
+        "signal_id": "sig-14f3de098b76",
+        "signal_title": "Recent strong seismic activity near Indonesia",
+        "source": "usgs_earthquakes",
+        "source_type": "official_feed",
+        "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+        "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+      },
+      {
+        "signal_id": "sig-0ae1c90dfc39",
+        "signal_title": "Another recent significant quake near Indonesia",
+        "source": "usgs_earthquakes",
+        "source_type": "official_feed",
+        "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+        "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
       }
     ],
     "pattern_type": "hazard_plus_infrastructure",
-    "inference": "Preparedness coverage, dense urban exposure, and recent official seismic activity together make resilience systems more strategically important.",
-    "confidence": "Low",
-    "reasoning_notes": "Convergence score 1.23 using 1 recent/active event signals plus structural context."
+    "inference": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
+    "confidence": "High",
+    "topic_tags": [
+      "indonesia-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "indonesia",
+      "hazard_plus_infrastructure"
+    ],
+    "freshness": {
+      "bucket": "fresh",
+      "fresh_event_count": 3,
+      "active_event_count": 3,
+      "max_event_age_days": 1,
+      "reinforced": false
+    },
+    "reasoning_notes": "Convergence score 2.91 using 3 recent/active official hazard signals."
+  },
+  {
+    "id": "conv-351db7e3a4b6",
+    "category": "Cities & Infrastructure",
+    "geography": {
+      "label": "Philippines",
+      "scope": "country",
+      "country_codes": [
+        "PHL"
+      ]
+    },
+    "detected_at": "2026-03-08T10:04:36Z",
+    "time_horizon": "Near term: 0-12 months",
+    "convergence_title": "Seismic readiness systems in the Philippines",
+    "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live systems priority in the Philippines.",
+    "signal_ids": [
+      "sig-e7ccc7a02102",
+      "sig-21a4a4744f73",
+      "sig-b12a25e29da7"
+    ],
+    "paired_signals": [
+      {
+        "signal_id": "sig-e7ccc7a02102",
+        "signal_title": "Recent strong seismic activity near the Philippines",
+        "source": "usgs_earthquakes",
+        "source_type": "official_feed",
+        "why_it_matters": "Repeated official quake activity keeps readiness systems relevant for transport, utilities, and emergency response.",
+        "connection": "Multiple recent quakes in the same geography make preparedness demand more practical than episodic."
+      },
+      {
+        "signal_id": "sig-21a4a4744f73",
+        "signal_title": "Continued quake activity near the Philippines",
+        "source": "usgs_earthquakes",
+        "source_type": "official_feed",
+        "why_it_matters": "Repeated official quake activity keeps readiness systems relevant for transport, utilities, and emergency response.",
+        "connection": "Multiple recent quakes in the same geography make preparedness demand more practical than episodic."
+      },
+      {
+        "signal_id": "sig-b12a25e29da7",
+        "signal_title": "Another recent significant quake near the Philippines",
+        "source": "usgs_earthquakes",
+        "source_type": "official_feed",
+        "why_it_matters": "Repeated official quake activity keeps readiness systems relevant for transport, utilities, and emergency response.",
+        "connection": "Multiple recent quakes in the same geography make preparedness demand more practical than episodic."
+      }
+    ],
+    "pattern_type": "hazard_plus_infrastructure",
+    "inference": "Repeated official earthquake activity suggests seismic readiness remains a live systems priority in the Philippines.",
+    "confidence": "High",
+    "topic_tags": [
+      "philippines-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "philippines",
+      "hazard_plus_infrastructure"
+    ],
+    "freshness": {
+      "bucket": "fresh",
+      "fresh_event_count": 3,
+      "active_event_count": 3,
+      "max_event_age_days": 5,
+      "reinforced": false
+    },
+    "reasoning_notes": "Convergence score 2.91 using 3 recent/active official hazard signals."
+  },
+  {
+    "id": "conv-8a0716b05069",
+    "category": "Cities & Infrastructure",
+    "geography": {
+      "label": "Chile",
+      "scope": "country",
+      "country_codes": [
+        "CHL"
+      ]
+    },
+    "detected_at": "2026-03-08T10:04:36Z",
+    "time_horizon": "Near term: 0-12 months",
+    "convergence_title": "Seismic resilience systems in Chile",
+    "convergence_summary": "Repeated official earthquake activity suggests resilience systems remain strategically relevant in Chile.",
+    "signal_ids": [
+      "sig-fa9896f39fa8",
+      "sig-2e1f3955c4be",
+      "sig-fd89de29adcf"
+    ],
+    "paired_signals": [
+      {
+        "signal_id": "sig-fa9896f39fa8",
+        "signal_title": "Recent strong seismic activity near Chile",
+        "source": "usgs_earthquakes",
+        "source_type": "official_feed",
+        "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+        "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+      },
+      {
+        "signal_id": "sig-2e1f3955c4be",
+        "signal_title": "Another recent significant quake near Chile",
+        "source": "usgs_earthquakes",
+        "source_type": "official_feed",
+        "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+        "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+      },
+      {
+        "signal_id": "sig-fd89de29adcf",
+        "signal_title": "Continued quake activity near Chile",
+        "source": "usgs_earthquakes",
+        "source_type": "official_feed",
+        "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+        "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+      }
+    ],
+    "pattern_type": "hazard_plus_infrastructure",
+    "inference": "Repeated official earthquake activity suggests resilience systems remain strategically relevant in Chile.",
+    "confidence": "High",
+    "topic_tags": [
+      "chile-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "infrastructure",
+      "chile",
+      "hazard_plus_infrastructure"
+    ],
+    "freshness": {
+      "bucket": "fresh",
+      "fresh_event_count": 3,
+      "active_event_count": 3,
+      "max_event_age_days": 7,
+      "reinforced": false
+    },
+    "reasoning_notes": "Convergence score 2.91 using 3 recent/active official hazard signals."
   }
 ]

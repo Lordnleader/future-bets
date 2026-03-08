@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-07T20:56:37Z",
+  "generated_at": "2026-03-08T10:04:36Z",
   "pipeline_version": "0.4",
   "sources": [
     {
@@ -28,15 +28,15 @@
     },
     {
       "id": "ilostat",
-      "name": "ILOSTAT SDMX API",
+      "name": "ILOSTAT Bulk Download Facility",
       "source_type": "institutional_dataset",
       "source_tier": "structural_context",
       "access": "open",
-      "update_cadence": "Dataset dependent",
+      "update_cadence": "Daily bulk refresh",
       "coverage": "Labour-market and employment statistics",
-      "url": "https://ilostat.ilo.org/resources/sdmx-tools/",
-      "notes": "Use for labour structure, participation, unemployment, sector dynamics, and informality.",
-      "license_notes": "Public access via SDMX and bulk download."
+      "url": "https://rplumber.ilo.org/data/indicator/",
+      "notes": "Use the official bulk indicator CSV downloads for labour structure, participation, unemployment, sector dynamics, and informality.",
+      "license_notes": "Public bulk download access exposed by ILOSTAT; verify per-dataset reuse terms if redistributed."
     },
     {
       "id": "usgs_earthquakes",
@@ -120,11 +120,26 @@
         "japan-seismic-readiness",
         "world_bank"
       ],
+      "topic_tags": [
+        "japan-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "retrofit",
+        "japan",
+        "structural_context"
+      ],
       "keywords": [
         "SP.URB.TOTL.IN.ZS"
       ],
       "relevance_score": 0.82,
-      "quality_score": 0.9
+      "quality_score": 0.9,
+      "freshness": {
+        "bucket": "reference",
+        "age_days": null,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
     },
     {
       "id": "sig-cee25bf7230e",
@@ -165,130 +180,31 @@
         "japan-seismic-readiness",
         "usgs"
       ],
+      "topic_tags": [
+        "japan-seismic-readiness",
+        "seismic-risk",
+        "resilience",
+        "retrofit",
+        "japan",
+        "official_hazard"
+      ],
       "keywords": [
         "earthquake",
         "seismic"
       ],
       "relevance_score": 0.9,
-      "quality_score": 0.96
+      "quality_score": 0.96,
+      "freshness": {
+        "bucket": "fresh",
+        "age_days": 1,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
     }
   ],
   "signal_clusters": [],
-  "signal_convergences": [
-    {
-      "id": "conv-d558305a9a11",
-      "category": "Cities & Infrastructure",
-      "geography": {
-        "label": "Japan",
-        "scope": "country",
-        "country_codes": [
-          "JPN"
-        ]
-      },
-      "detected_at": "2026-03-07T20:56:37Z",
-      "time_horizon": "Long term: 3-10 years",
-      "convergence_title": "Seismic retrofit and resilience systems in Japan",
-      "convergence_summary": "Preparedness coverage, dense urban exposure, and recent official seismic activity together make resilience systems more strategically important.",
-      "signal_ids": [
-        "sig-cee25bf7230e",
-        "sig-107aaa27a295"
-      ],
-      "paired_signals": [
-        {
-          "signal_id": "sig-cee25bf7230e",
-          "signal_title": "Recent seismic activity near Japan",
-          "source": "usgs_earthquakes",
-          "source_type": "official_feed",
-          "why_it_matters": "Official hazard activity strengthens the case for preparedness as a practical systems priority.",
-          "connection": "When current seismic activity or preparedness attention meets high urban exposure, resilience systems become more strategically important."
-        },
-        {
-          "signal_id": "sig-107aaa27a295",
-          "signal_title": "Urban exposure remains high in Japan",
-          "source": "world_bank_indicators",
-          "source_type": "institutional_dataset",
-          "why_it_matters": "Dense urban systems increase the value of preparedness, retrofit, and rapid-response infrastructure.",
-          "connection": "When current seismic activity or preparedness attention meets high urban exposure, resilience systems become more strategically important."
-        }
-      ],
-      "pattern_type": "hazard_plus_infrastructure",
-      "inference": "Preparedness coverage, dense urban exposure, and recent official seismic activity together make resilience systems more strategically important.",
-      "confidence": "Low",
-      "reasoning_notes": "Convergence score 1.23 using 1 recent/active event signals plus structural context."
-    }
-  ],
-  "future_bets": [
-    {
-      "id": "bet-34489a0b68f9",
-      "slug": "seismic-retrofit-and-resilience-systems-in-japan",
-      "title": "Seismic retrofit and resilience systems in Japan",
-      "type": "good",
-      "category": "Cities & Infrastructure",
-      "geography": {
-        "label": "Japan",
-        "scope": "country",
-        "country_codes": [
-          "JPN"
-        ]
-      },
-      "time_horizon": "Long term: 3-10 years",
-      "confidence": "Low",
-      "summary": "Preparedness coverage, dense urban exposure, and recent official seismic activity together make resilience systems more strategically important.",
-      "implication": "Builders, insurers, urban operators, and infrastructure teams should pay attention to retrofit, monitoring, and response systems rather than treating preparedness as solved.",
-      "why_now": "Seismic preparedness matters more when official event data, live coverage, and urban exposure all point to continuing relevance.",
-      "paired_signals": [
-        {
-          "signal_id": "sig-cee25bf7230e",
-          "signal_title": "Recent seismic activity near Japan",
-          "source": "usgs_earthquakes",
-          "source_type": "official_feed",
-          "why_it_matters": "Official hazard activity strengthens the case for preparedness as a practical systems priority.",
-          "connection": "When current seismic activity or preparedness attention meets high urban exposure, resilience systems become more strategically important."
-        },
-        {
-          "signal_id": "sig-107aaa27a295",
-          "signal_title": "Urban exposure remains high in Japan",
-          "source": "world_bank_indicators",
-          "source_type": "institutional_dataset",
-          "why_it_matters": "Dense urban systems increase the value of preparedness, retrofit, and rapid-response infrastructure.",
-          "connection": "When current seismic activity or preparedness attention meets high urban exposure, resilience systems become more strategically important."
-        }
-      ],
-      "second_order_effects": [
-        "Building diagnostics, emergency logistics, and infrastructure monitoring tools become more relevant.",
-        "Insurance, compliance, and public procurement may reward better resilience evidence."
-      ],
-      "what_to_watch": [
-        "Recurring official seismic events near major populated areas.",
-        "Policy, retrofit, or preparedness investment linked to urban infrastructure."
-      ],
-      "what_could_change_this": [
-        "A long quiet period could reduce urgency in practice.",
-        "If resilience systems are already saturated in the market, growth may be narrower than it appears."
-      ],
-      "source_logic": {
-        "current_event_count": 0,
-        "structural_count": 1,
-        "official_or_geo_count": 1,
-        "convergence_ids": [
-          "conv-d558305a9a11"
-        ]
-      },
-      "sources": [
-        {
-          "source_id": "usgs_earthquakes",
-          "title": "Recent seismic activity near Japan",
-          "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2mt",
-          "note": "Recent earthquake activity provides an official reminder that seismic risk remains live rather than theoretical. Strongest matching event magnitude: 4.8."
-        },
-        {
-          "source_id": "world_bank_indicators",
-          "title": "Urban exposure remains high in Japan",
-          "url": "https://api.worldbank.org/v2/country/JPN/indicator/SP.URB.TOTL.IN.ZS?format=json&mrnev=2&per_page=200",
-          "note": "A highly urbanized population means seismic risk and infrastructure resilience have large operational consequences. Latest observed value for Japan: 92.1901718034531."
-        }
-      ]
-    }
-  ],
+  "signal_convergences": [],
+  "future_bets": [],
   "errors": []
 }

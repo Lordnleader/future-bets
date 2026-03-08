@@ -77,59 +77,59 @@
   ],
   "raw_signals": [
     {
-      "id": "sig-4fa4ba063b61",
-      "watchlist_id": "us-entry-level-work-friction",
+      "id": "sig-80e5f0f41b83",
+      "watchlist_id": "shipping-route-fragility",
       "source": "world_bank_indicators",
       "source_type": "institutional_dataset",
-      "category": "Work & Labour",
+      "category": "Resources & Supply Chains",
       "subcategories": [
-        "us-entry-level-work-friction",
+        "shipping-route-fragility",
         "structural_context"
       ],
       "geography": {
-        "label": "United States",
-        "scope": "country",
+        "label": "Global",
+        "scope": "global",
         "country_codes": [
-          "USA"
+          "WLD"
         ]
       },
-      "detected_at": "2025-01-01T00:00:00Z",
-      "signal_title": "Youth unemployment remains a useful stress signal",
-      "signal_summary": "Youth and early-career employment data help show whether first-rung labour market access is tightening. Latest observed value for United States: 9.34.",
+      "detected_at": "2024-01-01T00:00:00Z",
+      "signal_title": "Trade exposure remains high",
+      "signal_summary": "High trade intensity means disruptions in shipping lanes propagate widely through costs, lead times, and inventory planning. Latest observed value for World: 56.7581439140522.",
       "strength": "Medium",
-      "url": "https://api.worldbank.org/v2/country/USA/indicator/SL.UEM.1524.ZS?format=json&mrnev=2&per_page=200",
+      "url": "https://api.worldbank.org/v2/country/WLD/indicator/NE.TRD.GNFS.ZS?format=json&mrnev=2&per_page=200",
       "structured_metrics": {
-        "value": 9.34,
+        "value": 56.7581439140522,
         "unit": null,
-        "baseline_value": 8.92,
-        "baseline_period": "2024",
-        "change_abs": 0.41999999999999993,
-        "change_pct": 4.708520179372196,
-        "series_code": "SL.UEM.1524.ZS",
+        "baseline_value": 58.1981732430475,
+        "baseline_period": "2023",
+        "change_abs": -1.4400293289953012,
+        "change_pct": -2.4743548615889432,
+        "series_code": "NE.TRD.GNFS.ZS",
         "dimensions": {
-          "country": "United States",
-          "indicator": "Unemployment, youth total (% of total labor force ages 15-24) (modeled ILO estimate)",
-          "latest_period": "2025"
+          "country": "World",
+          "indicator": "Trade (% of GDP)",
+          "latest_period": "2024"
         }
       },
       "entities": [
-        "United States",
-        "Unemployment, youth total (% of total labor force ages 15-24) (modeled ILO estimate)"
+        "World",
+        "Trade (% of GDP)"
       ],
       "themes": [
-        "us-entry-level-work-friction",
+        "shipping-route-fragility",
         "world_bank"
       ],
       "topic_tags": [
-        "us-entry-level-work-friction",
-        "entry-level-work",
-        "labour-friction",
-        "automation",
-        "knowledge-work",
+        "shipping-route-fragility",
+        "shipping",
+        "logistics",
+        "trade-exposure",
+        "route-fragility",
         "structural_context"
       ],
       "keywords": [
-        "SL.UEM.1524.ZS"
+        "NE.TRD.GNFS.ZS"
       ],
       "relevance_score": 0.82,
       "quality_score": 0.9,
@@ -145,8 +145,5 @@
   "signal_clusters": [],
   "signal_convergences": [],
   "future_bets": [],
-  "errors": [
-    "GDELT fetch failed for us-entry-level-work-friction: <urlopen error [Errno 8] nodename nor servname provided, or not known>",
-    "ILOSTAT fetch failed for us-entry-level-work-friction / UNE_2EAP_SEX_AGE_RT_A: <urlopen error [Errno 8] nodename nor servname provided, or not known>"
-  ]
+  "errors": []
 }

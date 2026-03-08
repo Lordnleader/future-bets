@@ -9,14 +9,16 @@ import {
 } from "./site.js";
 
 const detailRoot = document.querySelector("#detail-root");
-const slug = new URLSearchParams(window.location.search).get("slug");
+const params = new URLSearchParams(window.location.search);
+const slug = params.get("slug");
 const bet = slugToBet(slug);
+const backHref = buildBackHref(params);
 
 if (!bet) {
   document.title = "Future Bets";
   detailRoot.innerHTML = `
     <nav class="detail-nav">
-      <a href="./index.html">Back to feed</a>
+      <a href="${backHref}">Back to feed</a>
     </nav>
     <div class="empty-state">
       <p>The requested brief could not be found.</p>
@@ -26,7 +28,7 @@ if (!bet) {
   document.title = `${bet.title} | Future Bets`;
   detailRoot.innerHTML = `
     <nav class="detail-nav">
-      <a href="./index.html">Back to feed</a>
+      <a href="${backHref}">Back to feed</a>
       <div class="meta-strip">Pattern match / ${bet.paired_signals.length} signals</div>
     </nav>
 
@@ -88,4 +90,12 @@ if (!bet) {
       </aside>
     </section>
   `;
+}
+
+function buildBackHref(searchParams) {
+  const nextParams = new URLSearchParams(searchParams);
+  nextParams.delete("slug");
+
+  const query = nextParams.toString();
+  return query ? `./index.html?${query}` : "./index.html";
 }

@@ -560,6 +560,22 @@ img {
   padding: 28px;
 }
 
+.empty-state__actions {
+  margin-top: 16px;
+}
+
+.empty-state__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  cursor: pointer;
+}
+
 @media (max-width: 1080px) {
   .hero__system,
   .cards-grid,

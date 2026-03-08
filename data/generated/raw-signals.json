@@ -1,12 +1,77 @@
 [
   {
-    "id": "sig-107aaa27a295",
-    "watchlist_id": "japan-seismic-readiness",
+    "id": "sig-80e5f0f41b83",
+    "watchlist_id": "shipping-route-fragility",
     "source": "world_bank_indicators",
     "source_type": "institutional_dataset",
-    "category": "Cities & Infrastructure",
+    "category": "Resources & Supply Chains",
     "subcategories": [
-      "japan-seismic-readiness",
+      "shipping-route-fragility",
+      "structural_context"
+    ],
+    "geography": {
+      "label": "Global",
+      "scope": "global",
+      "country_codes": [
+        "WLD"
+      ]
+    },
+    "detected_at": "2024-01-01T00:00:00Z",
+    "signal_title": "Trade exposure remains high",
+    "signal_summary": "High trade intensity means disruptions in shipping lanes propagate widely through costs, lead times, and inventory planning. Latest observed value for World: 56.7581439140522.",
+    "strength": "Medium",
+    "url": "https://api.worldbank.org/v2/country/WLD/indicator/NE.TRD.GNFS.ZS?format=json&mrnev=2&per_page=200",
+    "structured_metrics": {
+      "value": 56.7581439140522,
+      "unit": null,
+      "baseline_value": 58.1981732430475,
+      "baseline_period": "2023",
+      "change_abs": -1.4400293289953012,
+      "change_pct": -2.4743548615889432,
+      "series_code": "NE.TRD.GNFS.ZS",
+      "dimensions": {
+        "country": "World",
+        "indicator": "Trade (% of GDP)",
+        "latest_period": "2024"
+      }
+    },
+    "entities": [
+      "World",
+      "Trade (% of GDP)"
+    ],
+    "themes": [
+      "shipping-route-fragility",
+      "world_bank"
+    ],
+    "topic_tags": [
+      "shipping-route-fragility",
+      "shipping",
+      "logistics",
+      "trade-exposure",
+      "route-fragility",
+      "structural_context"
+    ],
+    "keywords": [
+      "NE.TRD.GNFS.ZS"
+    ],
+    "relevance_score": 0.82,
+    "quality_score": 0.9,
+    "freshness": {
+      "bucket": "reference",
+      "age_days": null,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-70563521e8e0",
+    "watchlist_id": "aging-independent-living",
+    "source": "world_bank_indicators",
+    "source_type": "institutional_dataset",
+    "category": "Demographics & Society",
+    "subcategories": [
+      "aging-independent-living",
       "structural_context"
     ],
     "geography": {
@@ -17,83 +82,182 @@
       ]
     },
     "detected_at": "2024-01-01T00:00:00Z",
-    "signal_title": "Urban exposure remains high in Japan",
-    "signal_summary": "A highly urbanized population means seismic risk and infrastructure resilience have large operational consequences. Latest observed value for Japan: 92.1901718034531.",
+    "signal_title": "Older population share remains elevated",
+    "signal_summary": "A large and rising older population creates structural demand for systems that support independence and daily care. Latest observed value for Japan: 29.7807703973917.",
     "strength": "Low",
-    "url": "https://api.worldbank.org/v2/country/JPN/indicator/SP.URB.TOTL.IN.ZS?format=json&mrnev=2&per_page=200",
+    "url": "https://api.worldbank.org/v2/country/JPN/indicator/SP.POP.65UP.TO.ZS?format=json&mrnev=2&per_page=200",
     "structured_metrics": {
-      "value": 92.1901718034531,
+      "value": 29.7807703973917,
       "unit": null,
-      "baseline_value": 92.0826903891473,
+      "baseline_value": 29.5618100807812,
       "baseline_period": "2023",
-      "change_abs": 0.10748141430579494,
-      "change_pct": 0.11672271286989082,
-      "series_code": "SP.URB.TOTL.IN.ZS",
+      "change_abs": 0.21896031661049875,
+      "change_pct": 0.7406864329760706,
+      "series_code": "SP.POP.65UP.TO.ZS",
       "dimensions": {
         "country": "Japan",
-        "indicator": "Urban population (% of total population)",
+        "indicator": "Population ages 65 and above (% of total population)",
         "latest_period": "2024"
       }
     },
     "entities": [
       "Japan",
-      "Urban population (% of total population)"
+      "Population ages 65 and above (% of total population)"
     ],
     "themes": [
-      "japan-seismic-readiness",
+      "aging-independent-living",
       "world_bank"
     ],
+    "topic_tags": [
+      "aging-independent-living",
+      "aging",
+      "care-economy",
+      "assistive-tech",
+      "independent-living",
+      "structural_context"
+    ],
     "keywords": [
-      "SP.URB.TOTL.IN.ZS"
+      "SP.POP.65UP.TO.ZS"
     ],
     "relevance_score": 0.82,
-    "quality_score": 0.9
+    "quality_score": 0.9,
+    "freshness": {
+      "bucket": "reference",
+      "age_days": null,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
   },
   {
-    "id": "sig-cee25bf7230e",
-    "watchlist_id": "japan-seismic-readiness",
-    "source": "usgs_earthquakes",
-    "source_type": "official_feed",
-    "category": "Cities & Infrastructure",
+    "id": "sig-8bb85e76582e",
+    "watchlist_id": "urban-water-pressure-india",
+    "source": "gdelt",
+    "source_type": "news_aggregation",
+    "category": "Climate & Environment",
     "subcategories": [
-      "japan-seismic-readiness",
-      "official_hazard"
+      "urban-water-pressure-india",
+      "manual_curation"
     ],
     "geography": {
-      "label": "Japan",
+      "label": "India",
       "scope": "country",
       "country_codes": [
-        "JPN"
+        "IND"
       ]
     },
-    "detected_at": "2026-03-06T20:31:51.630000Z",
-    "signal_title": "Recent seismic activity near Japan",
-    "signal_summary": "Recent earthquake activity provides an official reminder that seismic risk remains live rather than theoretical. Strongest matching event magnitude: 4.8.",
-    "strength": "Medium",
-    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2mt",
+    "detected_at": "2026-03-07T02:45:00Z",
+    "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+    "signal_summary": "A large urban center drew far more groundwater than it replenished, reinforcing direct pressure on municipal water resilience.",
+    "strength": "High",
+    "url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
     "structured_metrics": {
-      "value": 4.8,
-      "unit": "magnitude",
-      "window": "all_week",
+      "value": null,
+      "unit": null,
+      "window": "60days",
       "dimensions": {
-        "place": "64 km ESE of \u014cfunato, Japan",
-        "latitude": 38.8143,
-        "longitude": 142.3854
+        "query": "manual_curated",
+        "domain": "timesofindia.indiatimes.com",
+        "language": "English",
+        "source_country": "India"
       }
     },
     "entities": [
-      "64 km ESE of \u014cfunato, Japan"
+      "timesofindia.indiatimes.com",
+      "India"
     ],
     "themes": [
-      "japan-seismic-readiness",
-      "usgs"
+      "urban-water-pressure-india",
+      "manual_curated"
+    ],
+    "topic_tags": [
+      "urban-water-pressure-india",
+      "water-stress",
+      "urbanization",
+      "heat-risk",
+      "india",
+      "manual_curation"
     ],
     "keywords": [
-      "earthquake",
-      "seismic"
+      "water crisis",
+      "groundwater",
+      "urban",
+      "india"
     ],
     "relevance_score": 0.9,
-    "quality_score": 0.96
+    "quality_score": 0.9,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 1,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-7100bd236e01",
+    "watchlist_id": "urban-water-pressure-india",
+    "source": "gdelt",
+    "source_type": "news_aggregation",
+    "category": "Climate & Environment",
+    "subcategories": [
+      "urban-water-pressure-india",
+      "manual_curation"
+    ],
+    "geography": {
+      "label": "India",
+      "scope": "country",
+      "country_codes": [
+        "IND"
+      ]
+    },
+    "detected_at": "2026-03-07T08:15:00Z",
+    "signal_title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+    "signal_summary": "Unusually early heat across multiple Indian cities reinforces the environmental conditions that intensify urban water stress.",
+    "strength": "Medium",
+    "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
+    "structured_metrics": {
+      "value": null,
+      "unit": null,
+      "window": "60days",
+      "dimensions": {
+        "query": "manual_curated",
+        "domain": "freepressjournal.in",
+        "language": "English",
+        "source_country": "India"
+      }
+    },
+    "entities": [
+      "freepressjournal.in",
+      "India"
+    ],
+    "themes": [
+      "urban-water-pressure-india",
+      "manual_curated"
+    ],
+    "topic_tags": [
+      "urban-water-pressure-india",
+      "water-stress",
+      "urbanization",
+      "heat-risk",
+      "india",
+      "manual_curation"
+    ],
+    "keywords": [
+      "heat",
+      "cities",
+      "urban",
+      "india"
+    ],
+    "relevance_score": 0.72,
+    "quality_score": 0.82,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 1,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
   },
   {
     "id": "sig-f9f2ddd2049c",
@@ -220,6 +384,681 @@
     "freshness": {
       "bucket": "reference",
       "age_days": null,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-107aaa27a295",
+    "watchlist_id": "japan-seismic-readiness",
+    "source": "world_bank_indicators",
+    "source_type": "institutional_dataset",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "japan-seismic-readiness",
+      "structural_context"
+    ],
+    "geography": {
+      "label": "Japan",
+      "scope": "country",
+      "country_codes": [
+        "JPN"
+      ]
+    },
+    "detected_at": "2024-01-01T00:00:00Z",
+    "signal_title": "Urban exposure remains high in Japan",
+    "signal_summary": "A highly urbanized population means seismic risk and infrastructure resilience have large operational consequences. Latest observed value for Japan: 92.1901718034531.",
+    "strength": "Low",
+    "url": "https://api.worldbank.org/v2/country/JPN/indicator/SP.URB.TOTL.IN.ZS?format=json&mrnev=2&per_page=200",
+    "structured_metrics": {
+      "value": 92.1901718034531,
+      "unit": null,
+      "baseline_value": 92.0826903891473,
+      "baseline_period": "2023",
+      "change_abs": 0.10748141430579494,
+      "change_pct": 0.11672271286989082,
+      "series_code": "SP.URB.TOTL.IN.ZS",
+      "dimensions": {
+        "country": "Japan",
+        "indicator": "Urban population (% of total population)",
+        "latest_period": "2024"
+      }
+    },
+    "entities": [
+      "Japan",
+      "Urban population (% of total population)"
+    ],
+    "themes": [
+      "japan-seismic-readiness",
+      "world_bank"
+    ],
+    "topic_tags": [
+      "japan-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "retrofit",
+      "japan",
+      "structural_context"
+    ],
+    "keywords": [
+      "SP.URB.TOTL.IN.ZS"
+    ],
+    "relevance_score": 0.82,
+    "quality_score": 0.9,
+    "freshness": {
+      "bucket": "reference",
+      "age_days": null,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-cee25bf7230e",
+    "watchlist_id": "japan-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "japan-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Japan",
+      "scope": "country",
+      "country_codes": [
+        "JPN"
+      ]
+    },
+    "detected_at": "2026-03-06T20:31:51.630000Z",
+    "signal_title": "Recent seismic activity near Japan",
+    "signal_summary": "Recent earthquake activity provides an official reminder that seismic risk remains live rather than theoretical. Strongest matching event magnitude: 4.8.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2mt",
+    "structured_metrics": {
+      "value": 4.8,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "64 km ESE of \u014cfunato, Japan",
+        "latitude": 38.8143,
+        "longitude": 142.3854
+      }
+    },
+    "entities": [
+      "64 km ESE of \u014cfunato, Japan"
+    ],
+    "themes": [
+      "japan-seismic-readiness",
+      "usgs"
+    ],
+    "topic_tags": [
+      "japan-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "retrofit",
+      "japan",
+      "official_hazard"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 1,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-14f3de098b76",
+    "watchlist_id": "indonesia-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "indonesia-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Indonesia",
+      "scope": "country",
+      "country_codes": [
+        "IDN"
+      ]
+    },
+    "detected_at": "2026-03-06T17:55:53.065000Z",
+    "signal_title": "Recent strong seismic activity near Indonesia",
+    "signal_summary": "A recent high-magnitude quake keeps seismic exposure operationally live for Indonesian infrastructure and response systems. Strongest matching event magnitude: 5.3.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2m9",
+    "structured_metrics": {
+      "value": 5.3,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "66 km E of Tobelo, Indonesia",
+        "latitude": 1.6563,
+        "longitude": 128.6057
+      }
+    },
+    "entities": [
+      "66 km E of Tobelo, Indonesia"
+    ],
+    "themes": [
+      "indonesia-seismic-readiness",
+      "usgs"
+    ],
+    "topic_tags": [
+      "indonesia-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "indonesia",
+      "official_hazard"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 1,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-0ae1c90dfc39",
+    "watchlist_id": "indonesia-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "indonesia-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Indonesia",
+      "scope": "country",
+      "country_codes": [
+        "IDN"
+      ]
+    },
+    "detected_at": "2026-03-06T15:27:47.797000Z",
+    "signal_title": "Another recent significant quake near Indonesia",
+    "signal_summary": "A second recent quake shows the signal is not just a single isolated event. Strongest matching event magnitude: 5.1.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2ip",
+    "structured_metrics": {
+      "value": 5.1,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "132 km ENE of Masohi, Indonesia",
+        "latitude": -3.0251,
+        "longitude": 130.1319
+      }
+    },
+    "entities": [
+      "132 km ENE of Masohi, Indonesia"
+    ],
+    "themes": [
+      "indonesia-seismic-readiness",
+      "usgs"
+    ],
+    "topic_tags": [
+      "indonesia-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "indonesia",
+      "official_hazard"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 1,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-552f5ee24a4e",
+    "watchlist_id": "indonesia-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "indonesia-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Indonesia",
+      "scope": "country",
+      "country_codes": [
+        "IDN"
+      ]
+    },
+    "detected_at": "2026-03-06T20:51:28.711000Z",
+    "signal_title": "Continued quake activity near Indonesia",
+    "signal_summary": "A third recent quake reinforces that seismic volatility remains active in the region. Strongest matching event magnitude: 4.9.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2n1",
+    "structured_metrics": {
+      "value": 4.9,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "47 km NNW of Waingapu, Indonesia",
+        "latitude": -9.2498,
+        "longitude": 120.1385
+      }
+    },
+    "entities": [
+      "47 km NNW of Waingapu, Indonesia"
+    ],
+    "themes": [
+      "indonesia-seismic-readiness",
+      "usgs"
+    ],
+    "topic_tags": [
+      "indonesia-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "indonesia",
+      "official_hazard"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 1,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-e7ccc7a02102",
+    "watchlist_id": "philippines-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "philippines-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Philippines",
+      "scope": "country",
+      "country_codes": [
+        "PHL"
+      ]
+    },
+    "detected_at": "2026-03-07T16:04:54.468000Z",
+    "signal_title": "Recent strong seismic activity near the Philippines",
+    "signal_summary": "A recent official quake keeps seismic preparedness firmly in the operating picture for the Philippines. Strongest matching event magnitude: 5.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2tu",
+    "structured_metrics": {
+      "value": 5,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "4 km E of Hukay, Philippines",
+        "latitude": 13.8523,
+        "longitude": 120.7447
+      }
+    },
+    "entities": [
+      "4 km E of Hukay, Philippines"
+    ],
+    "themes": [
+      "philippines-seismic-readiness",
+      "usgs"
+    ],
+    "topic_tags": [
+      "philippines-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "philippines",
+      "official_hazard"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 0,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-b12a25e29da7",
+    "watchlist_id": "philippines-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "philippines-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Philippines",
+      "scope": "country",
+      "country_codes": [
+        "PHL"
+      ]
+    },
+    "detected_at": "2026-03-02T10:13:24.719000Z",
+    "signal_title": "Another recent significant quake near the Philippines",
+    "signal_summary": "A second event shows continued official hazard activity rather than a single shock. Strongest matching event magnitude: 4.9.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s1ek",
+    "structured_metrics": {
+      "value": 4.9,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "0 km SE of Cadagmayan Norte, Philippines",
+        "latitude": 10.8137,
+        "longitude": 122.5032
+      }
+    },
+    "entities": [
+      "0 km SE of Cadagmayan Norte, Philippines"
+    ],
+    "themes": [
+      "philippines-seismic-readiness",
+      "usgs"
+    ],
+    "topic_tags": [
+      "philippines-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "philippines",
+      "official_hazard"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 5,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-21a4a4744f73",
+    "watchlist_id": "philippines-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "philippines-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Philippines",
+      "scope": "country",
+      "country_codes": [
+        "PHL"
+      ]
+    },
+    "detected_at": "2026-03-07T05:57:58.682000Z",
+    "signal_title": "Continued quake activity near the Philippines",
+    "signal_summary": "A third event reinforces that seismic risk remains active this week. Strongest matching event magnitude: 4.7.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s2ql",
+    "structured_metrics": {
+      "value": 4.7,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "17 km ESE of Manay, Philippines",
+        "latitude": 7.16,
+        "longitude": 126.6858
+      }
+    },
+    "entities": [
+      "17 km ESE of Manay, Philippines"
+    ],
+    "themes": [
+      "philippines-seismic-readiness",
+      "usgs"
+    ],
+    "topic_tags": [
+      "philippines-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "philippines",
+      "official_hazard"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 1,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-fa9896f39fa8",
+    "watchlist_id": "chile-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "chile-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Chile",
+      "scope": "country",
+      "country_codes": [
+        "CHL"
+      ]
+    },
+    "detected_at": "2026-03-05T01:08:19.968000Z",
+    "signal_title": "Recent strong seismic activity near Chile",
+    "signal_summary": "A recent official quake keeps seismic resilience directly relevant for Chilean infrastructure and response planning. Strongest matching event magnitude: 4.8.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s259",
+    "structured_metrics": {
+      "value": 4.8,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "43 km NW of Coquimbo, Chile",
+        "latitude": -29.651,
+        "longitude": -71.6266
+      }
+    },
+    "entities": [
+      "43 km NW of Coquimbo, Chile"
+    ],
+    "themes": [
+      "chile-seismic-readiness",
+      "usgs"
+    ],
+    "topic_tags": [
+      "chile-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "infrastructure",
+      "chile",
+      "official_hazard"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 3,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-2e1f3955c4be",
+    "watchlist_id": "chile-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "chile-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Chile",
+      "scope": "country",
+      "country_codes": [
+        "CHL"
+      ]
+    },
+    "detected_at": "2026-03-03T21:30:26.064000Z",
+    "signal_title": "Another recent significant quake near Chile",
+    "signal_summary": "A second official event suggests continued seismic activity rather than a one-off disruption. Strongest matching event magnitude: 4.6.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s1tv",
+    "structured_metrics": {
+      "value": 4.6,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "101 km WNW of La Ligua, Chile",
+        "latitude": -32.1225,
+        "longitude": -72.2316
+      }
+    },
+    "entities": [
+      "101 km WNW of La Ligua, Chile"
+    ],
+    "themes": [
+      "chile-seismic-readiness",
+      "usgs"
+    ],
+    "topic_tags": [
+      "chile-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "infrastructure",
+      "chile",
+      "official_hazard"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 4,
+      "fresh_days": 30,
+      "max_age_days": 90,
+      "reinforced": false
+    }
+  },
+  {
+    "id": "sig-fd89de29adcf",
+    "watchlist_id": "chile-seismic-readiness",
+    "source": "usgs_earthquakes",
+    "source_type": "official_feed",
+    "category": "Cities & Infrastructure",
+    "subcategories": [
+      "chile-seismic-readiness",
+      "official_hazard"
+    ],
+    "geography": {
+      "label": "Chile",
+      "scope": "country",
+      "country_codes": [
+        "CHL"
+      ]
+    },
+    "detected_at": "2026-03-01T01:37:06.134000Z",
+    "signal_title": "Continued quake activity near Chile",
+    "signal_summary": "A third event reinforces that seismic activity remains active in the near term. Strongest matching event magnitude: 4.6.",
+    "strength": "Medium",
+    "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000s15h",
+    "structured_metrics": {
+      "value": 4.6,
+      "unit": "magnitude",
+      "window": "all_week",
+      "dimensions": {
+        "place": "44 km N of Valpara\u00edso, Chile",
+        "latitude": -32.6402,
+        "longitude": -71.6883
+      }
+    },
+    "entities": [
+      "44 km N of Valpara\u00edso, Chile"
+    ],
+    "themes": [
+      "chile-seismic-readiness",
+      "usgs"
+    ],
+    "topic_tags": [
+      "chile-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "infrastructure",
+      "chile",
+      "official_hazard"
+    ],
+    "keywords": [
+      "earthquake",
+      "seismic"
+    ],
+    "relevance_score": 0.9,
+    "quality_score": 0.96,
+    "freshness": {
+      "bucket": "fresh",
+      "age_days": 7,
       "fresh_days": 30,
       "max_age_days": 90,
       "reinforced": false

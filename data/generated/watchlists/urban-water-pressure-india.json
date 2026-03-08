@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-07T22:22:44Z",
+  "generated_at": "2026-03-08T10:04:36Z",
   "pipeline_version": "0.4",
   "sources": [
     {
@@ -77,6 +77,136 @@
   ],
   "raw_signals": [
     {
+      "id": "sig-8bb85e76582e",
+      "watchlist_id": "urban-water-pressure-india",
+      "source": "gdelt",
+      "source_type": "news_aggregation",
+      "category": "Climate & Environment",
+      "subcategories": [
+        "urban-water-pressure-india",
+        "manual_curation"
+      ],
+      "geography": {
+        "label": "India",
+        "scope": "country",
+        "country_codes": [
+          "IND"
+        ]
+      },
+      "detected_at": "2026-03-07T02:45:00Z",
+      "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+      "signal_summary": "A large urban center drew far more groundwater than it replenished, reinforcing direct pressure on municipal water resilience.",
+      "strength": "High",
+      "url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
+      "structured_metrics": {
+        "value": null,
+        "unit": null,
+        "window": "60days",
+        "dimensions": {
+          "query": "manual_curated",
+          "domain": "timesofindia.indiatimes.com",
+          "language": "English",
+          "source_country": "India"
+        }
+      },
+      "entities": [
+        "timesofindia.indiatimes.com",
+        "India"
+      ],
+      "themes": [
+        "urban-water-pressure-india",
+        "manual_curated"
+      ],
+      "topic_tags": [
+        "urban-water-pressure-india",
+        "water-stress",
+        "urbanization",
+        "heat-risk",
+        "india",
+        "manual_curation"
+      ],
+      "keywords": [
+        "water crisis",
+        "groundwater",
+        "urban",
+        "india"
+      ],
+      "relevance_score": 0.9,
+      "quality_score": 0.9,
+      "freshness": {
+        "bucket": "fresh",
+        "age_days": 1,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
+    },
+    {
+      "id": "sig-7100bd236e01",
+      "watchlist_id": "urban-water-pressure-india",
+      "source": "gdelt",
+      "source_type": "news_aggregation",
+      "category": "Climate & Environment",
+      "subcategories": [
+        "urban-water-pressure-india",
+        "manual_curation"
+      ],
+      "geography": {
+        "label": "India",
+        "scope": "country",
+        "country_codes": [
+          "IND"
+        ]
+      },
+      "detected_at": "2026-03-07T08:15:00Z",
+      "signal_title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+      "signal_summary": "Unusually early heat across multiple Indian cities reinforces the environmental conditions that intensify urban water stress.",
+      "strength": "Medium",
+      "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
+      "structured_metrics": {
+        "value": null,
+        "unit": null,
+        "window": "60days",
+        "dimensions": {
+          "query": "manual_curated",
+          "domain": "freepressjournal.in",
+          "language": "English",
+          "source_country": "India"
+        }
+      },
+      "entities": [
+        "freepressjournal.in",
+        "India"
+      ],
+      "themes": [
+        "urban-water-pressure-india",
+        "manual_curated"
+      ],
+      "topic_tags": [
+        "urban-water-pressure-india",
+        "water-stress",
+        "urbanization",
+        "heat-risk",
+        "india",
+        "manual_curation"
+      ],
+      "keywords": [
+        "heat",
+        "cities",
+        "urban",
+        "india"
+      ],
+      "relevance_score": 0.72,
+      "quality_score": 0.82,
+      "freshness": {
+        "bucket": "fresh",
+        "age_days": 1,
+        "fresh_days": 30,
+        "max_age_days": 90,
+        "reinforced": false
+      }
+    },
+    {
       "id": "sig-f9f2ddd2049c",
       "watchlist_id": "urban-water-pressure-india",
       "source": "world_bank_indicators",
@@ -143,8 +273,175 @@
     }
   ],
   "signal_clusters": [],
-  "signal_convergences": [],
-  "future_bets": [],
+  "signal_convergences": [
+    {
+      "id": "conv-68476f9910ba",
+      "category": "Climate & Environment",
+      "geography": {
+        "label": "India",
+        "scope": "country",
+        "country_codes": [
+          "IND"
+        ]
+      },
+      "detected_at": "2026-03-08T10:04:36Z",
+      "time_horizon": "Long term: 3-10 years",
+      "convergence_title": "Treating urban water stress as a temporary inconvenience",
+      "convergence_summary": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
+      "signal_ids": [
+        "sig-8bb85e76582e",
+        "sig-7100bd236e01",
+        "sig-f9f2ddd2049c"
+      ],
+      "paired_signals": [
+        {
+          "signal_id": "sig-8bb85e76582e",
+          "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+          "source": "gdelt",
+          "source_type": "news_aggregation",
+          "why_it_matters": "Recent event signal remains fresh with age 1 days.",
+          "connection": "When water-stress reporting meets a growing urban base, cheap and stable water assumptions weaken."
+        },
+        {
+          "signal_id": "sig-7100bd236e01",
+          "signal_title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+          "source": "gdelt",
+          "source_type": "news_aggregation",
+          "why_it_matters": "Recent event signal remains fresh with age 1 days.",
+          "connection": "When water-stress reporting meets a growing urban base, cheap and stable water assumptions weaken."
+        },
+        {
+          "signal_id": "sig-f9f2ddd2049c",
+          "signal_title": "Urban population share continues to rise",
+          "source": "world_bank_indicators",
+          "source_type": "institutional_dataset",
+          "why_it_matters": "Fast urbanization makes environmental stress more operationally consequential.",
+          "connection": "When water-stress reporting meets a growing urban base, cheap and stable water assumptions weaken."
+        }
+      ],
+      "pattern_type": "custom",
+      "inference": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
+      "confidence": "High",
+      "topic_tags": [
+        "urban-water-pressure-india",
+        "water-stress",
+        "urbanization",
+        "heat-risk",
+        "india",
+        "custom"
+      ],
+      "freshness": {
+        "bucket": "fresh",
+        "fresh_event_count": 2,
+        "active_event_count": 2,
+        "max_event_age_days": 1,
+        "reinforced": false
+      },
+      "reasoning_notes": "Convergence score 2.438 using 2 recent/active event signals plus structural context."
+    }
+  ],
+  "future_bets": [
+    {
+      "id": "bet-ffed08dc707b",
+      "slug": "treating-urban-water-stress-as-a-temporary-inconvenience",
+      "title": "Treating urban water stress as a temporary inconvenience",
+      "type": "bad",
+      "category": "Climate & Environment",
+      "geography": {
+        "label": "India",
+        "scope": "country",
+        "country_codes": [
+          "IND"
+        ]
+      },
+      "time_horizon": "Long term: 3-10 years",
+      "confidence": "High",
+      "summary": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
+      "implication": "People choosing where to build, manufacture, or expand should treat water resilience as a real operating variable.",
+      "why_now": "Short-term hazard reporting matters more when long-term urban demand is still climbing.",
+      "topic_tags": [
+        "urban-water-pressure-india",
+        "water-stress",
+        "urbanization",
+        "heat-risk",
+        "india",
+        "bad"
+      ],
+      "freshness": {
+        "bucket": "fresh",
+        "fresh_event_count": 2,
+        "active_event_count": 2,
+        "max_event_age_days": 1,
+        "reinforced": false
+      },
+      "paired_signals": [
+        {
+          "signal_id": "sig-8bb85e76582e",
+          "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+          "source": "gdelt",
+          "source_type": "news_aggregation",
+          "why_it_matters": "Recent event signal remains fresh with age 1 days.",
+          "connection": "When water-stress reporting meets a growing urban base, cheap and stable water assumptions weaken."
+        },
+        {
+          "signal_id": "sig-7100bd236e01",
+          "signal_title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+          "source": "gdelt",
+          "source_type": "news_aggregation",
+          "why_it_matters": "Recent event signal remains fresh with age 1 days.",
+          "connection": "When water-stress reporting meets a growing urban base, cheap and stable water assumptions weaken."
+        },
+        {
+          "signal_id": "sig-f9f2ddd2049c",
+          "signal_title": "Urban population share continues to rise",
+          "source": "world_bank_indicators",
+          "source_type": "institutional_dataset",
+          "why_it_matters": "Fast urbanization makes environmental stress more operationally consequential.",
+          "connection": "When water-stress reporting meets a growing urban base, cheap and stable water assumptions weaken."
+        }
+      ],
+      "second_order_effects": [
+        "Water monitoring, reuse, and efficiency products become more relevant.",
+        "Location strategy may shift toward more resilient corridors."
+      ],
+      "what_to_watch": [
+        "Repeated local water-shortage reporting and rationing events.",
+        "Urban growth and infrastructure investment trends."
+      ],
+      "what_could_change_this": [
+        "Large improvements in water infrastructure and reuse could reduce stress.",
+        "A run of milder seasons could soften near-term pressure."
+      ],
+      "source_logic": {
+        "current_event_count": 2,
+        "structural_count": 1,
+        "official_or_geo_count": 0,
+        "convergence_ids": [
+          "conv-68476f9910ba"
+        ]
+      },
+      "sources": [
+        {
+          "source_id": "gdelt",
+          "title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+          "url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
+          "note": "A large urban center drew far more groundwater than it replenished, reinforcing direct pressure on municipal water resilience."
+        },
+        {
+          "source_id": "gdelt",
+          "title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+          "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
+          "note": "Unusually early heat across multiple Indian cities reinforces the environmental conditions that intensify urban water stress."
+        },
+        {
+          "source_id": "world_bank_indicators",
+          "title": "Urban population share continues to rise",
+          "url": "https://api.worldbank.org/v2/country/IND/indicator/SP.URB.TOTL.IN.ZS?format=json&mrnev=2&per_page=200",
+          "note": "Urban growth increases demand pressure on already stressed water and cooling systems. Latest observed value for India: 35.3788972368389."
+        }
+      ]
+    }
+  ],
   "errors": [
     "GDELT fetch failed for urban-water-pressure-india: <urlopen error [Errno 8] nodename nor servname provided, or not known>"
   ]

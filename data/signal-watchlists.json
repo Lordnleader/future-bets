@@ -208,6 +208,46 @@
       "require_distinct_domains": true,
       "minimum_convergence_score": 1.75
     },
+    "manual_signals": [
+      {
+        "source": "gdelt",
+        "url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
+        "title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+        "detected_at": "20260307T024500Z",
+        "domain": "timesofindia.indiatimes.com",
+        "language": "English",
+        "source_country": "India",
+        "strength": "High",
+        "quality_score": 0.9,
+        "relevance_score": 0.9,
+        "signal_summary": "A large urban center drew far more groundwater than it replenished, reinforcing direct pressure on municipal water resilience.",
+        "keywords": [
+          "water crisis",
+          "groundwater",
+          "urban",
+          "india"
+        ]
+      },
+      {
+        "source": "gdelt",
+        "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
+        "title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+        "detected_at": "20260307T081500Z",
+        "domain": "freepressjournal.in",
+        "language": "English",
+        "source_country": "India",
+        "strength": "Medium",
+        "quality_score": 0.82,
+        "relevance_score": 0.72,
+        "signal_summary": "Unusually early heat across multiple Indian cities reinforces the environmental conditions that intensify urban water stress.",
+        "keywords": [
+          "heat",
+          "cities",
+          "urban",
+          "india"
+        ]
+      }
+    ],
     "structural_signals": [
       {
         "country_code": "IND",
@@ -407,6 +447,11 @@
       "min_topic_matches": 1,
       "min_quality_score": 0.74
     },
+    "convergence_rules": {
+      "min_selected_events": 2,
+      "min_official_signals": 2,
+      "minimum_convergence_score": 1.8
+    },
     "structural_signals": [
       {
         "country_code": "JPN",
@@ -420,6 +465,9 @@
     "official_signals": [
       {
         "feed": "all_week",
+        "place_must_contain_any": [
+          "Japan"
+        ],
         "min_magnitude": 4.5,
         "latitude": 36.2048,
         "longitude": 138.2529,
@@ -446,6 +494,276 @@
       "what_could_change_this": [
         "A long quiet period could reduce urgency in practice.",
         "If resilience systems are already saturated in the market, growth may be narrower than it appears."
+      ]
+    }
+  },
+  {
+    "id": "indonesia-seismic-readiness",
+    "category": "Cities & Infrastructure",
+    "type": "good",
+    "topic_tags": [
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "indonesia"
+    ],
+    "geography": {
+      "label": "Indonesia",
+      "scope": "country",
+      "country_codes": [
+        "IDN"
+      ]
+    },
+    "time_horizon": "Near term: 0-12 months",
+    "allow_official_only": true,
+    "convergence_rules": {
+      "min_selected_events": 2,
+      "min_official_signals": 2,
+      "minimum_convergence_score": 1.55
+    },
+    "official_signals": [
+      {
+        "feed": "all_week",
+        "event_rank": 0,
+        "place_must_contain_any": [
+          "Indonesia"
+        ],
+        "min_magnitude": 4.8,
+        "latitude": -2.5489,
+        "longitude": 118.0149,
+        "radius_km": 1800,
+        "signal_title": "Recent strong seismic activity near Indonesia",
+        "signal_summary": "A recent high-magnitude quake keeps seismic exposure operationally live for Indonesian infrastructure and response systems.",
+        "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+        "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+      },
+      {
+        "feed": "all_week",
+        "event_rank": 1,
+        "place_must_contain_any": [
+          "Indonesia"
+        ],
+        "min_magnitude": 4.8,
+        "latitude": -2.5489,
+        "longitude": 118.0149,
+        "radius_km": 1800,
+        "signal_title": "Another recent significant quake near Indonesia",
+        "signal_summary": "A second recent quake shows the signal is not just a single isolated event.",
+        "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+        "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+      },
+      {
+        "feed": "all_week",
+        "event_rank": 2,
+        "place_must_contain_any": [
+          "Indonesia"
+        ],
+        "min_magnitude": 4.8,
+        "latitude": -2.5489,
+        "longitude": 118.0149,
+        "radius_km": 1800,
+        "signal_title": "Continued quake activity near Indonesia",
+        "signal_summary": "A third recent quake reinforces that seismic volatility remains active in the region.",
+        "why_it_matters": "Repeated official quake activity sustains urgency around resilience, inspection, and emergency logistics.",
+        "connection": "Multiple recent quakes in the same national footprint strengthen the case for practical readiness systems."
+      }
+    ],
+    "bet": {
+      "title": "Seismic readiness systems in Indonesia",
+      "summary": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
+      "implication": "Builders, utilities, logistics operators, and public-sector teams should treat inspection, monitoring, and response systems as active demand rather than a background concern.",
+      "why_now": "A cluster of recent official quakes matters because it keeps resilience spending tied to current operational risk, not abstract history.",
+      "second_order_effects": [
+        "Inspection, monitoring, and emergency communications tools become easier to justify.",
+        "Procurement for retrofit and response capacity may stay active longer than a single-event spike."
+      ],
+      "what_to_watch": [
+        "Further official quakes in populated or infrastructure-heavy corridors.",
+        "Public or private resilience spending linked to inspection and emergency response."
+      ],
+      "what_could_change_this": [
+        "A sustained quiet period could reduce urgency in the short term.",
+        "If funding tightens, readiness upgrades may be delayed even if risk remains."
+      ]
+    }
+  },
+  {
+    "id": "philippines-seismic-readiness",
+    "category": "Cities & Infrastructure",
+    "type": "good",
+    "topic_tags": [
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "philippines"
+    ],
+    "geography": {
+      "label": "Philippines",
+      "scope": "country",
+      "country_codes": [
+        "PHL"
+      ]
+    },
+    "time_horizon": "Near term: 0-12 months",
+    "allow_official_only": true,
+    "convergence_rules": {
+      "min_selected_events": 2,
+      "min_official_signals": 2,
+      "minimum_convergence_score": 1.5
+    },
+    "official_signals": [
+      {
+        "feed": "all_week",
+        "event_rank": 0,
+        "place_must_contain_any": [
+          "Philippines"
+        ],
+        "min_magnitude": 4.5,
+        "latitude": 12.8797,
+        "longitude": 121.774,
+        "radius_km": 1200,
+        "signal_title": "Recent strong seismic activity near the Philippines",
+        "signal_summary": "A recent official quake keeps seismic preparedness firmly in the operating picture for the Philippines.",
+        "why_it_matters": "Repeated official quake activity keeps readiness systems relevant for transport, utilities, and emergency response.",
+        "connection": "Multiple recent quakes in the same geography make preparedness demand more practical than episodic."
+      },
+      {
+        "feed": "all_week",
+        "event_rank": 1,
+        "place_must_contain_any": [
+          "Philippines"
+        ],
+        "min_magnitude": 4.5,
+        "latitude": 12.8797,
+        "longitude": 121.774,
+        "radius_km": 1200,
+        "signal_title": "Another recent significant quake near the Philippines",
+        "signal_summary": "A second event shows continued official hazard activity rather than a single shock.",
+        "why_it_matters": "Repeated official quake activity keeps readiness systems relevant for transport, utilities, and emergency response.",
+        "connection": "Multiple recent quakes in the same geography make preparedness demand more practical than episodic."
+      },
+      {
+        "feed": "all_week",
+        "event_rank": 2,
+        "place_must_contain_any": [
+          "Philippines"
+        ],
+        "min_magnitude": 4.5,
+        "latitude": 12.8797,
+        "longitude": 121.774,
+        "radius_km": 1200,
+        "signal_title": "Continued quake activity near the Philippines",
+        "signal_summary": "A third event reinforces that seismic risk remains active this week.",
+        "why_it_matters": "Repeated official quake activity keeps readiness systems relevant for transport, utilities, and emergency response.",
+        "connection": "Multiple recent quakes in the same geography make preparedness demand more practical than episodic."
+      }
+    ],
+    "bet": {
+      "title": "Seismic readiness systems in the Philippines",
+      "summary": "Repeated official earthquake activity suggests seismic readiness remains a live systems priority in the Philippines.",
+      "implication": "Operators should take emergency planning, inspection, and monitoring capacity seriously rather than assuming readiness work can wait.",
+      "why_now": "A run of recent official quakes keeps resilience demand attached to current operating conditions.",
+      "second_order_effects": [
+        "Emergency communications and building diagnostics can stay commercially relevant.",
+        "Utilities and local operators may keep stress-testing continuity and response procedures."
+      ],
+      "what_to_watch": [
+        "Further official quakes near populated areas.",
+        "Readiness spending tied to buildings, utilities, and emergency operations."
+      ],
+      "what_could_change_this": [
+        "A quieter hazard period could reduce immediate urgency.",
+        "If response systems prove oversupplied, market upside may be narrower than expected."
+      ]
+    }
+  },
+  {
+    "id": "chile-seismic-readiness",
+    "category": "Cities & Infrastructure",
+    "type": "good",
+    "topic_tags": [
+      "seismic-risk",
+      "resilience",
+      "infrastructure",
+      "chile"
+    ],
+    "geography": {
+      "label": "Chile",
+      "scope": "country",
+      "country_codes": [
+        "CHL"
+      ]
+    },
+    "time_horizon": "Near term: 0-12 months",
+    "allow_official_only": true,
+    "convergence_rules": {
+      "min_selected_events": 2,
+      "min_official_signals": 2,
+      "minimum_convergence_score": 1.55
+    },
+    "official_signals": [
+      {
+        "feed": "all_week",
+        "event_rank": 0,
+        "place_must_contain_any": [
+          "Chile"
+        ],
+        "min_magnitude": 4.6,
+        "latitude": -35.6751,
+        "longitude": -71.543,
+        "radius_km": 1400,
+        "signal_title": "Recent strong seismic activity near Chile",
+        "signal_summary": "A recent official quake keeps seismic resilience directly relevant for Chilean infrastructure and response planning.",
+        "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+        "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+      },
+      {
+        "feed": "all_week",
+        "event_rank": 1,
+        "place_must_contain_any": [
+          "Chile"
+        ],
+        "min_magnitude": 4.6,
+        "latitude": -35.6751,
+        "longitude": -71.543,
+        "radius_km": 1400,
+        "signal_title": "Another recent significant quake near Chile",
+        "signal_summary": "A second official event suggests continued seismic activity rather than a one-off disruption.",
+        "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+        "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+      },
+      {
+        "feed": "all_week",
+        "event_rank": 2,
+        "place_must_contain_any": [
+          "Chile"
+        ],
+        "min_magnitude": 4.6,
+        "latitude": -35.6751,
+        "longitude": -71.543,
+        "radius_km": 1400,
+        "signal_title": "Continued quake activity near Chile",
+        "signal_summary": "A third event reinforces that seismic activity remains active in the near term.",
+        "why_it_matters": "Repeated official quake activity keeps retrofit, inspection, and response capabilities tied to live risk.",
+        "connection": "Multiple recent quakes near Chile reinforce the case for operational resilience systems."
+      }
+    ],
+    "bet": {
+      "title": "Seismic resilience systems in Chile",
+      "summary": "Repeated official earthquake activity suggests resilience systems remain strategically relevant in Chile.",
+      "implication": "Infrastructure, insurance, and emergency-response teams should keep retrofit, monitoring, and continuity tooling high on the priority list.",
+      "why_now": "Recent official quake activity makes resilience demand feel current rather than merely historic.",
+      "second_order_effects": [
+        "Building inspection and monitoring tools can remain easier to justify.",
+        "Continuity planning and response logistics may stay active budget lines."
+      ],
+      "what_to_watch": [
+        "Further official quakes near populated corridors.",
+        "Signals of resilience spending or procurement tied to continuity and retrofit."
+      ],
+      "what_could_change_this": [
+        "A sustained lull could reduce urgency in the short term.",
+        "If the market is already crowded, new entrant upside may be constrained."
       ]
     }
   }

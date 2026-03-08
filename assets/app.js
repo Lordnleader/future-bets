@@ -1,4 +1,4 @@
-import { filters, getAllBets, renderCard } from "./site.js";
+import { createFilterQuery, filters, getAllBets, renderCard } from "./site.js";
 
 const cardsGrid = document.querySelector("#cards-grid");
 const resultsMeta = document.querySelector("#results-meta");
@@ -18,10 +18,13 @@ populateSelect(filterEls.category, filters.categories);
 populateSelect(filterEls.geography, filters.geographies);
 populateSelect(filterEls.timeHorizon, filters.horizons);
 
+applyInitialFilterState();
+
 heroTotal.textContent = `${allBets.length} active signals`;
 heroBalance.textContent = `${filters.categories.length} categories / ${filters.geographies.length} geographies`;
 
 Object.values(filterEls).forEach((el) => el.addEventListener("change", renderFeed));
+cardsGrid.addEventListener("click", handleGridClick);
 
 renderFeed();
 
@@ -35,6 +38,8 @@ function populateSelect(select, values) {
 }
 
 function renderFeed() {
+  syncFilterStateToUrl();
+
   const filtered = allBets.filter((item) => {
     const categoryMatch =
       filterEls.category.value === "all" || item.category === filterEls.category.value;
@@ -52,10 +57,66 @@ function renderFeed() {
     cardsGrid.innerHTML = `
       <div class="empty-state">
         <p>No items match this filter combination. Reset one of the controls to widen the scan.</p>
+        <div class="empty-state__actions">
+          <button class="empty-state__button" type="button" data-reset-filters>Reset filters</button>
+        </div>
       </div>
     `;
     return;
   }
 
-  cardsGrid.innerHTML = filtered.map(renderCard).join("");
+  const filterQuery = createFilterQuery(getFilterValues());
+  cardsGrid.innerHTML = filtered.map((item, index) => renderCard(item, index, filterQuery)).join("");
+}
+
+function applyInitialFilterState() {
+  const params = new URLSearchParams(window.location.search);
+
+  Object.entries(filterEls).forEach(([key, el]) => {
+    const nextValue = params.get(key);
+    if (nextValue) {
+      el.value = nextValue;
+    }
+  });
+}
+
+function getFilterValues() {
+  return {
+    category: filterEls.category.value,
+    geography: filterEls.geography.value,
+    timeHorizon: filterEls.timeHorizon.value,
+    type: filterEls.type.value,
+  };
+}
+
+function syncFilterStateToUrl() {
+  const params = new URLSearchParams(window.location.search);
+
+  Object.entries(getFilterValues()).forEach(([key, value]) => {
+    if (value === "all") {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+  });
+
+  const query = params.toString();
+  const nextUrl = query ? `${window.location.pathname}?${query}` : window.location.pathname;
+  window.history.replaceState({}, "", nextUrl);
+}
+
+function resetFilters() {
+  Object.values(filterEls).forEach((el) => {
+    el.value = "all";
+  });
+
+  renderFeed();
+}
+
+function handleGridClick(event) {
+  if (!event.target.closest("[data-reset-filters]")) {
+    return;
+  }
+
+  resetFilters();
 }

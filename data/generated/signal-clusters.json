@@ -1,1 +1,153 @@
-[]
+[
+  {
+    "id": "clu-766473f622e1",
+    "cluster_title": "urban-water-pressure-india news_aggregation cluster",
+    "category": "Climate & Environment",
+    "geography": {
+      "label": "India",
+      "scope": "country",
+      "country_codes": [
+        "IND"
+      ]
+    },
+    "window_start": "2026-03-07T02:45:00Z",
+    "window_end": "2026-03-07T08:15:00Z",
+    "signal_ids": [
+      "sig-7100bd236e01",
+      "sig-8bb85e76582e"
+    ],
+    "cluster_summary": "2 related news_aggregation signals grouped for urban-water-pressure-india.",
+    "strength": "Medium",
+    "topic_tags": [
+      "urban-water-pressure-india",
+      "water-stress",
+      "urbanization",
+      "heat-risk",
+      "india",
+      "news_aggregation"
+    ],
+    "cluster_metrics": {
+      "value": 2,
+      "unit": "signals",
+      "window": "2026-03-07T02:45:00Z to 2026-03-07T08:15:00Z",
+      "dimensions": {
+        "fresh_count": 2,
+        "active_count": 2
+      }
+    }
+  },
+  {
+    "id": "clu-e4e603745794",
+    "cluster_title": "indonesia-seismic-readiness official_feed cluster",
+    "category": "Cities & Infrastructure",
+    "geography": {
+      "label": "Indonesia",
+      "scope": "country",
+      "country_codes": [
+        "IDN"
+      ]
+    },
+    "window_start": "2026-03-06T15:27:47.797000Z",
+    "window_end": "2026-03-06T20:51:28.711000Z",
+    "signal_ids": [
+      "sig-552f5ee24a4e",
+      "sig-14f3de098b76",
+      "sig-0ae1c90dfc39"
+    ],
+    "cluster_summary": "3 related official_feed signals grouped for indonesia-seismic-readiness.",
+    "strength": "Medium",
+    "topic_tags": [
+      "indonesia-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "indonesia",
+      "official_feed"
+    ],
+    "cluster_metrics": {
+      "value": 3,
+      "unit": "signals",
+      "window": "2026-03-06T15:27:47.797000Z to 2026-03-06T20:51:28.711000Z",
+      "dimensions": {
+        "fresh_count": 3,
+        "active_count": 3
+      }
+    }
+  },
+  {
+    "id": "clu-47f93d256ce2",
+    "cluster_title": "philippines-seismic-readiness official_feed cluster",
+    "category": "Cities & Infrastructure",
+    "geography": {
+      "label": "Philippines",
+      "scope": "country",
+      "country_codes": [
+        "PHL"
+      ]
+    },
+    "window_start": "2026-03-02T10:13:24.719000Z",
+    "window_end": "2026-03-07T16:04:54.468000Z",
+    "signal_ids": [
+      "sig-e7ccc7a02102",
+      "sig-21a4a4744f73",
+      "sig-b12a25e29da7"
+    ],
+    "cluster_summary": "3 related official_feed signals grouped for philippines-seismic-readiness.",
+    "strength": "Medium",
+    "topic_tags": [
+      "philippines-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "emergency-response",
+      "philippines",
+      "official_feed"
+    ],
+    "cluster_metrics": {
+      "value": 3,
+      "unit": "signals",
+      "window": "2026-03-02T10:13:24.719000Z to 2026-03-07T16:04:54.468000Z",
+      "dimensions": {
+        "fresh_count": 3,
+        "active_count": 3
+      }
+    }
+  },
+  {
+    "id": "clu-e9fe2da9a57c",
+    "cluster_title": "chile-seismic-readiness official_feed cluster",
+    "category": "Cities & Infrastructure",
+    "geography": {
+      "label": "Chile",
+      "scope": "country",
+      "country_codes": [
+        "CHL"
+      ]
+    },
+    "window_start": "2026-03-01T01:37:06.134000Z",
+    "window_end": "2026-03-05T01:08:19.968000Z",
+    "signal_ids": [
+      "sig-fa9896f39fa8",
+      "sig-2e1f3955c4be",
+      "sig-fd89de29adcf"
+    ],
+    "cluster_summary": "3 related official_feed signals grouped for chile-seismic-readiness.",
+    "strength": "Medium",
+    "topic_tags": [
+      "chile-seismic-readiness",
+      "seismic-risk",
+      "resilience",
+      "infrastructure",
+      "chile",
+      "official_feed"
+    ],
+    "cluster_metrics": {
+      "value": 3,
+      "unit": "signals",
+      "window": "2026-03-01T01:37:06.134000Z to 2026-03-05T01:08:19.968000Z",
+      "dimensions": {
+        "fresh_count": 3,
+        "active_count": 3
+      }
+    }
+  }
+]
