@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-08T10:04:36Z",
+  "generated_at": "2026-03-08T10:37:52Z",
   "pipeline_version": "0.4",
   "sources": [
     {
@@ -145,6 +145,10 @@
   "signal_clusters": [],
   "signal_convergences": [],
   "future_bets": [],
+  "verification_review": {
+    "verified_curated_signals": [],
+    "rejected_curated_signals": []
+  },
   "errors": [
     "GDELT fetch failed for us-entry-level-work-friction: <urlopen error [Errno 8] nodename nor servname provided, or not known>",
     "ILOSTAT fetch failed for us-entry-level-work-friction / UNE_2EAP_SEX_AGE_RT_A: <urlopen error [Errno 8] nodename nor servname provided, or not known>"

@@ -39,6 +39,27 @@
       "min_recent_signals": 1,
       "min_topic_matches": 1
     },
+    "manual_signals": [
+      {
+        "source": "gdelt",
+        "url": "https://www.thehindubusinessline.com/news/world/global-economy-faces-widening-strains-as-west-asia-war-intensifies/article70715498.ece",
+        "title": "Global economy faces widening strains as West Asia war intensifies",
+        "detected_at": "20260307T113000Z",
+        "domain": "thehindubusinessline.com",
+        "language": "English",
+        "source_country": "India",
+        "strength": "High",
+        "quality_score": 0.86,
+        "relevance_score": 0.72,
+        "signal_summary": "Escalating conflict around West Asia keeps pressure on major energy and shipping corridors, reinforcing the risk of rerouting and transport volatility.",
+        "keywords": [
+          "west asia",
+          "shipping",
+          "route disruption",
+          "trade"
+        ]
+      }
+    ],
     "structural_signals": [
       {
         "country_code": "WLD",
@@ -231,7 +252,7 @@
       {
         "source": "gdelt",
         "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
-        "title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+        "title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35°C In Several Cities",
         "detected_at": "20260307T081500Z",
         "domain": "freepressjournal.in",
         "language": "English",
@@ -240,6 +261,7 @@
         "quality_score": 0.82,
         "relevance_score": 0.72,
         "signal_summary": "Unusually early heat across multiple Indian cities reinforces the environmental conditions that intensify urban water stress.",
+        "verification_basis": "Used as a reinforcing heat-stress signal for the same India water-pressure thesis when combined with a direct groundwater depletion article.",
         "keywords": [
           "heat",
           "cities",

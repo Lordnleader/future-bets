@@ -6,163 +6,96 @@
     <title>Future Bets</title>
     <meta
       name="description"
-      content="A future-signals dashboard tracking the patterns making parts of the world more promising, fragile, expensive, or strategically important."
+      content="A quiet interface for exploring directional future bets through patterns, signal overlap, and source-backed briefs."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
     />
     <link rel="stylesheet" href="./assets/styles.css" />
   </head>
   <body>
-    <div class="site-shell">
-      <header class="hero">
-        <div class="hero__mesh"></div>
-        <div class="hero__grid"></div>
-        <div class="hero__content">
-          <div class="eyebrow-row">
-            <span class="eyebrow">Future Bets</span>
-            <span class="status-pill">Signal system active</span>
-          </div>
-          <div class="hero__copy">
-            <p class="hero__kicker">Pattern-recognition briefings for a changing world</p>
-            <h1>
-              What the world is
-              <span>making more likely</span>
-            </h1>
-            <p class="hero__lede">
-              Not investment advice. Not a betting product. A practical layer for noticing which
-              places, systems, industries, and assumptions are becoming more viable or more
-              exposed.
-            </p>
-          </div>
-          <div class="hero__system">
-            <div class="system-card">
-              <span class="system-card__label">Daily scan</span>
-              <strong id="hero-total">24 active signals</strong>
-              <p>Cross-reading multiple developments to surface directional judgments with practical consequences.</p>
-            </div>
-            <div class="system-card system-card--accent">
-              <span class="system-card__label">Coverage</span>
-              <strong id="hero-balance">8 categories / 8 geographies</strong>
-              <p>Balanced across business, climate, infrastructure, labour, culture, demographics, and supply chains.</p>
-            </div>
-          </div>
+    <div class="site-shell home-shell" id="home-shell">
+      <section class="landing-screen" id="landing-screen" aria-labelledby="landing-heading">
+        <div class="landing-screen__haze"></div>
+        <div class="landing-screen__marks" aria-hidden="true"></div>
+        <div class="landing-screen__content">
+          <p class="landing-screen__eyebrow" id="landing-heading">Everything exists in patterns</p>
+          <button class="landing-screen__button" id="enter-button" type="button">
+            Predict the future
+          </button>
+        </div>
+      </section>
+
+      <header class="home-topbar" id="home-topbar">
+        <div class="home-topbar__wordmark">Future Bets</div>
+        <div class="home-topbar__meta">
+          <span class="home-topbar__status" id="topbar-status">Signal layer dormant</span>
+          <button class="home-topbar__button" id="reset-button" type="button">Reset view</button>
         </div>
       </header>
 
-      <main class="page">
-        <section class="intro-grid">
-          <div class="section-label">System note</div>
-          <div class="intro-grid__content">
-            <p>
-              Each item is a <strong>Good Bet</strong> or <strong>Bad Bet</strong>: not a literal
-              wager, but a directional view on what appears to be becoming more viable, more
-              fragile, more attractive, or more dangerous to rely on.
-            </p>
-            <p>
-              Every forecast includes practical implications, uncertainty markers, and at least two
-              converging signals.
-            </p>
-          </div>
-        </section>
+      <main class="home-main">
+        <section class="workspace" id="workspace" aria-labelledby="workspace-heading">
+          <h1 class="sr-only" id="workspace-heading">Future Bets pattern network</h1>
 
-        <section class="briefing-band methodology-band" aria-labelledby="methodology-heading">
-          <div class="section-label">Methodology</div>
-          <div class="methodology-band__content">
-            <div class="briefing-band__intro">
-              <h2 id="methodology-heading">How the MVP forms a view</h2>
-              <p>
-                These briefs are built from <strong>converging signals</strong>, not single
-                headlines. The aim is to make a plain-English directional call about what looks
-                more likely from here, while staying clear about uncertainty.
-              </p>
-            </div>
-            <div class="methodology-band__cards">
-              <article class="stat-card">
-                <span class="stat-card__label">Signal rule</span>
-                <strong>Look for overlap</strong>
-                <p>
-                  A brief should be supported by at least two signals pointing the same way,
-                  ideally from different angles.
+          <div class="workspace__panel workspace__panel--card">
+            <div class="selection-shell" id="selection-shell">
+              <div class="selection-empty" id="selection-empty">
+                <p class="selection-empty__label">Selection</p>
+                <p class="selection-empty__title">Choose a node to extract a brief.</p>
+                <p class="selection-empty__copy">
+                  The network holds the context. A selected bet pulls forward as a readable
+                  editorial card without collapsing the wider pattern map.
                 </p>
-              </article>
-              <article class="stat-card">
-                <span class="stat-card__label">Freshness rule</span>
-                <strong>Newer evidence leads</strong>
+              </div>
+              <div id="selection-card"></div>
+            </div>
+          </div>
+
+          <div class="workspace__panel workspace__panel--network">
+            <div class="network-stage" id="network-stage">
+              <div class="network-stage__corner network-stage__corner--tl" aria-hidden="true"></div>
+              <div class="network-stage__corner network-stage__corner--tr" aria-hidden="true"></div>
+              <div class="network-stage__corner network-stage__corner--bl" aria-hidden="true"></div>
+              <div class="network-stage__corner network-stage__corner--br" aria-hidden="true"></div>
+              <div class="network-stage__haze" aria-hidden="true"></div>
+              <div class="network-stage__grain" aria-hidden="true"></div>
+
+              <div class="network-cluster" id="network-cluster">
+                <svg
+                  class="network-svg"
+                  id="network-svg"
+                  viewBox="0 0 1000 760"
+                  role="img"
+                  aria-label="Interactive pattern network of future bets"
+                ></svg>
+                <div class="network-labels" id="network-labels"></div>
+              </div>
+
+              <div class="network-instruction">
+                Hover to inspect. Click to extract a brief. Press escape to clear.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="report-section" id="report-section" aria-labelledby="report-heading">
+          <div class="report-shell">
+            <div class="section-label">Full report</div>
+            <div class="report-frame">
+              <div class="report-frame__intro">
+                <h2 id="report-heading">Deeper brief</h2>
                 <p>
-                  Recent developments carry the most weight. We prefer a 30-day fresh window and
-                  only keep older context when newer signals still reinforce it.
+                  This lower section turns the selected bet into a fuller report with rationale,
+                  signal pairing, and source references.
                 </p>
-              </article>
-              <article class="stat-card">
-                <span class="stat-card__label">Confidence rule</span>
-                <strong>Directional, not certain</strong>
-                <p>
-                  This is an informed read on momentum, pressure, and viability. It is not a claim
-                  that the future is settled.
-                </p>
-              </article>
+              </div>
+              <div class="report-content" id="report-content"></div>
             </div>
           </div>
-        </section>
-
-        <section class="briefing-band" aria-labelledby="briefing-heading">
-          <div class="section-label">Editorial frame</div>
-          <div class="briefing-band__content">
-            <div class="briefing-band__intro">
-              <h2 id="briefing-heading">Today&apos;s live map</h2>
-              <p>
-                A compact front page for the highest-signal briefs currently on the site. The aim
-                is not volume. It is a credible read on a small set of shifts that appear to be
-                compounding.
-              </p>
-            </div>
-            <div class="briefing-band__stats" id="briefing-stats"></div>
-          </div>
-        </section>
-
-        <section class="filters-panel" aria-labelledby="filters-heading">
-          <div class="filters-panel__header">
-            <div>
-              <div class="section-label">Feed controls</div>
-              <h2 id="filters-heading">Pattern filters</h2>
-            </div>
-            <div class="meta-strip" id="results-meta"></div>
-          </div>
-
-          <form class="filters" id="filters-form">
-            <label>
-              <span>Category</span>
-              <select id="category-filter" name="category">
-                <option value="all">All categories</option>
-              </select>
-            </label>
-            <label>
-              <span>Geography</span>
-              <select id="geography-filter" name="geography">
-                <option value="all">All geographies</option>
-              </select>
-            </label>
-            <label>
-              <span>Horizon</span>
-              <select id="horizon-filter" name="timeHorizon">
-                <option value="all">All horizons</option>
-              </select>
-            </label>
-            <label>
-              <span>Type</span>
-              <select id="type-filter" name="type">
-                <option value="all">Good and Bad</option>
-                <option value="good">Good Bets</option>
-                <option value="bad">Bad Bets</option>
-              </select>
-            </label>
-          </form>
-        </section>
-
-        <section class="feed-section" aria-labelledby="feed-heading">
-          <div class="feed-section__header">
-            <div class="section-label">Daily feed</div>
-            <h2 id="feed-heading">Good Bets and Bad Bets</h2>
-          </div>
-          <div class="cards-grid" id="cards-grid"></div>
         </section>
       </main>
     </div>

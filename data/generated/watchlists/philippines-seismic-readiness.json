@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-08T10:04:36Z",
+  "generated_at": "2026-03-08T10:37:52Z",
   "pipeline_version": "0.4",
   "sources": [
     {
@@ -192,7 +192,7 @@
       "quality_score": 0.96,
       "freshness": {
         "bucket": "fresh",
-        "age_days": 5,
+        "age_days": 6,
         "fresh_days": 30,
         "max_age_days": 90,
         "reinforced": false
@@ -272,7 +272,7 @@
           "PHL"
         ]
       },
-      "detected_at": "2026-03-08T10:04:36Z",
+      "detected_at": "2026-03-08T10:37:52Z",
       "time_horizon": "Near term: 0-12 months",
       "convergence_title": "Seismic readiness systems in the Philippines",
       "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live systems priority in the Philippines.",
@@ -322,7 +322,7 @@
         "bucket": "fresh",
         "fresh_event_count": 3,
         "active_event_count": 3,
-        "max_event_age_days": 5,
+        "max_event_age_days": 6,
         "reinforced": false
       },
       "reasoning_notes": "Convergence score 2.91 using 3 recent/active official hazard signals."
@@ -359,7 +359,7 @@
         "bucket": "fresh",
         "fresh_event_count": 3,
         "active_event_count": 3,
-        "max_event_age_days": 5,
+        "max_event_age_days": 6,
         "reinforced": false
       },
       "paired_signals": [
@@ -430,5 +430,9 @@
       ]
     }
   ],
+  "verification_review": {
+    "verified_curated_signals": [],
+    "rejected_curated_signals": []
+  },
   "errors": []
 }

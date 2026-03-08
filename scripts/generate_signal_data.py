@@ -279,6 +279,14 @@ def normalized_text(value: Any) -> str:
     return " ".join(str(value or "").strip().lower().split())
 
 
+def titles_compatible(expected: str | None, actual: str | None) -> bool:
+    expected_norm = normalized_text(expected)
+    actual_norm = normalized_text(actual)
+    if not expected_norm or not actual_norm:
+        return False
+    return expected_norm == actual_norm or expected_norm in actual_norm or actual_norm in expected_norm
+
+
 def row_value(row: dict[str, Any], *keys: str) -> str:
     for key in keys:
         if key in row and row.get(key) not in (None, ""):
@@ -475,56 +483,182 @@ def fetch_gdelt_signals(watchlist: dict[str, Any], *, gdelt_pause: float) -> lis
     return signals
 
 
-def fetch_manual_signals(watchlist: dict[str, Any]) -> list[dict[str, Any]]:
+def find_cached_article_by_url(url: str) -> tuple[str, dict[str, Any]] | None:
+    target = normalized_text(url)
+    if not target:
+        return None
+    for path in sorted(CACHE_DIR.glob("*.json")):
+        try:
+            payload = json.loads(path.read_text())
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(payload, dict) or "articles" not in payload:
+            continue
+        for article in payload.get("articles", []):
+            article_urls = [normalized_text(article.get("url")), normalized_text(article.get("url_mobile"))]
+            if target in article_urls:
+                return path.name, article
+    return None
+
+
+def verify_manual_signal(watchlist: dict[str, Any], item: dict[str, Any]) -> tuple[bool, dict[str, Any], tuple[str, dict[str, Any]] | None]:
+    matched = find_cached_article_by_url(item.get("url", ""))
+    report = {
+        "watchlist_id": watchlist["id"],
+        "status": "rejected",
+        "source": item.get("source", "gdelt"),
+        "submitted_url": item.get("url"),
+        "submitted_title": item.get("title"),
+        "submitted_detected_at": item.get("detected_at"),
+        "verification_method": "cache_match",
+        "checks": {
+            "cache_match": matched is not None,
+            "url_match": False,
+            "title_match": False,
+            "date_match": False,
+            "topic_match": False,
+            "manual_basis_present": bool(item.get("verification_basis")),
+        },
+        "rejection_reasons": [],
+    }
+    if matched is None:
+        report["rejection_reasons"].append("No cached source article matched the submitted URL.")
+        return False, report, None
+
+    cache_file, article = matched
+    article_url = article.get("url") or article.get("url_mobile")
+    article_title = article.get("title")
+    article_detected_at = normalize_detected_at(article.get("seendate") or article.get("seendatetime"))
+    report["matched_source"] = {
+        "cache_file": cache_file,
+        "url": article_url,
+        "title": article_title,
+        "detected_at": article_detected_at,
+        "domain": article.get("domain"),
+        "language": article.get("language"),
+        "source_country": article.get("sourcecountry") or article.get("sourceCountry"),
+    }
+    report["checks"]["url_match"] = normalized_text(item.get("url")) == normalized_text(article_url)
+    report["checks"]["title_match"] = titles_compatible(item.get("title"), article_title)
+    report["checks"]["date_match"] = normalize_detected_at(item.get("detected_at")) == article_detected_at
+    report["checks"]["topic_match"] = article_matches(article, watchlist)
+
+    if not report["checks"]["url_match"]:
+        report["rejection_reasons"].append("Submitted URL did not match the cached source URL.")
+    if not report["checks"]["title_match"]:
+        report["rejection_reasons"].append("Submitted title did not match the cached source title.")
+    if not report["checks"]["date_match"]:
+        report["rejection_reasons"].append("Submitted date did not match the cached source date.")
+    if not report["checks"]["topic_match"] and not report["checks"]["manual_basis_present"]:
+        report["rejection_reasons"].append("Signal did not satisfy watchlist topic filters and no manual verification basis was provided.")
+
+    if report["rejection_reasons"]:
+        return False, report, matched
+
+    accepted_via = "watchlist_match" if report["checks"]["topic_match"] else "manual_basis_override"
+    report["status"] = "verified"
+    report["accepted_via"] = accepted_via
+    report["verification"] = {
+        "status": "verified",
+        "method": "cache_match",
+        "cache_file": cache_file,
+        "matched_url": article_url,
+        "matched_title": article_title,
+        "matched_detected_at": article_detected_at,
+        "topic_match": report["checks"]["topic_match"],
+        "manual_basis": item.get("verification_basis"),
+        "accepted_via": accepted_via,
+    }
+    return True, report, matched
+
+
+def fetch_manual_signals(watchlist: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     signals = []
+    verified = []
+    rejected = []
     for index, item in enumerate(watchlist.get("manual_signals", [])):
-        article_url = item.get("url") or f"https://example.com/{watchlist['id']}/{index}"
-        domain = item.get("domain") or urllib.parse.urlparse(article_url).netloc
+        is_verified, report, matched = verify_manual_signal(watchlist, item)
+        if not is_verified or matched is None:
+            rejected.append(report)
+            continue
+        cache_file, article = matched
+        article_url = article.get("url") or article.get("url_mobile") or item.get("url") or f"https://example.com/{watchlist['id']}/{index}"
+        domain = article.get("domain") or item.get("domain") or urllib.parse.urlparse(article_url).netloc
         quality_score = float(item.get("quality_score", 0.82))
         relevance_score = float(item.get("relevance_score", max(0.55, 0.9 - index * 0.08)))
-        detected_at = normalize_detected_at(item.get("detected_at"))
+        detected_at = normalize_detected_at(article.get("seendate") or article.get("seendatetime") or item.get("detected_at"))
         signal_id = stable_id("sig", watchlist["id"], "manual", article_url)
-        signals.append(
-            {
-                "id": signal_id,
-                "watchlist_id": watchlist["id"],
-                "source": item.get("source", "gdelt"),
-                "source_type": "news_aggregation",
-                "category": watchlist["category"],
-                "subcategories": [watchlist["id"], "manual_curation"],
-                "geography": build_geography(watchlist["geography"]),
-                "detected_at": detected_at,
-                "signal_title": item["title"],
-                "signal_summary": item.get("signal_summary") or f"Curated fallback signal for {watchlist['id']} from {domain}.",
-                "strength": item.get("strength", infer_strength_from_position(index)),
-                "url": article_url,
-                "structured_metrics": {
-                    "value": None,
-                    "unit": None,
-                    "window": watchlist.get("news", {}).get("timespan"),
-                    "dimensions": {
-                        "query": "manual_curated",
-                        "domain": domain,
-                        "language": item.get("language"),
-                        "source_country": item.get("source_country"),
-                    },
+        signal = {
+            "id": signal_id,
+            "watchlist_id": watchlist["id"],
+            "source": item.get("source", "gdelt"),
+            "source_type": "news_aggregation",
+            "category": watchlist["category"],
+            "subcategories": [watchlist["id"], "manual_curation"],
+            "geography": build_geography(watchlist["geography"]),
+            "detected_at": detected_at,
+            "signal_title": article.get("title") or item["title"],
+            "signal_summary": item.get("signal_summary") or f"Curated fallback signal for {watchlist['id']} from {domain}.",
+            "strength": item.get("strength", infer_strength_from_position(index)),
+            "url": article_url,
+            "verification": {
+                "status": "verified",
+                "method": "cache_match",
+                "cache_file": cache_file,
+                "matched_title": article.get("title"),
+                "matched_detected_at": detected_at,
+                "matched_url": article_url,
+                "topic_match": report["checks"]["topic_match"],
+                "manual_basis": item.get("verification_basis"),
+                "accepted_via": report.get("accepted_via"),
+            },
+            "structured_metrics": {
+                "value": None,
+                "unit": None,
+                "window": watchlist.get("news", {}).get("timespan"),
+                "dimensions": {
+                    "query": "manual_curated",
+                    "domain": domain,
+                    "language": article.get("language") or item.get("language"),
+                    "source_country": article.get("sourcecountry") or article.get("sourceCountry") or item.get("source_country"),
                 },
-                "entities": [value for value in [domain, item.get("source_country")] if value],
-                "themes": [watchlist["id"], "manual_curated"],
-                "topic_tags": signal_topic_tags(watchlist, "manual_curation"),
-                "keywords": item.get("keywords") or watchlist.get("news", {}).get("must_contain_any", []),
-                "relevance_score": relevance_score,
-                "quality_score": quality_score,
-                "freshness": signal_freshness(
-                    {
-                        "source_type": "news_aggregation",
-                        "detected_at": detected_at,
-                    },
-                    watchlist,
-                ),
+            },
+            "entities": [
+                value
+                for value in [
+                    domain,
+                    article.get("sourcecountry") or article.get("sourceCountry") or item.get("source_country"),
+                ]
+                if value
+            ],
+            "themes": [watchlist["id"], "manual_curated"],
+            "topic_tags": signal_topic_tags(watchlist, "manual_curation"),
+            "keywords": item.get("keywords") or watchlist.get("news", {}).get("must_contain_any", []),
+            "relevance_score": relevance_score,
+            "quality_score": quality_score,
+            "freshness": signal_freshness(
+                {
+                    "source_type": "news_aggregation",
+                    "detected_at": detected_at,
+                },
+                watchlist,
+            ),
+        }
+        signals.append(signal)
+        verified.append(
+            {
+                "watchlist_id": watchlist["id"],
+                "signal_id": signal_id,
+                "status": "verified",
+                "verification": signal["verification"],
+                "source": signal["source"],
+                "url": signal["url"],
+                "title": signal["signal_title"],
+                "detected_at": signal["detected_at"],
+                "accepted_via": report.get("accepted_via"),
             }
         )
-    return signals
+    return signals, verified, rejected
 
 
 def parse_world_bank_response(payload: Any) -> list[dict[str, Any]]:
@@ -1078,6 +1212,10 @@ def merge_outputs(outputs: list[dict[str, Any]]) -> dict[str, Any]:
         "signal_clusters": [],
         "signal_convergences": [],
         "future_bets": [],
+        "verification_review": {
+            "verified_curated_signals": [],
+            "rejected_curated_signals": [],
+        },
         "errors": [],
     }
     for output in outputs:
@@ -1085,6 +1223,9 @@ def merge_outputs(outputs: list[dict[str, Any]]) -> dict[str, Any]:
         merged["signal_clusters"].extend(output.get("signal_clusters", []))
         merged["signal_convergences"].extend(output.get("signal_convergences", []))
         merged["future_bets"].extend(output.get("future_bets", []))
+        review = output.get("verification_review") or {}
+        merged["verification_review"]["verified_curated_signals"].extend(review.get("verified_curated_signals", []))
+        merged["verification_review"]["rejected_curated_signals"].extend(review.get("rejected_curated_signals", []))
         merged["errors"].extend(output.get("errors", []))
     return merged
 
@@ -1095,6 +1236,8 @@ def generate(selected_watchlists: list[str] | None = None) -> dict[str, Any]:
     watchlists_by_id = {watchlist["id"]: watchlist for watchlist in watchlists}
     sources = load_json(SOURCE_REGISTRY_PATH)
     raw_signals: list[dict[str, Any]] = []
+    verified_curated_signals: list[dict[str, Any]] = []
+    rejected_curated_signals: list[dict[str, Any]] = []
     errors: list[str] = []
     gdelt_pause = 0.0
 
@@ -1106,7 +1249,10 @@ def generate(selected_watchlists: list[str] | None = None) -> dict[str, Any]:
             except Exception as exc:
                 errors.append(f"GDELT fetch failed for {watchlist['id']}: {exc}")
                 gdelt_pause = 3.0
-        raw_signals.extend(fetch_manual_signals(watchlist))
+        manual_signals, verified_reviews, rejected_reviews = fetch_manual_signals(watchlist)
+        raw_signals.extend(manual_signals)
+        verified_curated_signals.extend(verified_reviews)
+        rejected_curated_signals.extend(rejected_reviews)
         for signal_cfg in watchlist.get("structural_signals", []):
             try:
                 signal = fetch_world_bank_signal(watchlist, signal_cfg)
@@ -1140,6 +1286,10 @@ def generate(selected_watchlists: list[str] | None = None) -> dict[str, Any]:
         "signal_clusters": clusters,
         "signal_convergences": convergences,
         "future_bets": future_bets,
+        "verification_review": {
+            "verified_curated_signals": verified_curated_signals,
+            "rejected_curated_signals": rejected_curated_signals,
+        },
         "errors": errors,
     }
 
@@ -1153,6 +1303,10 @@ def generate(selected_watchlists: list[str] | None = None) -> dict[str, Any]:
                 "signal_clusters": [cluster for cluster in clusters if watchlist_id in cluster["id"] or any(signal_id.startswith("sig-") for signal_id in cluster.get("signal_ids", []))],
                 "signal_convergences": [conv for conv in convergences if conv["geography"] == watchlists_by_id[watchlist_id]["geography"] and conv["category"] == watchlists_by_id[watchlist_id]["category"]],
                 "future_bets": [bet for bet in future_bets if bet["category"] == watchlists_by_id[watchlist_id]["category"] and bet["geography"] == watchlists_by_id[watchlist_id]["geography"]],
+                "verification_review": {
+                    "verified_curated_signals": [item for item in verified_curated_signals if item["watchlist_id"] == watchlist_id],
+                    "rejected_curated_signals": [item for item in rejected_curated_signals if item["watchlist_id"] == watchlist_id],
+                },
                 "errors": [error for error in errors if watchlist_id in error],
             }
             write_json(WATCHLIST_OUTPUT_DIR / f"{watchlist_id}.json", scoped_output)
@@ -1168,6 +1322,10 @@ def generate(selected_watchlists: list[str] | None = None) -> dict[str, Any]:
                 "signal_clusters": [cluster for cluster in clusters if watchlist_id in cluster["id"]],
                 "signal_convergences": [conv for conv in convergences if conv["geography"] == watchlist["geography"] and conv["category"] == watchlist["category"]],
                 "future_bets": [bet for bet in future_bets if bet["category"] == watchlist["category"] and bet["geography"] == watchlist["geography"]],
+                "verification_review": {
+                    "verified_curated_signals": [item for item in verified_curated_signals if item["watchlist_id"] == watchlist_id],
+                    "rejected_curated_signals": [item for item in rejected_curated_signals if item["watchlist_id"] == watchlist_id],
+                },
                 "errors": [error for error in errors if watchlist_id in error],
             }
             write_json(WATCHLIST_OUTPUT_DIR / f"{watchlist_id}.json", scoped_output)
@@ -1177,6 +1335,7 @@ def generate(selected_watchlists: list[str] | None = None) -> dict[str, Any]:
     write_json(GENERATED_DIR / "signal-clusters.json", merged["signal_clusters"])
     write_json(GENERATED_DIR / "signal-convergences.json", merged["signal_convergences"])
     write_json(GENERATED_DIR / "future-bets.json", merged["future_bets"])
+    write_json(GENERATED_DIR / "verification-review.json", merged["verification_review"])
     write_json(GENERATED_DIR / "pipeline-output.json", merged)
     return output
 
@@ -1196,6 +1355,8 @@ def main() -> int:
         "signal_clusters": len(output["signal_clusters"]),
         "signal_convergences": len(output["signal_convergences"]),
         "future_bets": len(output["future_bets"]),
+        "verified_curated_signals": len((output.get("verification_review") or {}).get("verified_curated_signals", [])),
+        "rejected_curated_signals": len((output.get("verification_review") or {}).get("rejected_curated_signals", [])),
         "watchlists_run": args.watchlist or "all",
         "errors": output["errors"],
     }, indent=2))

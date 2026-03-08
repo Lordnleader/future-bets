@@ -1,0 +1,77 @@
+{
+  "verified_curated_signals": [
+    {
+      "watchlist_id": "urban-water-pressure-india",
+      "signal_id": "sig-8bb85e76582e",
+      "status": "verified",
+      "verification": {
+        "status": "verified",
+        "method": "cache_match",
+        "cache_file": "1c499518b3802b96c6cbe54574fa328aea5bf11f.json",
+        "matched_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
+        "matched_detected_at": "2026-03-07T02:45:00Z",
+        "matched_url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
+        "topic_match": true,
+        "manual_basis": null,
+        "accepted_via": "watchlist_match"
+      },
+      "source": "gdelt",
+      "url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
+      "title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
+      "detected_at": "2026-03-07T02:45:00Z",
+      "accepted_via": "watchlist_match"
+    },
+    {
+      "watchlist_id": "urban-water-pressure-india",
+      "signal_id": "sig-7100bd236e01",
+      "status": "verified",
+      "verification": {
+        "status": "verified",
+        "method": "cache_match",
+        "cache_file": "1c499518b3802b96c6cbe54574fa328aea5bf11f.json",
+        "matched_title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
+        "matched_detected_at": "2026-03-07T08:15:00Z",
+        "matched_url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
+        "topic_match": false,
+        "manual_basis": "Used as a reinforcing heat-stress signal for the same India water-pressure thesis when combined with a direct groundwater depletion article.",
+        "accepted_via": "manual_basis_override"
+      },
+      "source": "gdelt",
+      "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
+      "title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
+      "detected_at": "2026-03-07T08:15:00Z",
+      "accepted_via": "manual_basis_override"
+    }
+  ],
+  "rejected_curated_signals": [
+    {
+      "watchlist_id": "shipping-route-fragility",
+      "status": "rejected",
+      "source": "gdelt",
+      "submitted_url": "https://www.thehindubusinessline.com/news/world/global-economy-faces-widening-strains-as-west-asia-war-intensifies/article70715498.ece",
+      "submitted_title": "Global economy faces widening strains as West Asia war intensifies",
+      "submitted_detected_at": "20260307T113000Z",
+      "verification_method": "cache_match",
+      "checks": {
+        "cache_match": true,
+        "url_match": true,
+        "title_match": true,
+        "date_match": true,
+        "topic_match": false,
+        "manual_basis_present": false
+      },
+      "rejection_reasons": [
+        "Signal did not satisfy watchlist topic filters and no manual verification basis was provided."
+      ],
+      "matched_source": {
+        "cache_file": "7f157213276406bb5c3ef783b1a90640f2c9c3ca.json",
+        "url": "https://www.thehindubusinessline.com/news/world/global-economy-faces-widening-strains-as-west-asia-war-intensifies/article70715498.ece",
+        "title": "Global economy faces widening strains as West Asia war intensifies",
+        "detected_at": "2026-03-07T11:30:00Z",
+        "domain": "thehindubusinessline.com",
+        "language": "English",
+        "source_country": "India"
+      }
+    }
+  ]
+}

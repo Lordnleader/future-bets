@@ -9,7 +9,7 @@
         "IND"
       ]
     },
-    "detected_at": "2026-03-08T10:04:36Z",
+    "detected_at": "2026-03-08T10:37:52Z",
     "time_horizon": "Long term: 3-10 years",
     "convergence_title": "Treating urban water stress as a temporary inconvenience",
     "convergence_summary": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
@@ -21,7 +21,7 @@
     "paired_signals": [
       {
         "signal_id": "sig-8bb85e76582e",
-        "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+        "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
         "source": "gdelt",
         "source_type": "news_aggregation",
         "why_it_matters": "Recent event signal remains fresh with age 1 days.",
@@ -29,7 +29,7 @@
       },
       {
         "signal_id": "sig-7100bd236e01",
-        "signal_title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+        "signal_title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
         "source": "gdelt",
         "source_type": "news_aggregation",
         "why_it_matters": "Recent event signal remains fresh with age 1 days.",
@@ -74,7 +74,7 @@
         "IDN"
       ]
     },
-    "detected_at": "2026-03-08T10:04:36Z",
+    "detected_at": "2026-03-08T10:37:52Z",
     "time_horizon": "Near term: 0-12 months",
     "convergence_title": "Seismic readiness systems in Indonesia",
     "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
@@ -139,7 +139,7 @@
         "PHL"
       ]
     },
-    "detected_at": "2026-03-08T10:04:36Z",
+    "detected_at": "2026-03-08T10:37:52Z",
     "time_horizon": "Near term: 0-12 months",
     "convergence_title": "Seismic readiness systems in the Philippines",
     "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live systems priority in the Philippines.",
@@ -189,7 +189,7 @@
       "bucket": "fresh",
       "fresh_event_count": 3,
       "active_event_count": 3,
-      "max_event_age_days": 5,
+      "max_event_age_days": 6,
       "reinforced": false
     },
     "reasoning_notes": "Convergence score 2.91 using 3 recent/active official hazard signals."
@@ -204,7 +204,7 @@
         "CHL"
       ]
     },
-    "detected_at": "2026-03-08T10:04:36Z",
+    "detected_at": "2026-03-08T10:37:52Z",
     "time_horizon": "Near term: 0-12 months",
     "convergence_title": "Seismic resilience systems in Chile",
     "convergence_summary": "Repeated official earthquake activity suggests resilience systems remain strategically relevant in Chile.",

@@ -35,7 +35,7 @@
     "paired_signals": [
       {
         "signal_id": "sig-8bb85e76582e",
-        "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+        "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
         "source": "gdelt",
         "source_type": "news_aggregation",
         "why_it_matters": "Recent event signal remains fresh with age 1 days.",
@@ -43,7 +43,7 @@
       },
       {
         "signal_id": "sig-7100bd236e01",
-        "signal_title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+        "signal_title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
         "source": "gdelt",
         "source_type": "news_aggregation",
         "why_it_matters": "Recent event signal remains fresh with age 1 days.",
@@ -81,13 +81,13 @@
     "sources": [
       {
         "source_id": "gdelt",
-        "title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+        "title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
         "url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
         "note": "A large urban center drew far more groundwater than it replenished, reinforcing direct pressure on municipal water resilience."
       },
       {
         "source_id": "gdelt",
-        "title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+        "title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
         "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
         "note": "Unusually early heat across multiple Indian cities reinforces the environmental conditions that intensify urban water stress."
       },
@@ -229,7 +229,7 @@
       "bucket": "fresh",
       "fresh_event_count": 3,
       "active_event_count": 3,
-      "max_event_age_days": 5,
+      "max_event_age_days": 6,
       "reinforced": false
     },
     "paired_signals": [

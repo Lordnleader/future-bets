@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-08T10:04:36Z",
+  "generated_at": "2026-03-08T10:37:52Z",
   "pipeline_version": "0.4",
   "sources": [
     {
@@ -145,5 +145,39 @@
   "signal_clusters": [],
   "signal_convergences": [],
   "future_bets": [],
+  "verification_review": {
+    "verified_curated_signals": [],
+    "rejected_curated_signals": [
+      {
+        "watchlist_id": "shipping-route-fragility",
+        "status": "rejected",
+        "source": "gdelt",
+        "submitted_url": "https://www.thehindubusinessline.com/news/world/global-economy-faces-widening-strains-as-west-asia-war-intensifies/article70715498.ece",
+        "submitted_title": "Global economy faces widening strains as West Asia war intensifies",
+        "submitted_detected_at": "20260307T113000Z",
+        "verification_method": "cache_match",
+        "checks": {
+          "cache_match": true,
+          "url_match": true,
+          "title_match": true,
+          "date_match": true,
+          "topic_match": false,
+          "manual_basis_present": false
+        },
+        "rejection_reasons": [
+          "Signal did not satisfy watchlist topic filters and no manual verification basis was provided."
+        ],
+        "matched_source": {
+          "cache_file": "7f157213276406bb5c3ef783b1a90640f2c9c3ca.json",
+          "url": "https://www.thehindubusinessline.com/news/world/global-economy-faces-widening-strains-as-west-asia-war-intensifies/article70715498.ece",
+          "title": "Global economy faces widening strains as West Asia war intensifies",
+          "detected_at": "2026-03-07T11:30:00Z",
+          "domain": "thehindubusinessline.com",
+          "language": "English",
+          "source_country": "India"
+        }
+      }
+    ]
+  },
   "errors": []
 }

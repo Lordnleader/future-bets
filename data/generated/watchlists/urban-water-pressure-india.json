@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-08T10:04:36Z",
+  "generated_at": "2026-03-08T10:37:52Z",
   "pipeline_version": "0.4",
   "sources": [
     {
@@ -94,10 +94,21 @@
         ]
       },
       "detected_at": "2026-03-07T02:45:00Z",
-      "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+      "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
       "signal_summary": "A large urban center drew far more groundwater than it replenished, reinforcing direct pressure on municipal water resilience.",
       "strength": "High",
       "url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
+      "verification": {
+        "status": "verified",
+        "method": "cache_match",
+        "cache_file": "1c499518b3802b96c6cbe54574fa328aea5bf11f.json",
+        "matched_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
+        "matched_detected_at": "2026-03-07T02:45:00Z",
+        "matched_url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
+        "topic_match": true,
+        "manual_basis": null,
+        "accepted_via": "watchlist_match"
+      },
       "structured_metrics": {
         "value": null,
         "unit": null,
@@ -159,10 +170,21 @@
         ]
       },
       "detected_at": "2026-03-07T08:15:00Z",
-      "signal_title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+      "signal_title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
       "signal_summary": "Unusually early heat across multiple Indian cities reinforces the environmental conditions that intensify urban water stress.",
       "strength": "Medium",
       "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
+      "verification": {
+        "status": "verified",
+        "method": "cache_match",
+        "cache_file": "1c499518b3802b96c6cbe54574fa328aea5bf11f.json",
+        "matched_title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
+        "matched_detected_at": "2026-03-07T08:15:00Z",
+        "matched_url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
+        "topic_match": false,
+        "manual_basis": "Used as a reinforcing heat-stress signal for the same India water-pressure thesis when combined with a direct groundwater depletion article.",
+        "accepted_via": "manual_basis_override"
+      },
       "structured_metrics": {
         "value": null,
         "unit": null,
@@ -284,7 +306,7 @@
           "IND"
         ]
       },
-      "detected_at": "2026-03-08T10:04:36Z",
+      "detected_at": "2026-03-08T10:37:52Z",
       "time_horizon": "Long term: 3-10 years",
       "convergence_title": "Treating urban water stress as a temporary inconvenience",
       "convergence_summary": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
@@ -296,7 +318,7 @@
       "paired_signals": [
         {
           "signal_id": "sig-8bb85e76582e",
-          "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+          "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
           "source": "gdelt",
           "source_type": "news_aggregation",
           "why_it_matters": "Recent event signal remains fresh with age 1 days.",
@@ -304,7 +326,7 @@
         },
         {
           "signal_id": "sig-7100bd236e01",
-          "signal_title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+          "signal_title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
           "source": "gdelt",
           "source_type": "news_aggregation",
           "why_it_matters": "Recent event signal remains fresh with age 1 days.",
@@ -377,7 +399,7 @@
       "paired_signals": [
         {
           "signal_id": "sig-8bb85e76582e",
-          "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+          "signal_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
           "source": "gdelt",
           "source_type": "news_aggregation",
           "why_it_matters": "Recent event signal remains fresh with age 1 days.",
@@ -385,7 +407,7 @@
         },
         {
           "signal_id": "sig-7100bd236e01",
-          "signal_title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+          "signal_title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
           "source": "gdelt",
           "source_type": "news_aggregation",
           "why_it_matters": "Recent event signal remains fresh with age 1 days.",
@@ -423,13 +445,13 @@
       "sources": [
         {
           "source_id": "gdelt",
-          "title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year",
+          "title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
           "url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
           "note": "A large urban center drew far more groundwater than it replenished, reinforcing direct pressure on municipal water resilience."
         },
         {
           "source_id": "gdelt",
-          "title": "Madhya Pradesh weather update: unusual March heat grips several cities",
+          "title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
           "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
           "note": "Unusually early heat across multiple Indian cities reinforces the environmental conditions that intensify urban water stress."
         },
@@ -442,6 +464,53 @@
       ]
     }
   ],
+  "verification_review": {
+    "verified_curated_signals": [
+      {
+        "watchlist_id": "urban-water-pressure-india",
+        "signal_id": "sig-8bb85e76582e",
+        "status": "verified",
+        "verification": {
+          "status": "verified",
+          "method": "cache_match",
+          "cache_file": "1c499518b3802b96c6cbe54574fa328aea5bf11f.json",
+          "matched_title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
+          "matched_detected_at": "2026-03-07T02:45:00Z",
+          "matched_url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
+          "topic_match": true,
+          "manual_basis": null,
+          "accepted_via": "watchlist_match"
+        },
+        "source": "gdelt",
+        "url": "https://timesofindia.indiatimes.com/city/gurgaon/gurgaon-drew-195-more-groundwater-than-it-replenished-last-year/articleshow/129189370.cms",
+        "title": "Water Crisis In Gurgaon : 195 % more groundwater drawn by Gurgaon than it replenished last year | Gurgaon News",
+        "detected_at": "2026-03-07T02:45:00Z",
+        "accepted_via": "watchlist_match"
+      },
+      {
+        "watchlist_id": "urban-water-pressure-india",
+        "signal_id": "sig-7100bd236e01",
+        "status": "verified",
+        "verification": {
+          "status": "verified",
+          "method": "cache_match",
+          "cache_file": "1c499518b3802b96c6cbe54574fa328aea5bf11f.json",
+          "matched_title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
+          "matched_detected_at": "2026-03-07T08:15:00Z",
+          "matched_url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
+          "topic_match": false,
+          "manual_basis": "Used as a reinforcing heat-stress signal for the same India water-pressure thesis when combined with a direct groundwater depletion article.",
+          "accepted_via": "manual_basis_override"
+        },
+        "source": "gdelt",
+        "url": "https://www.freepressjournal.in/indore/madhya-pradesh-march-7-2025-weather-update-unusual-march-heat-grips-state-mercury-crosses-35c-in-several-cities",
+        "title": "Madhya Pradesh March 7 , 2025 , Weather Update : Unusual March Heat Grips State , Mercury Crosses 35\u00b0C In Several Cities",
+        "detected_at": "2026-03-07T08:15:00Z",
+        "accepted_via": "manual_basis_override"
+      }
+    ],
+    "rejected_curated_signals": []
+  },
   "errors": [
     "GDELT fetch failed for urban-water-pressure-india: <urlopen error [Errno 8] nodename nor servname provided, or not known>"
   ]

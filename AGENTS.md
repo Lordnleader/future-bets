@@ -54,3 +54,11 @@ Cost safety rule:
 Do not introduce any architecture, service, workflow, or integration that could create ongoing or surprise costs without explicitly flagging it first.
 
 Prefer free, local, static, or clearly limited options by default.
+
+Evidence integrity rule:
+
+Never fabricate sources, article titles, signal summaries, supporting evidence, or upstream data.
+
+If a signal cannot be verified from a real source, reject it instead of using it.
+
+Manual, curated, or fallback signals must be explicitly verified before they enter the generated dataset.
