@@ -1,13 +1,138 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js";
 
-const STARFIELD_COUNT = 5200;
-const DUST_COUNT = 1800;
-const CORE_RING_COUNT = 24800;
-const FILAMENT_RING_COUNT = 9600;
-const AURA_RING_COUNT = 4200;
-const BOKEH_BACK_COUNT = 1900;
-const BOKEH_FRONT_COUNT = 1550;
+const STARFIELD_COUNT = 2200;
+const DUST_COUNT = 720;
+const CORE_COUNT = 18000;
+const FILAMENT_COUNT = 7600;
+const AURA_COUNT = 3200;
+const BOKEH_BACK_COUNT = 1600;
+const BOKEH_FRONT_COUNT = 1300;
 const TWO_PI = Math.PI * 2;
+
+const RIBBON_SPECS = [
+  {
+    startAngle: 0.88 * Math.PI,
+    endAngle: 1.48 * Math.PI,
+    radius: 3.48,
+    weight: 3.4,
+    macroSpeed: 0.065,
+    flowRange: [0.038, 0.092],
+    radiusWave: 0.22,
+    breatheSpeed: 0.38,
+    width: 0.82,
+    foldAmp: 0.34,
+    foldFreq: 3.2,
+    foldSpeed: 0.92,
+    sheetAmp: 0.42,
+    sheetFreq: 3.8,
+    sheetSpeed: 0.72,
+    tangentAmp: 0.2,
+    tangentFreq: 4.6,
+    tangentSpeed: 1.12,
+    depth: 0.42,
+    depthAmp: 0.5,
+    depthFreq: 2.7,
+    depthSpeed: 0.76,
+  },
+  {
+    startAngle: 1.18 * Math.PI,
+    endAngle: 1.9 * Math.PI,
+    radius: 3.5,
+    weight: 4.1,
+    macroSpeed: 0.07,
+    flowRange: [0.04, 0.098],
+    radiusWave: 0.2,
+    breatheSpeed: 0.34,
+    width: 0.96,
+    foldAmp: 0.38,
+    foldFreq: 3.5,
+    foldSpeed: 0.88,
+    sheetAmp: 0.5,
+    sheetFreq: 4.2,
+    sheetSpeed: 0.7,
+    tangentAmp: 0.26,
+    tangentFreq: 5,
+    tangentSpeed: 1.08,
+    depth: 0.48,
+    depthAmp: 0.58,
+    depthFreq: 3.1,
+    depthSpeed: 0.82,
+  },
+  {
+    startAngle: 1.9 * Math.PI,
+    endAngle: 2.24 * Math.PI,
+    radius: 3.4,
+    weight: 2.7,
+    macroSpeed: 0.075,
+    flowRange: [0.042, 0.102],
+    radiusWave: 0.18,
+    breatheSpeed: 0.36,
+    width: 0.76,
+    foldAmp: 0.3,
+    foldFreq: 3,
+    foldSpeed: 0.96,
+    sheetAmp: 0.38,
+    sheetFreq: 3.6,
+    sheetSpeed: 0.78,
+    tangentAmp: 0.18,
+    tangentFreq: 4.4,
+    tangentSpeed: 1,
+    depth: 0.4,
+    depthAmp: 0.46,
+    depthFreq: 2.6,
+    depthSpeed: 0.72,
+  },
+  {
+    startAngle: 0.62 * Math.PI,
+    endAngle: 0.9 * Math.PI,
+    radius: 3.55,
+    weight: 1.1,
+    macroSpeed: 0.06,
+    flowRange: [0.028, 0.072],
+    radiusWave: 0.18,
+    breatheSpeed: 0.28,
+    width: 0.48,
+    foldAmp: 0.18,
+    foldFreq: 2.4,
+    foldSpeed: 0.68,
+    sheetAmp: 0.24,
+    sheetFreq: 2.8,
+    sheetSpeed: 0.62,
+    tangentAmp: 0.12,
+    tangentFreq: 3.6,
+    tangentSpeed: 0.84,
+    depth: 0.28,
+    depthAmp: 0.34,
+    depthFreq: 2.1,
+    depthSpeed: 0.56,
+  },
+  {
+    startAngle: 0.18 * Math.PI,
+    endAngle: 0.4 * Math.PI,
+    radius: 3.44,
+    weight: 0.85,
+    macroSpeed: 0.058,
+    flowRange: [0.024, 0.066],
+    radiusWave: 0.16,
+    breatheSpeed: 0.24,
+    width: 0.42,
+    foldAmp: 0.16,
+    foldFreq: 2.2,
+    foldSpeed: 0.6,
+    sheetAmp: 0.22,
+    sheetFreq: 2.6,
+    sheetSpeed: 0.58,
+    tangentAmp: 0.1,
+    tangentFreq: 3.2,
+    tangentSpeed: 0.8,
+    depth: 0.24,
+    depthAmp: 0.28,
+    depthFreq: 1.9,
+    depthSpeed: 0.52,
+  },
+];
+
+const RIBBON_WEIGHTS = buildWeightTable();
 
 export function createLandingScene(container, { triggerElement } = {}) {
   const renderer = new THREE.WebGLRenderer({
@@ -21,7 +146,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
   container.append(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x030303, 0.036);
+  scene.fog = new THREE.FogExp2(0x030303, 0.032);
 
   const camera = new THREE.PerspectiveCamera(
     30,
@@ -29,105 +154,80 @@ export function createLandingScene(container, { triggerElement } = {}) {
     0.1,
     120,
   );
-  camera.position.set(0, 0, 11.8);
+  camera.position.set(0, 0, 11.2);
 
   const root = new THREE.Group();
   scene.add(root);
 
-  const ringGroup = new THREE.Group();
-  ringGroup.scale.set(0.78, 1.06, 1);
-  root.add(ringGroup);
+  const wreathGroup = new THREE.Group();
+  wreathGroup.scale.set(0.9, 1.12, 1);
+  root.add(wreathGroup);
 
   const sprite = createCircularSprite();
-
-  const farStars = createStarfield(sprite);
-  const dustField = createDustField(sprite);
-  const coreRing = createRingSystem(sprite, CORE_RING_COUNT, {
-    majorRadiusX: 3.6,
-    majorRadiusY: 3.72,
-    tubeRadius: 1.26,
-    depth: 0.76,
+  const starfield = createStarfield(sprite);
+  const dust = createDustField(sprite);
+  const auraLayer = createRibbonLayer(sprite, AURA_COUNT, {
+    pointSize: 0.06,
+    opacity: 0.11,
+    brightnessRange: [0.84, 0.98],
+    widthScale: 1.24,
+    depthScale: 1.45,
+    tangentScale: 1.05,
+    speedScale: 0.92,
+    depthOffset: 0,
+  });
+  const coreLayer = createRibbonLayer(sprite, CORE_COUNT, {
     pointSize: 0.017,
     opacity: 0.9,
     brightnessRange: [0.8, 1],
-    driftRange: [0.04, 0.11],
-    crossRange: [0.58, 1.16],
-    macroSpeed: 0.11,
-    orbitAmplitude: 0.26,
-    crossAmplitude: 1.24,
-    tangentAmplitude: 0.18,
-    tubeWave: 0.34,
-    majorWave: 0.1,
-    clustered: true,
+    widthScale: 1.02,
+    depthScale: 0.92,
+    tangentScale: 1,
+    speedScale: 1,
+    depthOffset: 0,
   });
-  const filamentRing = createRingSystem(sprite, FILAMENT_RING_COUNT, {
-    majorRadiusX: 3.56,
-    majorRadiusY: 3.68,
-    tubeRadius: 1.04,
-    depth: 0.62,
+  const filamentLayer = createRibbonLayer(sprite, FILAMENT_COUNT, {
     pointSize: 0.028,
     opacity: 0.98,
     brightnessRange: [0.92, 1],
-    driftRange: [0.055, 0.14],
-    crossRange: [0.78, 1.42],
-    macroSpeed: 0.126,
-    orbitAmplitude: 0.34,
-    crossAmplitude: 1.52,
-    tangentAmplitude: 0.28,
-    tubeWave: 0.26,
-    majorWave: 0.08,
-    clustered: true,
+    widthScale: 0.9,
+    depthScale: 0.8,
+    tangentScale: 1.18,
+    speedScale: 1.08,
+    depthOffset: 0,
   });
-  const auraRing = createRingSystem(sprite, AURA_RING_COUNT, {
-    majorRadiusX: 3.58,
-    majorRadiusY: 3.7,
-    tubeRadius: 1.18,
-    depth: 1.12,
-    pointSize: 0.06,
-    opacity: 0.16,
-    brightnessRange: [0.9, 1],
-    driftRange: [0.03, 0.07],
-    crossRange: [0.34, 0.8],
-    macroSpeed: 0.104,
-    orbitAmplitude: 0.18,
-    crossAmplitude: 0.82,
-    tangentAmplitude: 0.12,
-    tubeWave: 0.18,
-    majorWave: 0.06,
-    clustered: true,
-  });
-  const bokehBack = createBokehLayer(sprite, BOKEH_BACK_COUNT, {
-    majorRadiusX: 3.72,
-    majorRadiusY: 3.86,
-    tubeRadius: 1.48,
-    macroSpeed: 0.108,
-    depthOffset: -4.2,
-    depthSpread: 1.7,
-    pointSize: 0.24,
+  const backBokeh = createRibbonLayer(sprite, BOKEH_BACK_COUNT, {
+    pointSize: 0.22,
     opacity: 0.18,
+    brightnessRange: [0.84, 0.96],
+    widthScale: 1.34,
+    depthScale: 2.2,
+    tangentScale: 0.9,
+    speedScale: 0.82,
+    depthOffset: -3.8,
   });
-  const bokehFront = createBokehLayer(sprite, BOKEH_FRONT_COUNT, {
-    majorRadiusX: 3.48,
-    majorRadiusY: 3.62,
-    tubeRadius: 1.36,
-    macroSpeed: 0.12,
-    depthOffset: 4,
-    depthSpread: 1.44,
-    pointSize: 0.3,
-    opacity: 0.21,
+  const frontBokeh = createRibbonLayer(sprite, BOKEH_FRONT_COUNT, {
+    pointSize: 0.28,
+    opacity: 0.2,
+    brightnessRange: [0.88, 1],
+    widthScale: 1.18,
+    depthScale: 2.05,
+    tangentScale: 0.92,
+    speedScale: 0.9,
+    depthOffset: 3.55,
   });
 
-  scene.add(farStars);
-  scene.add(dustField);
-  ringGroup.add(auraRing.points);
-  ringGroup.add(coreRing.points);
-  ringGroup.add(filamentRing.points);
-  ringGroup.add(bokehBack);
-  ringGroup.add(bokehFront);
+  scene.add(starfield);
+  scene.add(dust);
+  wreathGroup.add(auraLayer.points);
+  wreathGroup.add(backBokeh.points);
+  wreathGroup.add(coreLayer.points);
+  wreathGroup.add(filamentLayer.points);
+  wreathGroup.add(frontBokeh.points);
 
-  scene.add(new THREE.AmbientLight(0xf3f1eb, 0.45));
-  const frontLight = new THREE.PointLight(0xffffff, 0.86, 32);
-  frontLight.position.set(0, 0.2, 8.5);
+  scene.add(new THREE.AmbientLight(0xf2f0eb, 0.42));
+  const frontLight = new THREE.PointLight(0xffffff, 0.78, 30);
+  frontLight.position.set(0, 0.15, 8.4);
   scene.add(frontLight);
 
   const pointer = { x: 0, y: 0, rawX: 0, rawY: 0 };
@@ -150,26 +250,26 @@ export function createLandingScene(container, { triggerElement } = {}) {
     const elapsed = clock.getElapsedTime();
     const focus = computeFocusIntensity();
 
-    root.rotation.x = THREE.MathUtils.lerp(root.rotation.x, pointer.y * 0.028, 0.03);
-    root.rotation.y = THREE.MathUtils.lerp(root.rotation.y, pointer.x * 0.045, 0.03);
-    root.position.x = THREE.MathUtils.lerp(root.position.x, pointer.x * 0.18, 0.03);
-    root.position.y = THREE.MathUtils.lerp(root.position.y, pointer.y * 0.08, 0.03);
+    root.rotation.x = THREE.MathUtils.lerp(root.rotation.x, pointer.y * 0.024, 0.03);
+    root.rotation.y = THREE.MathUtils.lerp(root.rotation.y, pointer.x * 0.035, 0.03);
+    root.position.x = THREE.MathUtils.lerp(root.position.x, pointer.x * 0.14, 0.03);
+    root.position.y = THREE.MathUtils.lerp(root.position.y, pointer.y * 0.06, 0.03);
 
-    updateRingSystem(coreRing, elapsed, focus, 0.9);
-    updateRingSystem(filamentRing, elapsed, focus, 1.3);
-    updateRingSystem(auraRing, elapsed, focus, 0.55);
-    updateBokehLayer(bokehBack, elapsed, focus, 0.65);
-    updateBokehLayer(bokehFront, elapsed, focus, 1);
-    updateDustField(dustField, elapsed);
+    updateRibbonLayer(auraLayer, elapsed, focus);
+    updateRibbonLayer(backBokeh, elapsed, focus);
+    updateRibbonLayer(coreLayer, elapsed, focus);
+    updateRibbonLayer(filamentLayer, elapsed, focus);
+    updateRibbonLayer(frontBokeh, elapsed, focus);
+    updateDustField(dust, elapsed);
 
-    auraRing.material.opacity = 0.16 + focus * 0.04;
-    coreRing.material.opacity = 0.9 + focus * 0.08;
-    filamentRing.material.opacity = 0.98 + focus * 0.04;
-    bokehBack.material.opacity = 0.18 + focus * 0.03;
-    bokehFront.material.opacity = 0.21 + focus * 0.04;
+    auraLayer.material.opacity = 0.11 + focus * 0.03;
+    coreLayer.material.opacity = 0.9 + focus * 0.05;
+    filamentLayer.material.opacity = 0.98 + focus * 0.02;
+    backBokeh.material.opacity = 0.18 + focus * 0.03;
+    frontBokeh.material.opacity = 0.2 + focus * 0.04;
 
-    farStars.rotation.y += 0.00002;
-    farStars.rotation.x = Math.sin(elapsed * 0.05) * 0.012;
+    starfield.rotation.y += 0.000015;
+    starfield.rotation.x = Math.sin(elapsed * 0.05) * 0.01;
 
     renderer.render(scene, camera);
   }
@@ -229,6 +329,25 @@ export function createLandingScene(container, { triggerElement } = {}) {
   }
 }
 
+function buildWeightTable() {
+  let total = 0;
+  return RIBBON_SPECS.map((spec) => {
+    total += spec.weight;
+    return total;
+  });
+}
+
+function pickRibbonIndex() {
+  const target = Math.random() * RIBBON_WEIGHTS[RIBBON_WEIGHTS.length - 1];
+  for (let i = 0; i < RIBBON_WEIGHTS.length; i += 1) {
+    if (target <= RIBBON_WEIGHTS[i]) {
+      return i;
+    }
+  }
+
+  return RIBBON_WEIGHTS.length - 1;
+}
+
 function createCircularSprite() {
   const size = 96;
   const canvas = document.createElement("canvas");
@@ -237,8 +356,8 @@ function createCircularSprite() {
   const context = canvas.getContext("2d");
   const gradient = context.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
   gradient.addColorStop(0, "rgba(255,255,255,1)");
-  gradient.addColorStop(0.18, "rgba(255,255,255,0.98)");
-  gradient.addColorStop(0.5, "rgba(255,255,255,0.42)");
+  gradient.addColorStop(0.16, "rgba(255,255,255,0.99)");
+  gradient.addColorStop(0.46, "rgba(255,255,255,0.44)");
   gradient.addColorStop(1, "rgba(255,255,255,0)");
   context.fillStyle = gradient;
   context.fillRect(0, 0, size, size);
@@ -254,12 +373,12 @@ function createStarfield(sprite) {
   const colors = new Float32Array(STARFIELD_COUNT * 3);
 
   for (let i = 0; i < STARFIELD_COUNT; i += 1) {
-    const radius = THREE.MathUtils.randFloat(12, 40);
+    const radius = THREE.MathUtils.randFloat(12, 36);
     const theta = Math.random() * TWO_PI;
     const phi = Math.acos(THREE.MathUtils.randFloatSpread(2));
 
     positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-    positions[i * 3 + 1] = radius * Math.cos(phi) * 0.78;
+    positions[i * 3 + 1] = radius * Math.cos(phi) * 0.82;
     positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
 
     const tint = THREE.MathUtils.randFloat(0.76, 1);
@@ -275,9 +394,9 @@ function createStarfield(sprite) {
     geometry,
     new THREE.PointsMaterial({
       map: sprite,
-      size: 0.018,
+      size: 0.016,
       transparent: true,
-      opacity: 0.34,
+      opacity: 0.22,
       alphaTest: 0.02,
       vertexColors: true,
       depthWrite: false,
@@ -294,8 +413,8 @@ function createDustField(sprite) {
   const meta = new Float32Array(DUST_COUNT * 4);
 
   for (let i = 0; i < DUST_COUNT; i += 1) {
-    positions[i * 3] = THREE.MathUtils.randFloatSpread(18);
-    positions[i * 3 + 1] = THREE.MathUtils.randFloatSpread(12);
+    positions[i * 3] = THREE.MathUtils.randFloatSpread(16);
+    positions[i * 3 + 1] = THREE.MathUtils.randFloatSpread(11);
     positions[i * 3 + 2] = THREE.MathUtils.randFloat(-5, 4);
 
     meta[i * 4] = positions[i * 3];
@@ -303,7 +422,7 @@ function createDustField(sprite) {
     meta[i * 4 + 2] = positions[i * 3 + 2];
     meta[i * 4 + 3] = Math.random() * TWO_PI;
 
-    const tint = THREE.MathUtils.randFloat(0.7, 0.96);
+    const tint = THREE.MathUtils.randFloat(0.7, 0.94);
     colors[i * 3] = tint;
     colors[i * 3 + 1] = tint;
     colors[i * 3 + 2] = tint;
@@ -316,9 +435,9 @@ function createDustField(sprite) {
     geometry,
     new THREE.PointsMaterial({
       map: sprite,
-      size: 0.026,
+      size: 0.024,
       transparent: true,
-      opacity: 0.05,
+      opacity: 0.035,
       alphaTest: 0.02,
       vertexColors: true,
       depthWrite: false,
@@ -337,39 +456,40 @@ function updateDustField(points, elapsed) {
 
   for (let i = 0; i < DUST_COUNT; i += 1) {
     const phase = meta[i * 4 + 3];
-    positions[i * 3] = meta[i * 4] + Math.sin(elapsed * 0.08 + phase) * 0.06;
-    positions[i * 3 + 1] = meta[i * 4 + 1] + Math.cos(elapsed * 0.07 + phase * 0.6) * 0.05;
-    positions[i * 3 + 2] = meta[i * 4 + 2] + Math.sin(elapsed * 0.09 + phase * 1.1) * 0.08;
+    positions[i * 3] = meta[i * 4] + Math.sin(elapsed * 0.08 + phase) * 0.05;
+    positions[i * 3 + 1] = meta[i * 4 + 1] + Math.cos(elapsed * 0.07 + phase * 0.6) * 0.04;
+    positions[i * 3 + 2] = meta[i * 4 + 2] + Math.sin(elapsed * 0.09 + phase * 1.1) * 0.06;
   }
 
   points.geometry.attributes.position.needsUpdate = true;
 }
 
-function createRingSystem(sprite, count, config) {
+function createRibbonLayer(sprite, count, layerConfig) {
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
-  const meta = new Float32Array(count * 10);
+  const meta = new Float32Array(count * 11);
 
   for (let i = 0; i < count; i += 1) {
-    const orbit = config.clustered ? sampleOrbitAngle() : Math.random() * TWO_PI;
-    const cross = Math.random() * TWO_PI;
-    const brightness = THREE.MathUtils.randFloat(config.brightnessRange[0], config.brightnessRange[1]);
+    const ribbonIndex = pickRibbonIndex();
+    const spec = RIBBON_SPECS[ribbonIndex];
+    const brightness = THREE.MathUtils.randFloat(layerConfig.brightnessRange[0], layerConfig.brightnessRange[1]);
 
-    meta[i * 10] = orbit;
-    meta[i * 10 + 1] = cross;
-    meta[i * 10 + 2] = THREE.MathUtils.randFloatSpread(config.tubeRadius * 0.5);
-    meta[i * 10 + 3] = THREE.MathUtils.randFloatSpread(config.depth * 0.45);
-    meta[i * 10 + 4] = THREE.MathUtils.randFloat(config.driftRange[0], config.driftRange[1]);
-    meta[i * 10 + 5] = THREE.MathUtils.randFloat(config.crossRange[0], config.crossRange[1]);
-    meta[i * 10 + 6] = Math.random() * TWO_PI;
-    meta[i * 10 + 7] = THREE.MathUtils.randFloat(0.4, 1);
-    meta[i * 10 + 8] = Math.random() > 0.5 ? 1 : -1;
-    meta[i * 10 + 9] = THREE.MathUtils.randFloat(0.04, config.orbitAmplitude);
+    meta[i * 11] = ribbonIndex;
+    meta[i * 11 + 1] = Math.random();
+    meta[i * 11 + 2] = THREE.MathUtils.randFloat(spec.flowRange[0], spec.flowRange[1]) * layerConfig.speedScale;
+    meta[i * 11 + 3] = THREE.MathUtils.randFloatSpread(spec.width * layerConfig.widthScale);
+    meta[i * 11 + 4] = THREE.MathUtils.randFloatSpread(spec.depth * layerConfig.depthScale);
+    meta[i * 11 + 5] = Math.random() * TWO_PI;
+    meta[i * 11 + 6] = Math.random() * TWO_PI;
+    meta[i * 11 + 7] = THREE.MathUtils.randFloat(0.45, 1);
+    meta[i * 11 + 8] = Math.random() > 0.5 ? 1 : -1;
+    meta[i * 11 + 9] = THREE.MathUtils.randFloat(0.55, 1.25);
+    meta[i * 11 + 10] = layerConfig.depthOffset;
 
     colors[i * 3] = brightness;
     colors[i * 3 + 1] = brightness;
-    colors[i * 3 + 2] = brightness * 0.985;
+    colors[i * 3 + 2] = brightness * 0.988;
   }
 
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -377,9 +497,9 @@ function createRingSystem(sprite, count, config) {
 
   const material = new THREE.PointsMaterial({
     map: sprite,
-    size: config.pointSize,
+    size: layerConfig.pointSize,
     transparent: true,
-    opacity: config.opacity,
+    opacity: layerConfig.opacity,
     alphaTest: 0.02,
     vertexColors: true,
     depthWrite: false,
@@ -393,162 +513,86 @@ function createRingSystem(sprite, count, config) {
     positions,
     meta,
     material,
-    config,
+    layerConfig,
   };
 }
 
-function sampleOrbitAngle() {
-  if (Math.random() < 0.46) {
-    return Math.random() * TWO_PI;
-  }
-
-  const clusterCenters = [
-    -0.08 * Math.PI,
-    0.18 * Math.PI,
-    0.86 * Math.PI,
-    1.1 * Math.PI,
-    1.34 * Math.PI,
-    1.62 * Math.PI,
-  ];
-  const center = clusterCenters[Math.floor(Math.random() * clusterCenters.length)];
-  return center + THREE.MathUtils.randFloatSpread(0.46);
-}
-
-function updateRingSystem(system, elapsed, focus, energyMultiplier) {
-  const { positions, meta, geometry, config } = system;
-  const energy = 1 + focus * 0.55 * energyMultiplier;
-  const macroSpin = -elapsed * config.macroSpeed;
+function updateRibbonLayer(layer, elapsed, focus) {
+  const { positions, meta, geometry, layerConfig } = layer;
+  const energy = 1 + focus * 0.4;
 
   for (let i = 0; i < positions.length / 3; i += 1) {
-    const metaIndex = i * 10;
-    const baseOrbit = meta[metaIndex];
-    const baseCross = meta[metaIndex + 1];
-    const radialSeed = meta[metaIndex + 2];
-    const depthSeed = meta[metaIndex + 3];
-    const driftSpeed = meta[metaIndex + 4];
-    const crossSpeed = meta[metaIndex + 5];
-    const phase = meta[metaIndex + 6];
-    const densityBias = meta[metaIndex + 7];
+    const metaIndex = i * 11;
+    const spec = RIBBON_SPECS[Math.floor(meta[metaIndex])];
+    const baseT = meta[metaIndex + 1];
+    const speed = meta[metaIndex + 2];
+    const widthSeed = meta[metaIndex + 3];
+    const depthSeed = meta[metaIndex + 4];
+    const phaseA = meta[metaIndex + 5];
+    const phaseB = meta[metaIndex + 6];
+    const density = meta[metaIndex + 7];
     const direction = meta[metaIndex + 8];
-    const orbitAmplitude = meta[metaIndex + 9];
+    const tension = meta[metaIndex + 9];
+    const depthOffset = meta[metaIndex + 10];
 
-    const localTime = elapsed * 0.46;
-    const orbitDrift =
-      Math.sin(localTime * driftSpeed * 7.5 + phase) * orbitAmplitude +
-      direction * Math.sin(localTime * driftSpeed * 1.3 + phase * 0.7) * 0.026 * energy;
-    const orbit = baseOrbit + macroSpin + orbitDrift;
+    const flow = mod1(baseT + elapsed * speed);
+    const macroSpin = -elapsed * spec.macroSpeed;
+    const angleProgress =
+      flow +
+      Math.sin(elapsed * 0.22 + phaseA) * 0.012 +
+      Math.sin(elapsed * 0.44 + phaseB + flow * 9) * 0.01 * density;
+    const angle = THREE.MathUtils.lerp(spec.startAngle, spec.endAngle, angleProgress) + macroSpin;
+    const radius =
+      spec.radius +
+      Math.sin(angleProgress * TWO_PI * 2.2 + phaseA + elapsed * spec.breatheSpeed) * spec.radiusWave * density +
+      Math.sin(angleProgress * TWO_PI * 5.1 + phaseB) * 0.06 * tension;
 
-    const cross =
-      baseCross +
-      Math.sin(localTime * crossSpeed * 5.5 + phase + baseOrbit * 2.8) * config.crossAmplitude * energy +
-      Math.cos(localTime * 1.1 + phase * 1.7 + baseOrbit * 6) * 0.22 * densityBias +
-      Math.sin(localTime * 2.8 + phase * 1.9) * 0.11 * energy;
+    const pathX = Math.cos(angle) * radius;
+    const pathY = Math.sin(angle) * radius;
+    const normalX = Math.cos(angle);
+    const normalY = Math.sin(angle);
+    const tangentX = -Math.sin(angle);
+    const tangentY = Math.cos(angle);
 
-    const densityWave =
-      1 +
-      Math.sin(baseOrbit * 4.3 + elapsed * 0.34 + phase) * 0.18 +
-      Math.sin(baseOrbit * 9.4 - elapsed * 0.24 + phase * 0.8) * 0.12;
-
-    const tube =
-      config.tubeRadius +
-      radialSeed * densityWave +
-      Math.sin(localTime * 2 + phase + baseOrbit * 5.6) * config.tubeWave * densityBias * energy;
-
-    const majorRadiusX =
-      config.majorRadiusX + Math.sin(baseOrbit * 2.1 + elapsed * 0.12 + phase * 0.2) * config.majorWave;
-    const majorRadiusY =
-      config.majorRadiusY + Math.cos(baseOrbit * 2.6 - elapsed * 0.1 + phase * 0.15) * config.majorWave * 1.2;
-
-    const ringX = Math.cos(orbit) * majorRadiusX;
-    const ringY = Math.sin(orbit) * majorRadiusY;
-    const normalX = Math.cos(orbit);
-    const normalY = Math.sin(orbit);
-    const tangentX = -Math.sin(orbit);
-    const tangentY = Math.cos(orbit);
-
+    const fold =
+      widthSeed +
+      Math.sin(angleProgress * TWO_PI * spec.foldFreq + elapsed * spec.foldSpeed + phaseA) *
+        spec.foldAmp *
+        density *
+        layerConfig.widthScale;
+    const sheet =
+      Math.cos(angleProgress * TWO_PI * spec.sheetFreq - elapsed * spec.sheetSpeed + phaseB) *
+      spec.sheetAmp *
+      density *
+      tension *
+      layerConfig.widthScale;
     const tangentDrift =
-      Math.sin(localTime * 1.8 + phase * 1.4 + baseOrbit * 11) * config.tangentAmplitude * densityBias * energy;
-    const flutter = Math.sin(localTime * 2.6 + phase * 0.8) * 0.022 * densityBias * energy;
+      Math.sin(angleProgress * TWO_PI * spec.tangentFreq + elapsed * spec.tangentSpeed + phaseB) *
+      spec.tangentAmp *
+      density *
+      layerConfig.tangentScale;
+    const swirl =
+      Math.sin(elapsed * 1.1 + phaseA + angleProgress * 14) * 0.04 * density * energy +
+      Math.cos(elapsed * 0.8 + phaseB + angleProgress * 9) * 0.03 * tension;
     const depth =
-      Math.sin(cross) * config.depth +
+      depthOffset +
       depthSeed +
-      Math.sin(localTime * 1.4 + phase + baseOrbit * 4.1) * 0.26 * densityBias;
+      Math.sin(angleProgress * TWO_PI * spec.depthFreq + elapsed * spec.depthSpeed + phaseA) *
+        spec.depthAmp *
+        density +
+      sheet * 0.42 +
+      swirl * 0.5;
 
-    positions[i * 3] = ringX + Math.cos(cross) * normalX * tube + tangentX * tangentDrift + flutter;
-    positions[i * 3 + 1] = ringY + Math.cos(cross) * normalY * tube + tangentY * tangentDrift;
+    positions[i * 3] = pathX + normalX * (fold + sheet * 0.56) + tangentX * tangentDrift + swirl;
+    positions[i * 3 + 1] = pathY + normalY * (fold + sheet * 0.56) + tangentY * tangentDrift;
     positions[i * 3 + 2] = depth;
   }
 
   geometry.attributes.position.needsUpdate = true;
 }
 
-function createBokehLayer(sprite, count, config) {
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(count * 3);
-  const colors = new Float32Array(count * 3);
-  const meta = new Float32Array(count * 5);
-
-  for (let i = 0; i < count; i += 1) {
-    meta[i * 5] = sampleOrbitAngle();
-    meta[i * 5 + 1] = Math.random() * TWO_PI;
-    meta[i * 5 + 2] = THREE.MathUtils.randFloatSpread(config.depthSpread);
-    meta[i * 5 + 3] = Math.random() * TWO_PI;
-    meta[i * 5 + 4] = THREE.MathUtils.randFloat(0.4, 1);
-
-    const tint = THREE.MathUtils.randFloat(0.8, 1);
-    colors[i * 3] = tint;
-    colors[i * 3 + 1] = tint;
-    colors[i * 3 + 2] = tint;
-  }
-
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-
-  const material = new THREE.PointsMaterial({
-    map: sprite,
-    size: config.pointSize,
-    transparent: true,
-    opacity: config.opacity,
-    alphaTest: 0.01,
-    vertexColors: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    sizeAttenuation: true,
-  });
-
-  const points = new THREE.Points(geometry, material);
-  points.userData.geometryRef = geometry;
-  points.userData.positionsRef = positions;
-  points.userData.metaRef = meta;
-  points.userData.configRef = config;
-  return points;
-}
-
-function updateBokehLayer(points, elapsed, focus, energyMultiplier) {
-  const geometry = points.userData.geometryRef;
-  const positions = points.userData.positionsRef;
-  const meta = points.userData.metaRef;
-  const config = points.userData.configRef;
-  const energy = 1 + focus * 0.4 * energyMultiplier;
-  const macroSpin = -elapsed * config.macroSpeed;
-
-  for (let i = 0; i < positions.length / 3; i += 1) {
-    const orbit = meta[i * 5] + macroSpin + Math.sin(elapsed * 0.22 + meta[i * 5 + 3]) * 0.06;
-    const cross = meta[i * 5 + 1] + Math.sin(elapsed * 0.38 + meta[i * 5 + 3]) * 0.45 * energy;
-    const radius = config.tubeRadius + Math.sin(elapsed * 0.31 + meta[i * 5 + 3]) * 0.1;
-    const majorRadiusX = config.majorRadiusX;
-    const majorRadiusY = config.majorRadiusY;
-
-    positions[i * 3] = Math.cos(orbit) * majorRadiusX + Math.cos(cross) * Math.cos(orbit) * radius;
-    positions[i * 3 + 1] = Math.sin(orbit) * majorRadiusY + Math.cos(cross) * Math.sin(orbit) * radius;
-    positions[i * 3 + 2] =
-      config.depthOffset +
-      meta[i * 5 + 2] +
-      Math.sin(cross) * 0.9 +
-      Math.sin(elapsed * 0.26 + meta[i * 5 + 3] * 1.2) * 0.16 * meta[i * 5 + 4];
-  }
-
-  geometry.attributes.position.needsUpdate = true;
+function mod1(value) {
+  return ((value % 1) + 1) % 1;
 }
 
 function disposeObject(object) {

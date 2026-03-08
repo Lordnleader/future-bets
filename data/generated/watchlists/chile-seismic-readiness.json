@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-08T12:25:29Z",
+  "generated_at": "2026-03-08T12:38:14Z",
   "pipeline_version": "0.4",
   "sources": [
     {
@@ -272,7 +272,7 @@
           "CHL"
         ]
       },
-      "detected_at": "2026-03-08T12:25:29Z",
+      "detected_at": "2026-03-08T12:38:14Z",
       "time_horizon": "Near term: 0-12 months",
       "convergence_title": "Seismic resilience systems in Chile",
       "convergence_summary": "Repeated official earthquake activity suggests resilience systems remain strategically relevant in Chile.",

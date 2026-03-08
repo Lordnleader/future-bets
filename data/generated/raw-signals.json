@@ -195,8 +195,8 @@
       "urban",
       "india"
     ],
-    "relevance_score": 0.9,
-    "quality_score": 0.9,
+    "relevance_score": 0.92,
+    "quality_score": 0.8400000000000001,
     "freshness": {
       "bucket": "fresh",
       "age_days": 1,
@@ -271,8 +271,8 @@
       "urban",
       "india"
     ],
-    "relevance_score": 0.72,
-    "quality_score": 0.82,
+    "relevance_score": 0.77,
+    "quality_score": 0.77,
     "freshness": {
       "bucket": "fresh",
       "age_days": 1,

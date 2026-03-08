@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-03-08T12:25:29Z",
+  "generated_at": "2026-03-08T12:38:14Z",
   "pipeline_version": "0.4",
   "sources": [
     {
@@ -142,8 +142,8 @@
         "urban",
         "india"
       ],
-      "relevance_score": 0.9,
-      "quality_score": 0.9,
+      "relevance_score": 0.92,
+      "quality_score": 0.8400000000000001,
       "freshness": {
         "bucket": "fresh",
         "age_days": 1,
@@ -218,8 +218,8 @@
         "urban",
         "india"
       ],
-      "relevance_score": 0.72,
-      "quality_score": 0.82,
+      "relevance_score": 0.77,
+      "quality_score": 0.77,
       "freshness": {
         "bucket": "fresh",
         "age_days": 1,
@@ -306,7 +306,7 @@
           "IND"
         ]
       },
-      "detected_at": "2026-03-08T12:25:29Z",
+      "detected_at": "2026-03-08T12:38:14Z",
       "time_horizon": "Long term: 3-10 years",
       "convergence_title": "Treating urban water stress as a temporary inconvenience",
       "convergence_summary": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
@@ -345,9 +345,9 @@
       "inference": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
       "confidence": "High",
       "ranking": {
-        "score": 2.568,
+        "score": 2.551,
         "components": {
-          "convergence_score": 2.438,
+          "convergence_score": 2.421,
           "verification_modifier": 0.02,
           "source_mix_bonus": 0.05,
           "domain_bonus": 0.04,
@@ -372,7 +372,7 @@
         "max_event_age_days": 1,
         "reinforced": false
       },
-      "reasoning_notes": "Convergence score 2.438 using 2 recent/active event signals plus structural context."
+      "reasoning_notes": "Convergence score 2.421 using 2 recent/active event signals plus structural context."
     }
   ],
   "future_bets": [
@@ -392,9 +392,9 @@
       "time_horizon": "Long term: 3-10 years",
       "confidence": "High",
       "ranking": {
-        "score": 2.568,
+        "score": 2.551,
         "components": {
-          "convergence_score": 2.438,
+          "convergence_score": 2.421,
           "verification_modifier": 0.02,
           "source_mix_bonus": 0.05,
           "domain_bonus": 0.04,

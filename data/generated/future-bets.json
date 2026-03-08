@@ -354,9 +354,9 @@
     "time_horizon": "Long term: 3-10 years",
     "confidence": "High",
     "ranking": {
-      "score": 2.568,
+      "score": 2.551,
       "components": {
-        "convergence_score": 2.438,
+        "convergence_score": 2.421,
         "verification_modifier": 0.02,
         "source_mix_bonus": 0.05,
         "domain_bonus": 0.04,

@@ -297,6 +297,15 @@ def verified_manual_signal_summary(article: dict[str, Any], watchlist: dict[str,
     return f"Verified cached article match for {watchlist['id']}: {title}{suffix}."
 
 
+def manual_signal_relevance_score(article: dict[str, Any], watchlist: dict[str, Any], *, accepted_via: str) -> float:
+    quality = article_quality_score(article, watchlist)
+    if article_matches(article, watchlist):
+        return round(min(0.95, quality + 0.08), 4)
+    if accepted_via == "manual_basis_override":
+        return round(max(0.55, min(0.78, quality)), 4)
+    return round(max(0.45, quality), 4)
+
+
 def row_value(row: dict[str, Any], *keys: str) -> str:
     for key in keys:
         if key in row and row.get(key) not in (None, ""):
@@ -594,8 +603,9 @@ def fetch_manual_signals(watchlist: dict[str, Any]) -> tuple[list[dict[str, Any]
         cache_file, article = matched
         article_url = article.get("url") or article.get("url_mobile") or item.get("url") or f"https://example.com/{watchlist['id']}/{index}"
         domain = article.get("domain") or item.get("domain") or urllib.parse.urlparse(article_url).netloc
-        quality_score = float(item.get("quality_score", 0.82))
-        relevance_score = float(item.get("relevance_score", max(0.55, 0.9 - index * 0.08)))
+        accepted_via = report.get("accepted_via") or "watchlist_match"
+        quality_score = article_quality_score(article, watchlist)
+        relevance_score = manual_signal_relevance_score(article, watchlist, accepted_via=accepted_via)
         detected_at = normalize_detected_at(article.get("seendate") or article.get("seendatetime") or item.get("detected_at"))
         signal_id = stable_id("sig", watchlist["id"], "manual", article_url)
         signal = {
@@ -620,7 +630,7 @@ def fetch_manual_signals(watchlist: dict[str, Any]) -> tuple[list[dict[str, Any]
                 "matched_url": article_url,
                 "topic_match": report["checks"]["topic_match"],
                 "manual_basis": item.get("verification_basis"),
-                "accepted_via": report.get("accepted_via"),
+                "accepted_via": accepted_via,
             },
             "structured_metrics": {
                 "value": None,
@@ -665,7 +675,7 @@ def fetch_manual_signals(watchlist: dict[str, Any]) -> tuple[list[dict[str, Any]
                 "url": signal["url"],
                 "title": signal["signal_title"],
                 "detected_at": signal["detected_at"],
-                "accepted_via": report.get("accepted_via"),
+                "accepted_via": accepted_via,
             }
         )
     return signals, verified, rejected

@@ -9,7 +9,7 @@
         "IDN"
       ]
     },
-    "detected_at": "2026-03-08T12:25:29Z",
+    "detected_at": "2026-03-08T12:38:14Z",
     "time_horizon": "Near term: 0-12 months",
     "convergence_title": "Seismic readiness systems in Indonesia",
     "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live infrastructure priority in Indonesia.",
@@ -87,7 +87,7 @@
         "PHL"
       ]
     },
-    "detected_at": "2026-03-08T12:25:29Z",
+    "detected_at": "2026-03-08T12:38:14Z",
     "time_horizon": "Near term: 0-12 months",
     "convergence_title": "Seismic readiness systems in the Philippines",
     "convergence_summary": "Repeated official earthquake activity suggests seismic readiness remains a live systems priority in the Philippines.",
@@ -165,7 +165,7 @@
         "CHL"
       ]
     },
-    "detected_at": "2026-03-08T12:25:29Z",
+    "detected_at": "2026-03-08T12:38:14Z",
     "time_horizon": "Near term: 0-12 months",
     "convergence_title": "Seismic resilience systems in Chile",
     "convergence_summary": "Repeated official earthquake activity suggests resilience systems remain strategically relevant in Chile.",
@@ -243,7 +243,7 @@
         "IND"
       ]
     },
-    "detected_at": "2026-03-08T12:25:29Z",
+    "detected_at": "2026-03-08T12:38:14Z",
     "time_horizon": "Long term: 3-10 years",
     "convergence_title": "Treating urban water stress as a temporary inconvenience",
     "convergence_summary": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
@@ -282,9 +282,9 @@
     "inference": "Recurring water and heat reporting combined with continuing urban growth suggests that water pressure is becoming a more structural constraint.",
     "confidence": "High",
     "ranking": {
-      "score": 2.568,
+      "score": 2.551,
       "components": {
-        "convergence_score": 2.438,
+        "convergence_score": 2.421,
         "verification_modifier": 0.02,
         "source_mix_bonus": 0.05,
         "domain_bonus": 0.04,
@@ -309,6 +309,6 @@
       "max_event_age_days": 1,
       "reinforced": false
     },
-    "reasoning_notes": "Convergence score 2.438 using 2 recent/active event signals plus structural context."
+    "reasoning_notes": "Convergence score 2.421 using 2 recent/active event signals plus structural context."
   }
 ]
