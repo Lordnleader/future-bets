@@ -2,11 +2,11 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.m
 
 const STARFIELD_COUNT = 5200;
 const DUST_COUNT = 1800;
-const CORE_RING_COUNT = 17600;
-const FILAMENT_RING_COUNT = 6200;
-const AURA_RING_COUNT = 2600;
-const BOKEH_BACK_COUNT = 1450;
-const BOKEH_FRONT_COUNT = 1180;
+const CORE_RING_COUNT = 24800;
+const FILAMENT_RING_COUNT = 9600;
+const AURA_RING_COUNT = 4200;
+const BOKEH_BACK_COUNT = 1900;
+const BOKEH_FRONT_COUNT = 1550;
 const TWO_PI = Math.PI * 2;
 
 export function createLandingScene(container, { triggerElement } = {}) {
@@ -35,7 +35,7 @@ export function createLandingScene(container, { triggerElement } = {}) {
   scene.add(root);
 
   const ringGroup = new THREE.Group();
-  ringGroup.scale.set(0.88, 1.15, 1);
+  ringGroup.scale.set(0.78, 1.06, 1);
   root.add(ringGroup);
 
   const sprite = createCircularSprite();
@@ -43,78 +43,78 @@ export function createLandingScene(container, { triggerElement } = {}) {
   const farStars = createStarfield(sprite);
   const dustField = createDustField(sprite);
   const coreRing = createRingSystem(sprite, CORE_RING_COUNT, {
-    majorRadiusX: 4.12,
-    majorRadiusY: 4.12,
-    tubeRadius: 1.02,
-    depth: 1.08,
-    pointSize: 0.016,
-    opacity: 0.76,
-    brightnessRange: [0.74, 0.99],
-    driftRange: [0.026, 0.072],
-    crossRange: [0.34, 0.74],
-    macroSpeed: 0.082,
-    orbitAmplitude: 0.18,
-    crossAmplitude: 0.94,
-    tangentAmplitude: 0.14,
-    tubeWave: 0.22,
-    majorWave: 0.12,
+    majorRadiusX: 3.6,
+    majorRadiusY: 3.72,
+    tubeRadius: 1.26,
+    depth: 0.76,
+    pointSize: 0.017,
+    opacity: 0.9,
+    brightnessRange: [0.8, 1],
+    driftRange: [0.04, 0.11],
+    crossRange: [0.58, 1.16],
+    macroSpeed: 0.11,
+    orbitAmplitude: 0.26,
+    crossAmplitude: 1.24,
+    tangentAmplitude: 0.18,
+    tubeWave: 0.34,
+    majorWave: 0.1,
     clustered: true,
   });
   const filamentRing = createRingSystem(sprite, FILAMENT_RING_COUNT, {
-    majorRadiusX: 4.08,
-    majorRadiusY: 4.08,
-    tubeRadius: 0.82,
-    depth: 0.88,
-    pointSize: 0.026,
-    opacity: 0.94,
-    brightnessRange: [0.9, 1],
-    driftRange: [0.042, 0.11],
-    crossRange: [0.56, 1.02],
-    macroSpeed: 0.093,
-    orbitAmplitude: 0.26,
-    crossAmplitude: 1.18,
-    tangentAmplitude: 0.22,
-    tubeWave: 0.15,
+    majorRadiusX: 3.56,
+    majorRadiusY: 3.68,
+    tubeRadius: 1.04,
+    depth: 0.62,
+    pointSize: 0.028,
+    opacity: 0.98,
+    brightnessRange: [0.92, 1],
+    driftRange: [0.055, 0.14],
+    crossRange: [0.78, 1.42],
+    macroSpeed: 0.126,
+    orbitAmplitude: 0.34,
+    crossAmplitude: 1.52,
+    tangentAmplitude: 0.28,
+    tubeWave: 0.26,
     majorWave: 0.08,
     clustered: true,
   });
   const auraRing = createRingSystem(sprite, AURA_RING_COUNT, {
-    majorRadiusX: 4.1,
-    majorRadiusY: 4.1,
-    tubeRadius: 0.94,
-    depth: 1.22,
-    pointSize: 0.051,
-    opacity: 0.1,
-    brightnessRange: [0.84, 0.98],
-    driftRange: [0.02, 0.048],
-    crossRange: [0.22, 0.52],
-    macroSpeed: 0.076,
-    orbitAmplitude: 0.12,
-    crossAmplitude: 0.64,
-    tangentAmplitude: 0.08,
-    tubeWave: 0.14,
-    majorWave: 0.08,
+    majorRadiusX: 3.58,
+    majorRadiusY: 3.7,
+    tubeRadius: 1.18,
+    depth: 1.12,
+    pointSize: 0.06,
+    opacity: 0.16,
+    brightnessRange: [0.9, 1],
+    driftRange: [0.03, 0.07],
+    crossRange: [0.34, 0.8],
+    macroSpeed: 0.104,
+    orbitAmplitude: 0.18,
+    crossAmplitude: 0.82,
+    tangentAmplitude: 0.12,
+    tubeWave: 0.18,
+    majorWave: 0.06,
     clustered: true,
   });
   const bokehBack = createBokehLayer(sprite, BOKEH_BACK_COUNT, {
-    majorRadiusX: 4.22,
-    majorRadiusY: 4.22,
-    tubeRadius: 1.22,
-    macroSpeed: 0.078,
-    depthOffset: -3.45,
-    depthSpread: 1.34,
-    pointSize: 0.17,
-    opacity: 0.13,
+    majorRadiusX: 3.72,
+    majorRadiusY: 3.86,
+    tubeRadius: 1.48,
+    macroSpeed: 0.108,
+    depthOffset: -4.2,
+    depthSpread: 1.7,
+    pointSize: 0.24,
+    opacity: 0.18,
   });
   const bokehFront = createBokehLayer(sprite, BOKEH_FRONT_COUNT, {
-    majorRadiusX: 4.02,
-    majorRadiusY: 4.02,
-    tubeRadius: 1.08,
-    macroSpeed: 0.09,
-    depthOffset: 3.25,
-    depthSpread: 1.08,
-    pointSize: 0.22,
-    opacity: 0.17,
+    majorRadiusX: 3.48,
+    majorRadiusY: 3.62,
+    tubeRadius: 1.36,
+    macroSpeed: 0.12,
+    depthOffset: 4,
+    depthSpread: 1.44,
+    pointSize: 0.3,
+    opacity: 0.21,
   });
 
   scene.add(farStars);
@@ -162,11 +162,11 @@ export function createLandingScene(container, { triggerElement } = {}) {
     updateBokehLayer(bokehFront, elapsed, focus, 1);
     updateDustField(dustField, elapsed);
 
-    auraRing.material.opacity = 0.1 + focus * 0.03;
-    coreRing.material.opacity = 0.76 + focus * 0.12;
-    filamentRing.material.opacity = 0.94 + focus * 0.06;
-    bokehBack.material.opacity = 0.13 + focus * 0.02;
-    bokehFront.material.opacity = 0.17 + focus * 0.03;
+    auraRing.material.opacity = 0.16 + focus * 0.04;
+    coreRing.material.opacity = 0.9 + focus * 0.08;
+    filamentRing.material.opacity = 0.98 + focus * 0.04;
+    bokehBack.material.opacity = 0.18 + focus * 0.03;
+    bokehFront.material.opacity = 0.21 + focus * 0.04;
 
     farStars.rotation.y += 0.00002;
     farStars.rotation.x = Math.sin(elapsed * 0.05) * 0.012;
@@ -349,23 +349,26 @@ function createRingSystem(sprite, count, config) {
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
-  const meta = new Float32Array(count * 10);
+  const meta = new Float32Array(count * 12);
 
   for (let i = 0; i < count; i += 1) {
     const orbit = config.clustered ? sampleOrbitAngle() : Math.random() * TWO_PI;
     const cross = Math.random() * TWO_PI;
+    const shapeBias = computeShapeBias(orbit);
     const brightness = THREE.MathUtils.randFloat(config.brightnessRange[0], config.brightnessRange[1]);
 
-    meta[i * 10] = orbit;
-    meta[i * 10 + 1] = cross;
-    meta[i * 10 + 2] = THREE.MathUtils.randFloatSpread(config.tubeRadius * 0.5);
-    meta[i * 10 + 3] = THREE.MathUtils.randFloatSpread(config.depth * 0.45);
-    meta[i * 10 + 4] = THREE.MathUtils.randFloat(config.driftRange[0], config.driftRange[1]);
-    meta[i * 10 + 5] = THREE.MathUtils.randFloat(config.crossRange[0], config.crossRange[1]);
-    meta[i * 10 + 6] = Math.random() * TWO_PI;
-    meta[i * 10 + 7] = THREE.MathUtils.randFloat(0.4, 1);
-    meta[i * 10 + 8] = Math.random() > 0.5 ? 1 : -1;
-    meta[i * 10 + 9] = THREE.MathUtils.randFloat(0.04, config.orbitAmplitude);
+    meta[i * 12] = orbit;
+    meta[i * 12 + 1] = cross;
+    meta[i * 12 + 2] = THREE.MathUtils.randFloatSpread(config.tubeRadius * 0.5);
+    meta[i * 12 + 3] = THREE.MathUtils.randFloatSpread(config.depth * 0.45);
+    meta[i * 12 + 4] = THREE.MathUtils.randFloat(config.driftRange[0], config.driftRange[1]);
+    meta[i * 12 + 5] = THREE.MathUtils.randFloat(config.crossRange[0], config.crossRange[1]);
+    meta[i * 12 + 6] = Math.random() * TWO_PI;
+    meta[i * 12 + 7] = THREE.MathUtils.randFloat(0.45, 1.1);
+    meta[i * 12 + 8] = Math.random() > 0.5 ? 1 : -1;
+    meta[i * 12 + 9] = THREE.MathUtils.randFloat(0.04, config.orbitAmplitude);
+    meta[i * 12 + 10] = shapeBias;
+    meta[i * 12 + 11] = THREE.MathUtils.randFloat(0.3, 1);
 
     colors[i * 3] = brightness;
     colors[i * 3 + 1] = brightness;
@@ -398,20 +401,36 @@ function createRingSystem(sprite, count, config) {
 }
 
 function sampleOrbitAngle() {
-  if (Math.random() < 0.46) {
+  if (Math.random() < 0.18) {
     return Math.random() * TWO_PI;
   }
 
   const clusterCenters = [
-    -0.08 * Math.PI,
-    0.18 * Math.PI,
+    -0.14 * Math.PI,
+    0.04 * Math.PI,
+    0.22 * Math.PI,
     0.86 * Math.PI,
-    1.1 * Math.PI,
-    1.34 * Math.PI,
-    1.62 * Math.PI,
+    1.08 * Math.PI,
+    1.26 * Math.PI,
+    1.46 * Math.PI,
+    1.7 * Math.PI,
   ];
   const center = clusterCenters[Math.floor(Math.random() * clusterCenters.length)];
-  return center + THREE.MathUtils.randFloatSpread(0.46);
+  return center + THREE.MathUtils.randFloatSpread(0.34);
+}
+
+function computeShapeBias(angle) {
+  const normalized = ((angle % TWO_PI) + TWO_PI) % TWO_PI;
+  const lowerBand = gaussianAngular(normalized, 1.5 * Math.PI, 0.68);
+  const rightColumn = gaussianAngular(normalized, 0.1 * Math.PI, 0.36);
+  const leftShoulder = gaussianAngular(normalized, 0.9 * Math.PI, 0.34);
+  const topVoid = gaussianAngular(normalized, 0.5 * Math.PI, 0.46);
+  return lowerBand * 1.1 + rightColumn * 0.72 + leftShoulder * 0.58 - topVoid * 0.92;
+}
+
+function gaussianAngular(angle, center, width) {
+  const delta = Math.atan2(Math.sin(angle - center), Math.cos(angle - center));
+  return Math.exp(-(delta * delta) / (2 * width * width));
 }
 
 function updateRingSystem(system, elapsed, focus, energyMultiplier) {
@@ -420,7 +439,7 @@ function updateRingSystem(system, elapsed, focus, energyMultiplier) {
   const macroSpin = -elapsed * config.macroSpeed;
 
   for (let i = 0; i < positions.length / 3; i += 1) {
-    const metaIndex = i * 10;
+    const metaIndex = i * 12;
     const baseOrbit = meta[metaIndex];
     const baseCross = meta[metaIndex + 1];
     const radialSeed = meta[metaIndex + 2];
@@ -431,33 +450,47 @@ function updateRingSystem(system, elapsed, focus, energyMultiplier) {
     const densityBias = meta[metaIndex + 7];
     const direction = meta[metaIndex + 8];
     const orbitAmplitude = meta[metaIndex + 9];
+    const shapeBias = meta[metaIndex + 10];
+    const filamentBias = meta[metaIndex + 11];
 
     const localTime = elapsed * 0.46;
+    const sheetPulse = Math.sin(localTime * 1.7 + baseOrbit * 3.4 + phase) * 0.5 + 0.5;
     const orbitDrift =
       Math.sin(localTime * driftSpeed * 7.5 + phase) * orbitAmplitude +
-      direction * Math.sin(localTime * driftSpeed * 1.3 + phase * 0.7) * 0.026 * energy;
+      direction * Math.sin(localTime * driftSpeed * 1.3 + phase * 0.7) * (0.026 + shapeBias * 0.018) * energy;
     const orbit = baseOrbit + macroSpin + orbitDrift;
 
     const cross =
       baseCross +
-      Math.sin(localTime * crossSpeed * 5.5 + phase + baseOrbit * 2.8) * config.crossAmplitude * energy +
+      Math.sin(localTime * crossSpeed * 5.5 + phase + baseOrbit * 2.8) *
+        config.crossAmplitude *
+        (1 + shapeBias * 0.22) *
+        energy +
       Math.cos(localTime * 1.1 + phase * 1.7 + baseOrbit * 6) * 0.22 * densityBias +
-      Math.sin(localTime * 2.8 + phase * 1.9) * 0.11 * energy;
+      Math.sin(localTime * 2.8 + phase * 1.9) * (0.11 + filamentBias * 0.06) * energy;
 
     const densityWave =
       1 +
-      Math.sin(baseOrbit * 4.3 + elapsed * 0.34 + phase) * 0.18 +
-      Math.sin(baseOrbit * 9.4 - elapsed * 0.24 + phase * 0.8) * 0.12;
+      Math.sin(baseOrbit * 4.3 + elapsed * 0.34 + phase) * (0.18 + shapeBias * 0.08) +
+      Math.sin(baseOrbit * 9.4 - elapsed * 0.24 + phase * 0.8) * (0.12 + filamentBias * 0.08);
 
     const tube =
       config.tubeRadius +
-      radialSeed * densityWave +
-      Math.sin(localTime * 2 + phase + baseOrbit * 5.6) * config.tubeWave * densityBias * energy;
+      radialSeed * densityWave * (1 + shapeBias * 0.24) +
+      Math.sin(localTime * 2 + phase + baseOrbit * 5.6) *
+        config.tubeWave *
+        densityBias *
+        (1 + shapeBias * 0.3) *
+        energy;
 
     const majorRadiusX =
-      config.majorRadiusX + Math.sin(baseOrbit * 2.1 + elapsed * 0.12 + phase * 0.2) * config.majorWave;
+      config.majorRadiusX +
+      Math.sin(baseOrbit * 2.1 + elapsed * 0.12 + phase * 0.2) * config.majorWave +
+      shapeBias * 0.08;
     const majorRadiusY =
-      config.majorRadiusY + Math.cos(baseOrbit * 2.6 - elapsed * 0.1 + phase * 0.15) * config.majorWave * 1.2;
+      config.majorRadiusY +
+      Math.cos(baseOrbit * 2.6 - elapsed * 0.1 + phase * 0.15) * config.majorWave * 1.2 +
+      shapeBias * 0.16;
 
     const ringX = Math.cos(orbit) * majorRadiusX;
     const ringY = Math.sin(orbit) * majorRadiusY;
@@ -467,12 +500,19 @@ function updateRingSystem(system, elapsed, focus, energyMultiplier) {
     const tangentY = Math.cos(orbit);
 
     const tangentDrift =
-      Math.sin(localTime * 1.8 + phase * 1.4 + baseOrbit * 11) * config.tangentAmplitude * densityBias * energy;
-    const flutter = Math.sin(localTime * 2.6 + phase * 0.8) * 0.022 * densityBias * energy;
+      Math.sin(localTime * 1.8 + phase * 1.4 + baseOrbit * 11) *
+      config.tangentAmplitude *
+      densityBias *
+      (1 + shapeBias * 0.4) *
+      energy;
+    const flutter =
+      Math.sin(localTime * 2.6 + phase * 0.8) * 0.022 * densityBias * energy +
+      Math.sin(localTime * 3.8 + phase * 1.6 + baseOrbit * 14) * 0.038 * filamentBias * sheetPulse;
     const depth =
-      Math.sin(cross) * config.depth +
+      Math.sin(cross) * config.depth * (0.8 + sheetPulse * 0.2) +
       depthSeed +
-      Math.sin(localTime * 1.4 + phase + baseOrbit * 4.1) * 0.26 * densityBias;
+      Math.sin(localTime * 1.4 + phase + baseOrbit * 4.1) * (0.26 + filamentBias * 0.14) * densityBias +
+      shapeBias * 0.18;
 
     positions[i * 3] = ringX + Math.cos(cross) * normalX * tube + tangentX * tangentDrift + flutter;
     positions[i * 3 + 1] = ringY + Math.cos(cross) * normalY * tube + tangentY * tangentDrift;
