@@ -30,14 +30,17 @@ export function createLandingScene(container) {
   const farStars = createFarStars(sprite);
   const galaxy = createGalaxy(sprite);
   const glowCloud = createGlowCloud(sprite);
+  const depthField = createDepthField(sprite);
 
   scene.add(farStars);
   root.add(galaxy.group);
   root.add(glowCloud);
+  root.add(depthField.background);
+  root.add(depthField.foreground);
 
-  const ambient = new THREE.AmbientLight(0xf0f6e3, 0.44);
-  const front = new THREE.PointLight(0xf8ffe8, 1.3, 42);
-  const rim = new THREE.PointLight(0xd8efad, 0.9, 56);
+  const ambient = new THREE.AmbientLight(0xf0f1ec, 0.48);
+  const front = new THREE.PointLight(0xf9faf5, 1.35, 42);
+  const rim = new THREE.PointLight(0xe3e5dc, 0.72, 56);
   front.position.set(0, 3, 10);
   rim.position.set(-5, 1.5, -4);
   scene.add(ambient, front, rim);
@@ -61,24 +64,32 @@ export function createLandingScene(container) {
     rafId = window.requestAnimationFrame(animate);
     const elapsed = clock.getElapsedTime();
 
-    root.rotation.z = THREE.MathUtils.lerp(root.rotation.z, pointer.x * -0.04, 0.03);
-    root.rotation.x = THREE.MathUtils.lerp(root.rotation.x, pointer.y * 0.06 - 0.12, 0.03);
+    root.rotation.z = THREE.MathUtils.lerp(root.rotation.z, pointer.x * -0.018, 0.024);
+    root.rotation.x = THREE.MathUtils.lerp(root.rotation.x, pointer.y * 0.03 - 0.06, 0.024);
     root.position.x = THREE.MathUtils.lerp(root.position.x, pointer.x * 0.55, 0.03);
     root.position.y = THREE.MathUtils.lerp(root.position.y, pointer.y * 0.28 + 0.1, 0.03);
 
-    galaxy.group.rotation.y = elapsed * 0.035;
-    galaxy.group.rotation.z = Math.sin(elapsed * 0.14) * 0.035;
-    galaxy.group.position.y = Math.sin(elapsed * 0.18) * 0.08;
+    galaxy.group.rotation.y = Math.sin(elapsed * 0.05) * 0.02;
+    galaxy.group.rotation.z = elapsed * 0.018;
+    galaxy.group.position.y = Math.sin(elapsed * 0.1) * 0.03;
+    galaxy.dust.rotation.z = elapsed * 0.024;
+    galaxy.core.rotation.z = elapsed * 0.03;
+    galaxy.lines.rotation.z = elapsed * 0.016;
 
-    glowCloud.rotation.y = elapsed * 0.028;
-    glowCloud.material.opacity = 0.08 + Math.sin(elapsed * 0.35) * 0.016;
+    glowCloud.rotation.z = elapsed * 0.012;
+    glowCloud.material.opacity = 0.06 + Math.sin(elapsed * 0.22) * 0.012;
+
+    depthField.background.rotation.z = elapsed * 0.014;
+    depthField.foreground.rotation.z = elapsed * 0.02;
+    depthField.background.material.opacity = 0.08 + Math.sin(elapsed * 0.18) * 0.01;
+    depthField.foreground.material.opacity = 0.1 + Math.sin(elapsed * 0.2) * 0.012;
 
     farStars.rotation.y += 0.00008;
     farStars.rotation.x = Math.sin(elapsed * 0.06) * 0.02;
 
-    galaxy.dust.material.opacity = 0.55 + Math.sin(elapsed * 0.3) * 0.03;
-    galaxy.core.material.opacity = 0.72 + Math.sin(elapsed * 0.24) * 0.04;
-    galaxy.lines.material.opacity = 0.11 + Math.sin(elapsed * 0.26) * 0.02;
+    galaxy.dust.material.opacity = 0.61 + Math.sin(elapsed * 0.3) * 0.03;
+    galaxy.core.material.opacity = 0.8 + Math.sin(elapsed * 0.24) * 0.04;
+    galaxy.lines.material.opacity = 0.13 + Math.sin(elapsed * 0.26) * 0.018;
 
     renderer.render(scene, camera);
   }
@@ -181,13 +192,13 @@ function createFarStars(sprite) {
 
 function createGalaxy(sprite) {
   const group = new THREE.Group();
-  group.rotation.x = -0.42;
-  group.rotation.z = 0.18;
+  group.rotation.x = -0.38;
+  group.rotation.z = 0.16;
   group.scale.set(1.28, 1, 1);
 
   const nodePositions = [];
   const nodeGeometry = new THREE.BufferGeometry();
-  const nodeCount = 240;
+  const nodeCount = 264;
   const nodeCoords = new Float32Array(nodeCount * 3);
 
   for (let i = 0; i < nodeCount; i += 1) {
@@ -203,9 +214,9 @@ function createGalaxy(sprite) {
   const nodeMaterial = new THREE.PointsMaterial({
     map: sprite,
     color: 0xf4f5f0,
-    size: 0.045,
+    size: 0.048,
     transparent: true,
-    opacity: 0.84,
+    opacity: 0.9,
     alphaTest: 0.02,
     depthWrite: false,
     blending: THREE.AdditiveBlending,
@@ -216,7 +227,7 @@ function createGalaxy(sprite) {
   group.add(stars);
 
   const dustGeometry = new THREE.BufferGeometry();
-  const dustCount = 6800;
+  const dustCount = 7600;
   const dustCoords = new Float32Array(dustCount * 3);
   const dustColors = new Float32Array(dustCount * 3);
 
@@ -237,9 +248,9 @@ function createGalaxy(sprite) {
 
   const dustMaterial = new THREE.PointsMaterial({
     map: sprite,
-    size: 0.018,
+    size: 0.02,
     transparent: true,
-    opacity: 0.56,
+    opacity: 0.61,
     alphaTest: 0.02,
     vertexColors: true,
     depthWrite: false,
@@ -251,7 +262,7 @@ function createGalaxy(sprite) {
   group.add(dust);
 
   const coreGeometry = new THREE.BufferGeometry();
-  const coreCount = 2600;
+  const coreCount = 3000;
   const coreCoords = new Float32Array(coreCount * 3);
   const coreColors = new Float32Array(coreCount * 3);
 
@@ -275,9 +286,9 @@ function createGalaxy(sprite) {
 
   const coreMaterial = new THREE.PointsMaterial({
     map: sprite,
-    size: 0.028,
+    size: 0.032,
     transparent: true,
-    opacity: 0.74,
+    opacity: 0.8,
     alphaTest: 0.02,
     vertexColors: true,
     depthWrite: false,
@@ -305,7 +316,7 @@ function createGalaxy(sprite) {
   const lineMaterial = new THREE.LineBasicMaterial({
     color: 0xf4f2ea,
     transparent: true,
-    opacity: 0.11,
+    opacity: 0.13,
     blending: THREE.AdditiveBlending,
   });
   const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
@@ -333,9 +344,9 @@ function createGlowCloud(sprite) {
     positions[i * 3 + 1] = THREE.MathUtils.randFloatSpread(0.35);
     positions[i * 3 + 2] = Math.sin(angle) * radius * 0.78;
 
-    colors[i * 3] = 0.74;
-    colors[i * 3 + 1] = 0.9;
-    colors[i * 3 + 2] = 0.58;
+    colors[i * 3] = 0.8;
+    colors[i * 3 + 1] = 0.82;
+    colors[i * 3 + 2] = 0.78;
   }
 
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -347,7 +358,70 @@ function createGlowCloud(sprite) {
       map: sprite,
       size: 0.22,
       transparent: true,
+      opacity: 0.06,
+      alphaTest: 0.01,
+      vertexColors: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
+    }),
+  );
+}
+
+function createDepthField(sprite) {
+  return {
+    background: createBokehLayer(sprite, {
+      count: 1200,
+      radiusX: 7.6,
+      radiusZ: 2.6,
+      spreadY: 0.55,
+      offsetZ: -2.8,
+      size: 0.12,
       opacity: 0.08,
+    }),
+    foreground: createBokehLayer(sprite, {
+      count: 900,
+      radiusX: 7.1,
+      radiusZ: 2.2,
+      spreadY: 0.48,
+      offsetZ: 2.4,
+      size: 0.15,
+      opacity: 0.1,
+    }),
+  };
+}
+
+function createBokehLayer(
+  sprite,
+  { count, radiusX, radiusZ, spreadY, offsetZ, size, opacity },
+) {
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+
+  for (let i = 0; i < count; i += 1) {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = Math.pow(Math.random(), 0.74) * radiusX;
+    positions[i * 3] = Math.cos(angle) * radius;
+    positions[i * 3 + 1] = THREE.MathUtils.randFloatSpread(spreadY);
+    positions[i * 3 + 2] = Math.sin(angle) * (radius / radiusX) * radiusZ + offsetZ;
+
+    const tint = THREE.MathUtils.randFloat(0.78, 0.98);
+    colors[i * 3] = tint;
+    colors[i * 3 + 1] = tint;
+    colors[i * 3 + 2] = tint * 0.98;
+  }
+
+  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+  return new THREE.Points(
+    geometry,
+    new THREE.PointsMaterial({
+      map: sprite,
+      size,
+      transparent: true,
+      opacity,
       alphaTest: 0.01,
       vertexColors: true,
       depthWrite: false,
