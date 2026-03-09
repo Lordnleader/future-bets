@@ -501,7 +501,7 @@ img {
 }
 
 .workspace__panel--network {
-  min-height: calc(100vh - 144px);
+  min-height: calc(100vh - 124px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -511,14 +511,29 @@ img {
   --parallax-x: 0px;
   --parallax-y: 0px;
   position: relative;
-  width: min(1120px, 100%);
-  height: min(760px, 74vh);
-  border: 1px solid var(--line);
+  width: min(1420px, calc(100vw - 56px));
+  height: min(840px, calc(100vh - 112px));
+  border: 1px solid rgba(255, 255, 255, 0.04);
   overflow: hidden;
   background:
-    radial-gradient(circle at 52% 40%, rgba(255, 255, 255, 0.1), transparent 18%),
-    radial-gradient(circle at 24% 66%, rgba(255, 255, 255, 0.03), transparent 16%),
-    linear-gradient(180deg, rgba(12, 12, 12, 0.72), rgba(5, 5, 5, 0.94));
+    radial-gradient(circle at 52% 32%, rgba(255, 255, 255, 0.08), transparent 12%),
+    radial-gradient(circle at 54% 44%, rgba(255, 255, 255, 0.05), transparent 24%),
+    radial-gradient(circle at 26% 62%, rgba(255, 255, 255, 0.026), transparent 18%),
+    linear-gradient(180deg, rgba(6, 6, 6, 0.68), rgba(3, 3, 3, 0.97));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.network-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 26%, rgba(255, 255, 255, 0.065), transparent 11%),
+    radial-gradient(circle at 58% 40%, rgba(255, 255, 255, 0.045), transparent 16%),
+    radial-gradient(circle at 40% 52%, rgba(255, 255, 255, 0.03), transparent 18%);
+  filter: blur(34px);
+  opacity: 0.82;
+  pointer-events: none;
 }
 
 .network-stage__corner {
@@ -563,26 +578,27 @@ img {
 
 .network-stage__haze {
   background:
-    radial-gradient(circle at 50% 44%, rgba(255, 255, 255, 0.18), transparent 15%),
-    radial-gradient(circle at 63% 52%, rgba(255, 255, 255, 0.08), transparent 20%);
-  filter: blur(18px);
-  opacity: 0.6;
+    radial-gradient(circle at 50% 34%, rgba(255, 255, 255, 0.18), transparent 11%),
+    radial-gradient(circle at 56% 42%, rgba(255, 255, 255, 0.09), transparent 18%),
+    radial-gradient(circle at 66% 56%, rgba(255, 255, 255, 0.04), transparent 17%);
+  filter: blur(30px);
+  opacity: 0.72;
   transform: translate3d(var(--parallax-x), var(--parallax-y), 0);
 }
 
 .network-stage__grain {
   background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.07) 0.6px, transparent 0.8px) 0 0 / 9px 9px,
-    radial-gradient(circle, rgba(255, 255, 255, 0.04) 0.5px, transparent 0.8px) 4px 4px / 11px 11px;
-  opacity: 0.08;
+    radial-gradient(circle, rgba(255, 255, 255, 0.08) 0.55px, transparent 0.8px) 0 0 / 9px 9px,
+    radial-gradient(circle, rgba(255, 255, 255, 0.04) 0.45px, transparent 0.8px) 4px 4px / 11px 11px;
+  opacity: 0.05;
 }
 
 .network-cluster {
   position: absolute;
-  inset: 0;
+  inset: -4% -3%;
   transform: translate3d(calc(var(--cluster-shift) + var(--parallax-x)), var(--parallax-y), 0);
   transition: transform 360ms ease;
-  animation: network-drift 12s ease-in-out infinite alternate;
+  animation: network-drift 16s ease-in-out infinite alternate;
 }
 
 .has-selection {
@@ -601,20 +617,63 @@ img {
   overflow: visible;
 }
 
+.network-particle,
+.network-glow-orb {
+  transform-origin: 50% 50%;
+}
+
+.network-particle--atmosphere {
+  fill: rgba(255, 255, 255, 0.68);
+  filter: blur(3px);
+}
+
+.network-particle--mesh {
+  fill: rgba(255, 255, 255, 0.26);
+  transition:
+    fill 220ms ease,
+    opacity 220ms ease;
+}
+
+.network-particle--mesh.is-bright {
+  fill: rgba(255, 255, 255, 0.44);
+}
+
+.network-particle--mesh.is-active {
+  fill: rgba(255, 255, 255, 0.8);
+}
+
+.network-glow-orb {
+  fill: rgba(255, 255, 255, 0.18);
+  filter: blur(20px);
+}
+
+.network-trace {
+  stroke: rgba(255, 255, 255, 0.045);
+  stroke-width: 0.85;
+  transition:
+    stroke 220ms ease,
+    opacity 220ms ease;
+}
+
+.network-trace.is-active {
+  stroke: rgba(255, 255, 255, 0.12);
+}
+
 .network-line {
-  stroke: rgba(255, 255, 255, 0.11);
-  stroke-width: 1;
+  stroke: rgba(255, 255, 255, 0.085);
+  stroke-width: 0.95;
   transition:
     stroke 220ms ease,
     opacity 220ms ease;
 }
 
 .network-line.is-active {
-  stroke: rgba(255, 255, 255, 0.34);
+  stroke: rgba(255, 255, 255, 0.28);
 }
 
 .network-node {
-  fill: rgba(255, 255, 255, 0.44);
+  fill: rgba(255, 255, 255, 0.58);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.22));
   transition:
     fill 220ms ease,
     opacity 220ms ease,
@@ -622,11 +681,12 @@ img {
 }
 
 .network-node.is-active {
-  fill: rgba(255, 255, 255, 0.84);
+  fill: rgba(255, 255, 255, 0.92);
 }
 
 .network-node--bet {
-  fill: rgba(241, 239, 232, 0.88);
+  fill: rgba(241, 239, 232, 0.94);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.32));
 }
 
 .network-node--good.is-active,
@@ -641,13 +701,22 @@ img {
 
 .node-label {
   position: absolute;
-  padding: 8px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(9, 9, 9, 0.66);
-  color: var(--text-soft);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(7, 7, 7, 0.34);
+  color: rgba(241, 239, 232, 0.88);
   cursor: pointer;
   text-align: left;
   transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 10px 36px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(8px);
   transition:
     border-color 220ms ease,
     color 220ms ease,
@@ -658,7 +727,27 @@ img {
 
 .node-label__title {
   display: block;
-  max-width: 22ch;
+  max-width: 24ch;
+  font-size: 0.82rem;
+  line-height: 1.22;
+  letter-spacing: 0.12em;
+}
+
+.node-label__status {
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0.76;
+}
+
+.node-label__status--good {
+  color: rgba(184, 234, 105, 0.78);
+}
+
+.node-label__status--bad {
+  color: rgba(217, 132, 117, 0.8);
 }
 
 .node-label--good.is-selected,
@@ -675,9 +764,10 @@ img {
 
 .network-instruction {
   position: absolute;
-  right: 20px;
+  right: 24px;
   bottom: 18px;
   color: var(--text-muted);
+  opacity: 0.74;
 }
 
 .report-section {
@@ -879,11 +969,11 @@ img {
 
 @keyframes network-drift {
   from {
-    filter: none;
+    filter: brightness(0.98);
   }
 
   to {
-    filter: brightness(1.04);
+    filter: brightness(1.06);
   }
 }
 
@@ -957,7 +1047,8 @@ img {
   }
 
   .network-stage {
-    height: 420px;
+    width: 100%;
+    height: 440px;
   }
 
   .has-selection {
@@ -966,6 +1057,15 @@ img {
 
   .node-label__title {
     max-width: 16ch;
+  }
+
+  .node-label {
+    gap: 8px;
+    padding: 9px 10px;
+  }
+
+  .node-label__status {
+    font-size: 0.48rem;
   }
 
   .network-instruction {
