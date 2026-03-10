@@ -91,7 +91,6 @@ export function renderSelectionCard(item) {
         <button class="selection-card__action" type="button" data-scroll-report>Open brief</button>
         <button class="selection-card__action" type="button" data-scroll-sources>Sources</button>
       </div>
-      <a class="selection-card__fallback" href="./detail.html?slug=${encodeURIComponent(item.slug)}">Open standalone page</a>
     </article>
   `;
 }

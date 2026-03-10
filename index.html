@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./assets/styles.css" />
+    <link rel="stylesheet" href="./assets/styles.css?v=ui-pass-2" />
   </head>
   <body>
     <div class="site-shell home-shell" id="home-shell">
@@ -30,28 +30,12 @@
         </div>
       </section>
 
-      <header class="home-topbar" id="home-topbar">
-        <div class="home-topbar__wordmark">Future Bets</div>
-        <div class="home-topbar__meta">
-          <span class="home-topbar__status" id="topbar-status">Signal layer dormant</span>
-          <button class="home-topbar__button" id="reset-button" type="button">Reset</button>
-        </div>
-      </header>
-
       <main class="home-main">
         <section class="workspace" id="workspace" aria-labelledby="workspace-heading">
           <h1 class="sr-only" id="workspace-heading">Future Bets pattern network</h1>
 
           <div class="workspace__panel workspace__panel--card">
             <div class="selection-shell" id="selection-shell">
-              <div class="selection-empty" id="selection-empty">
-                <p class="selection-empty__label">Selection</p>
-                <p class="selection-empty__title">Choose a node to extract a brief.</p>
-                <p class="selection-empty__copy">
-                  The network holds the context. A selected bet pulls forward as a readable
-                  editorial card without collapsing the wider pattern map.
-                </p>
-              </div>
               <div id="selection-card"></div>
             </div>
           </div>
@@ -64,6 +48,7 @@
               <div class="network-stage__corner network-stage__corner--br" aria-hidden="true"></div>
               <div class="network-stage__haze" aria-hidden="true"></div>
               <div class="network-stage__grain" aria-hidden="true"></div>
+              <button class="network-reset" id="reset-button" type="button">Reset</button>
 
               <div class="network-cluster" id="network-cluster">
                 <svg
@@ -75,10 +60,6 @@
                 ></svg>
                 <div class="network-labels" id="network-labels"></div>
               </div>
-
-              <div class="network-instruction">
-                Hover to inspect. Click to extract a brief. Press escape to clear.
-              </div>
             </div>
           </div>
         </section>
@@ -89,10 +70,6 @@
             <div class="report-frame">
               <div class="report-frame__intro">
                 <h2 id="report-heading">Deeper brief</h2>
-                <p>
-                  This lower section turns the selected bet into a fuller report with rationale,
-                  signal pairing, and source references.
-                </p>
               </div>
               <div class="report-content" id="report-content"></div>
             </div>
@@ -101,6 +78,6 @@
       </main>
     </div>
 
-    <script type="module" src="./assets/app.js"></script>
+    <script type="module" src="./assets/app.js?v=network-restore-5"></script>
   </body>
 </html>

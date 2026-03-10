@@ -10,19 +10,13 @@ const homeShell = document.querySelector("#home-shell");
 const landingScreen = document.querySelector("#landing-screen");
 const landingScene = document.querySelector("#landing-scene");
 const enterButton = document.querySelector("#enter-button");
-const topbarStatus = document.querySelector("#topbar-status");
 const resetButton = document.querySelector("#reset-button");
 const selectionCard = document.querySelector("#selection-card");
-const selectionEmpty = document.querySelector("#selection-empty");
 const reportSection = document.querySelector("#report-section");
 const reportContent = document.querySelector("#report-content");
 const networkStage = document.querySelector("#network-stage");
 const networkSvg = document.querySelector("#network-svg");
 const networkLabels = document.querySelector("#network-labels");
-
-// The browse stage currently has a hand-tuned label map, so keep the visible
-// set constrained to the number of available layout slots.
-const featuredBets = getAllBets().slice(0, betLayouts.length);
 
 const state = {
   entered: false,
@@ -61,17 +55,81 @@ const supportNodes = [
   { id: "s-26", x: 338, y: 606 },
   { id: "s-27", x: 674, y: 610 },
   { id: "s-28", x: 934, y: 598 },
+  { id: "s-29", x: 522, y: 238 },
+  { id: "s-30", x: 574, y: 206 },
+  { id: "s-31", x: 614, y: 274 },
+  { id: "s-32", x: 548, y: 346 },
+  { id: "s-33", x: 456, y: 256 },
+  { id: "s-34", x: 690, y: 236 },
+  { id: "s-35", x: 734, y: 308 },
+  { id: "s-36", x: 604, y: 402 },
+  { id: "s-37", x: 388, y: 186 },
+  { id: "s-38", x: 424, y: 244 },
+  { id: "s-39", x: 564, y: 186 },
+  { id: "s-40", x: 644, y: 214 },
+  { id: "s-41", x: 722, y: 266 },
+  { id: "s-42", x: 780, y: 366 },
+  { id: "s-43", x: 724, y: 468 },
+  { id: "s-44", x: 590, y: 558 },
+  { id: "s-45", x: 404, y: 556 },
+  { id: "s-46", x: 292, y: 470 },
 ];
 
 const betLayouts = [
-  { x: 284, y: 288, labelX: 166, labelY: 250, related: ["s-02", "s-04", "s-06", "s-07", "s-08", "s-10"] },
-  { x: 548, y: 160, labelX: 580, labelY: 128, related: ["s-09", "s-11", "s-13", "s-14", "s-16", "s-18"] },
-  { x: 780, y: 252, labelX: 828, labelY: 218, related: ["s-16", "s-18", "s-19", "s-20", "s-22", "s-23"] },
-  { x: 216, y: 486, labelX: 120, labelY: 512, related: ["s-01", "s-03", "s-06", "s-10", "s-12", "s-26"] },
-  { x: 682, y: 522, labelX: 758, labelY: 548, related: ["s-15", "s-17", "s-21", "s-23", "s-24", "s-27"] },
-  { x: 446, y: 620, labelX: 520, labelY: 660, related: ["s-12", "s-17", "s-25", "s-26", "s-27"] },
-  { x: 852, y: 388, labelX: 820, labelY: 416, related: ["s-20", "s-21", "s-22", "s-23", "s-24", "s-28"] },
+  {
+    x: 284,
+    y: 288,
+    labelX: 168,
+    labelY: 250,
+    related: ["s-02", "s-04", "s-06", "s-07", "s-08", "s-10", "s-33", "s-37", "s-38", "s-46"],
+  },
+  {
+    x: 548,
+    y: 160,
+    labelX: 590,
+    labelY: 128,
+    related: ["s-09", "s-11", "s-13", "s-14", "s-16", "s-18", "s-29", "s-30", "s-39", "s-40"],
+  },
+  {
+    x: 780,
+    y: 252,
+    labelX: 824,
+    labelY: 214,
+    related: ["s-16", "s-18", "s-19", "s-20", "s-22", "s-23", "s-34", "s-35", "s-40", "s-41", "s-42"],
+  },
+  {
+    x: 216,
+    y: 486,
+    labelX: 126,
+    labelY: 512,
+    related: ["s-01", "s-03", "s-06", "s-10", "s-12", "s-26", "s-45", "s-46"],
+  },
+  {
+    x: 682,
+    y: 522,
+    labelX: 758,
+    labelY: 548,
+    related: ["s-15", "s-17", "s-21", "s-23", "s-24", "s-27", "s-36", "s-42", "s-43", "s-44"],
+  },
+  {
+    x: 446,
+    y: 620,
+    labelX: 520,
+    labelY: 658,
+    related: ["s-12", "s-17", "s-25", "s-26", "s-27", "s-36", "s-44", "s-45"],
+  },
+  {
+    x: 852,
+    y: 388,
+    labelX: 820,
+    labelY: 414,
+    related: ["s-20", "s-21", "s-22", "s-23", "s-24", "s-28", "s-35", "s-41", "s-42", "s-43"],
+  },
 ];
+
+// The browse stage currently has a hand-tuned label map, so keep the visible
+// set constrained to the number of available layout slots.
+const featuredBets = getAllBets().slice(0, betLayouts.length);
 
 const betNodes = featuredBets.map((bet, index) => ({
   id: `bet-${index + 1}`,
@@ -100,6 +158,7 @@ networkLabels.addEventListener("mouseout", handleLabelLeave);
 networkLabels.addEventListener("focusin", handleLabelHover);
 networkLabels.addEventListener("focusout", handleLabelLeave);
 networkLabels.addEventListener("click", handleLabelClick);
+networkSvg.addEventListener("click", handleSvgClick);
 selectionCard.addEventListener("click", handleSelectionAction);
 document.addEventListener("keydown", handleKeyDown);
 window.addEventListener("resize", render);
@@ -157,9 +216,16 @@ function handleLabelClick(event) {
     return;
   }
 
-  state.selectedSlug = label.dataset.slug;
-  state.entered = true;
-  render();
+  selectBet(label.dataset.slug);
+}
+
+function handleSvgClick(event) {
+  const node = event.target.closest("[data-slug]");
+  if (!node) {
+    return;
+  }
+
+  selectBet(node.dataset.slug);
 }
 
 function handleSelectionAction(event) {
@@ -218,14 +284,7 @@ function render() {
   homeShell.classList.toggle("is-entered", state.entered);
   homeShell.classList.toggle("has-selection", Boolean(state.selectedSlug));
   landingScreen.setAttribute("aria-hidden", String(state.entered));
-  topbarStatus.textContent = state.entered
-    ? selectedBet
-      ? `Selected / ${selectedBet.paired_signals.length} signals`
-      : `Prediction field active / ${betNodes.length} bets`
-    : "Signal layer dormant";
   resetButton.disabled = !state.entered;
-
-  selectionEmpty.hidden = Boolean(selectedBet);
   selectionCard.innerHTML = selectedBet ? renderSelectionCard(selectedBet) : "";
   reportContent.innerHTML = reportBet ? renderReport(reportBet) : renderReportPlaceholder();
 
@@ -273,7 +332,7 @@ function renderNetwork(activeSlug) {
           const isActive = activeNode ? isMeshEdgeNearActive(edge, activeNode) : false;
           return `
             <line
-              class="network-trace${isActive ? " is-active" : ""}"
+              class="network-trace${isActive ? " is-active" : activeSlug ? " is-muted" : ""}"
               x1="${edge.x1}"
               y1="${edge.y1}"
               x2="${edge.x2}"
@@ -289,7 +348,7 @@ function renderNetwork(activeSlug) {
           const isActive = focusIds.has(edge.from) && focusIds.has(edge.to);
           return `
             <line
-              class="network-line${isActive ? " is-active" : ""}"
+              class="network-line${isActive ? " is-active" : activeSlug ? " is-muted" : ""}"
               x1="${edge.x1}"
               y1="${edge.y1}"
               x2="${edge.x2}"
@@ -306,7 +365,7 @@ function renderNetwork(activeSlug) {
           return `
             <circle
               class="network-particle network-particle--mesh${node.bright ? " is-bright" : ""}${
-                isActive ? " is-active" : ""
+                isActive ? " is-active" : activeSlug ? " is-muted" : ""
               }"
               cx="${node.x}"
               cy="${node.y}"
@@ -323,10 +382,10 @@ function renderNetwork(activeSlug) {
           const isActive = focusIds.has(node.id);
           return `
             <circle
-              class="network-node${isActive ? " is-active" : ""}"
+              class="network-node${isActive ? " is-active" : activeSlug ? " is-muted" : ""}"
               cx="${node.x}"
               cy="${node.y}"
-              r="${isActive ? 4.5 : 2.8}"
+              r="${isActive ? 3.8 : 2.15}"
             ></circle>
           `;
         })
@@ -340,11 +399,12 @@ function renderNetwork(activeSlug) {
           return `
             <circle
               class="network-node network-node--bet network-node--${node.type}${isActive ? " is-active" : ""}${
-                isSelected ? " is-selected" : ""
+                isSelected ? " is-selected" : state.selectedSlug ? " is-muted" : ""
               }"
+              data-slug="${node.slug}"
               cx="${node.x}"
               cy="${node.y}"
-              r="${isSelected ? 9 : 7}"
+              r="${isSelected ? 6.8 : isActive ? 5.6 : 4.8}"
             ></circle>
           `;
         })
@@ -352,26 +412,7 @@ function renderNetwork(activeSlug) {
     </g>
   `;
 
-  networkLabels.innerHTML = betNodes
-    .map((node) => {
-      const isSelected = state.selectedSlug === node.slug;
-      const isHovered = state.hoveredSlug === node.slug;
-      return `
-        <button
-          class="node-label node-label--${node.type}${isSelected ? " is-selected" : ""}${
-            isHovered ? " is-hovered" : ""
-          }"
-          type="button"
-          data-slug="${node.slug}"
-          style="left: ${(node.labelX / 1000) * 100}%; top: ${(node.labelY / 760) * 100}%;"
-          aria-pressed="${isSelected ? "true" : "false"}"
-        >
-          <span class="node-label__title">${node.title}</span>
-          <span class="node-label__status node-label__status--${node.type}">${node.type} bet</span>
-        </button>
-      `;
-    })
-    .join("");
+  renderNetworkLabels();
 }
 
 function getReportBet(selectedBet) {
@@ -399,7 +440,50 @@ function getFocusIds(activeSlug) {
   return new Set([activeNode.id, ...activeNode.related]);
 }
 
+function renderNetworkLabels() {
+  if (networkLabels.children.length !== betNodes.length) {
+    networkLabels.innerHTML = betNodes
+      .map(
+        (node) => `
+          <button
+            class="node-label node-label--${node.type}"
+            type="button"
+            data-slug="${node.slug}"
+            style="left: ${(node.labelX / 1000) * 100}%; top: ${(node.labelY / 760) * 100}%;"
+            aria-pressed="false"
+          >
+            <span class="node-label__title">${node.title}</span>
+            <span class="node-label__status node-label__status--${node.type}">${node.type} bet</span>
+          </button>
+        `,
+      )
+      .join("");
+  }
+
+  Array.from(networkLabels.querySelectorAll("[data-slug]")).forEach((label) => {
+    const slug = label.dataset.slug;
+    const isSelected = state.selectedSlug === slug;
+    const isHovered = state.hoveredSlug === slug;
+    const isDormant = Boolean(state.selectedSlug) && !isSelected && !isHovered;
+    label.classList.toggle("is-selected", isSelected);
+    label.classList.toggle("is-hovered", isHovered);
+    label.classList.toggle("is-dormant", isDormant);
+    label.setAttribute("aria-pressed", isSelected ? "true" : "false");
+  });
+}
+
+function selectBet(slug) {
+  if (!slugToBet(slug)) {
+    return;
+  }
+
+  state.selectedSlug = slug;
+  state.entered = true;
+  render();
+}
+
 function buildEdges(nodes) {
+  const nodeById = new Map(nodes.map((node) => [node.id, node]));
   const nearestEdges = [];
 
   nodes.forEach((node) => {
@@ -411,7 +495,7 @@ function buildEdges(nodes) {
         distance: Math.hypot(candidate.x - node.x, candidate.y - node.y),
       }))
       .sort((a, b) => a.distance - b.distance)
-      .slice(0, node.id.startsWith("bet-") ? 6 : 3);
+      .slice(0, node.id.startsWith("bet-") ? 7 : 4);
 
     nearest.forEach((edge) => {
       const key = [edge.from, edge.to].sort().join(":");
@@ -425,9 +509,9 @@ function buildEdges(nodes) {
     });
   });
 
-  return nearestEdges.slice(0, 72).map((edge) => {
-    const from = nodes.find((node) => node.id === edge.from);
-    const to = nodes.find((node) => node.id === edge.to);
+  return nearestEdges.slice(0, 104).map((edge) => {
+    const from = nodeById.get(edge.from);
+    const to = nodeById.get(edge.to);
 
     return {
       ...edge,
@@ -440,37 +524,65 @@ function buildEdges(nodes) {
 }
 
 function buildAtmosphereNodes() {
-  return Array.from({ length: 170 }, (_, index) => {
+  const farField = Array.from({ length: 286 }, (_, index) => {
     const angle = index * 2.399963229728653;
-    const radiusX = 310 + (index % 13) * 24;
-    const radiusY = 228 + (index % 9) * 20;
+    const spread = 0.54 + (((index * 17) % 100) / 100) * 0.78;
 
     return {
-      x: clamp(500 + Math.cos(angle) * radiusX + Math.sin(index * 0.62) * 48, 18, 982),
-      y: clamp(380 + Math.sin(angle) * radiusY + Math.cos(index * 0.47) * 34, 18, 742),
-      r: index % 11 === 0 ? 3.8 : index % 4 === 0 ? 2.4 : 1.45,
-      opacity: index % 7 === 0 ? 0.2 : index % 3 === 0 ? 0.12 : 0.08,
+      x: clamp(
+        500 + Math.cos(angle) * (284 + spread * 320) + Math.sin(index * 0.37) * 28,
+        14,
+        986,
+      ),
+      y: clamp(
+        378 + Math.sin(angle) * (198 + spread * 182) + Math.cos(index * 0.43) * 22,
+        14,
+        746,
+      ),
+      r: index % 21 === 0 ? 2.8 : index % 8 === 0 ? 1.8 : 0.82,
+      opacity: index % 19 === 0 ? 0.13 : index % 5 === 0 ? 0.072 : 0.034,
     };
   });
+
+  const coreMist = Array.from({ length: 162 }, (_, index) => {
+    const angle = index * 2.399963229728653 + 0.4;
+    const spread = Math.sqrt((index + 0.35) / 162);
+
+    return {
+      x: clamp(548 + Math.cos(angle) * 178 * spread + Math.sin(index * 0.73) * 18, 18, 982),
+      y: clamp(292 + Math.sin(angle) * 116 * spread + Math.cos(index * 0.51) * 16, 18, 742),
+      r: index % 14 === 0 ? 2.2 : index % 4 === 0 ? 1.35 : 0.72,
+      opacity: index % 11 === 0 ? 0.17 : index % 3 === 0 ? 0.1 : 0.055,
+    };
+  });
+
+  return [...farField, ...coreMist];
 }
 
 function buildGlowOrbs() {
   return [
-    { x: 508, y: 174, r: 92, opacity: 0.09 },
-    { x: 622, y: 242, r: 118, opacity: 0.08 },
-    { x: 708, y: 430, r: 94, opacity: 0.07 },
-    { x: 328, y: 330, r: 88, opacity: 0.055 },
-    { x: 512, y: 508, r: 128, opacity: 0.05 },
+    { x: 506, y: 174, r: 86, opacity: 0.078 },
+    { x: 548, y: 212, r: 72, opacity: 0.064 },
+    { x: 594, y: 228, r: 68, opacity: 0.06 },
+    { x: 642, y: 262, r: 84, opacity: 0.058 },
+    { x: 714, y: 418, r: 76, opacity: 0.046 },
+    { x: 346, y: 338, r: 74, opacity: 0.038 },
+    { x: 520, y: 516, r: 94, opacity: 0.038 },
+    { x: 434, y: 230, r: 56, opacity: 0.042 },
+    { x: 742, y: 318, r: 48, opacity: 0.034 },
   ];
 }
 
 function buildMeshNodes() {
   const clusters = [
-    { cx: 492, cy: 206, rx: 152, ry: 78, count: 28 },
-    { cx: 622, cy: 282, rx: 168, ry: 88, count: 30 },
-    { cx: 468, cy: 382, rx: 190, ry: 106, count: 34 },
-    { cx: 688, cy: 458, rx: 132, ry: 88, count: 22 },
-    { cx: 314, cy: 474, rx: 152, ry: 94, count: 18 },
+    { cx: 518, cy: 184, rx: 118, ry: 56, count: 82 },
+    { cx: 428, cy: 236, rx: 158, ry: 74, count: 78 },
+    { cx: 646, cy: 248, rx: 156, ry: 74, count: 80 },
+    { cx: 540, cy: 338, rx: 194, ry: 106, count: 116 },
+    { cx: 472, cy: 444, rx: 182, ry: 96, count: 74 },
+    { cx: 706, cy: 446, rx: 146, ry: 82, count: 58 },
+    { cx: 332, cy: 448, rx: 150, ry: 88, count: 56 },
+    { cx: 588, cy: 528, rx: 158, ry: 80, count: 42 },
   ];
 
   return clusters.flatMap((cluster, clusterIndex) =>
@@ -478,22 +590,26 @@ function buildMeshNodes() {
       const angle = index * 2.399963229728653 + clusterIndex * 0.62;
       const radius = Math.sqrt((index + 0.45) / cluster.count);
       const radialStrength = 1 - radius;
+      const driftX = Math.sin(index * 0.73 + clusterIndex * 1.4) * 12;
+      const driftY = Math.cos(index * 0.49 + clusterIndex * 0.6) * 9;
+      const contourX = Math.cos(angle * 2.2 + clusterIndex * 0.5) * cluster.rx * 0.04;
+      const contourY = Math.sin(angle * 2.6 - clusterIndex * 0.4) * cluster.ry * 0.04;
 
       return {
         id: `m-${clusterIndex + 1}-${index + 1}`,
         x: clamp(
-          cluster.cx + Math.cos(angle) * cluster.rx * radius + Math.sin(index * 0.58 + clusterIndex) * 10,
+          cluster.cx + Math.cos(angle) * cluster.rx * radius + driftX + contourX,
           24,
           976,
         ),
         y: clamp(
-          cluster.cy + Math.sin(angle) * cluster.ry * radius + Math.cos(index * 0.44 + clusterIndex) * 9,
+          cluster.cy + Math.sin(angle) * cluster.ry * radius + driftY + contourY,
           24,
           736,
         ),
-        r: radialStrength > 0.74 ? 2.9 : radialStrength > 0.46 ? 2.1 : 1.2,
-        opacity: radialStrength > 0.7 ? 0.36 : radialStrength > 0.4 ? 0.24 : 0.14,
-        bright: radialStrength > 0.78 || (index + clusterIndex) % 17 === 0,
+        r: radialStrength > 0.8 ? 1.9 : radialStrength > 0.5 ? 1.08 : 0.58,
+        opacity: radialStrength > 0.72 ? 0.34 : radialStrength > 0.44 ? 0.2 : 0.082,
+        bright: radialStrength > 0.84 || (index + clusterIndex * 3) % 23 === 0,
       };
     }),
   );
@@ -510,9 +626,9 @@ function buildMeshEdges(nodes) {
         to: candidate.id,
         distance: Math.hypot(candidate.x - node.x, candidate.y - node.y),
       }))
-      .filter((edge) => edge.distance < 166)
+      .filter((edge) => edge.distance < 138)
       .sort((a, b) => a.distance - b.distance)
-      .slice(0, 3);
+      .slice(0, node.bright ? 6 : 5);
 
     localEdges.forEach((edge) => {
       const key = [edge.from, edge.to].sort().join(":");
@@ -521,20 +637,40 @@ function buildMeshEdges(nodes) {
       }
     });
 
-    const structuralEdge = nodes
+    const regionalEdges = nodes
       .filter((candidate) => candidate.id !== node.id)
       .map((candidate) => ({
         from: node.id,
         to: candidate.id,
         distance: Math.hypot(candidate.x - node.x, candidate.y - node.y),
       }))
-      .filter((edge) => edge.distance >= 166 && edge.distance < 284)
-      .sort((a, b) => a.distance - b.distance)[0];
+      .filter((edge) => edge.distance >= 138 && edge.distance < 248)
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, node.bright ? 2 : 1);
 
-    if (structuralEdge) {
-      const key = [structuralEdge.from, structuralEdge.to].sort().join(":");
+    regionalEdges.forEach((edge) => {
+      const key = [edge.from, edge.to].sort().join(":");
       if (!uniqueEdges.has(key)) {
-        uniqueEdges.set(key, structuralEdge);
+        uniqueEdges.set(key, edge);
+      }
+    });
+
+    if (node.bright) {
+      const longLink = nodes
+        .filter((candidate) => candidate.id !== node.id)
+        .map((candidate) => ({
+          from: node.id,
+          to: candidate.id,
+          distance: Math.hypot(candidate.x - node.x, candidate.y - node.y),
+        }))
+        .filter((edge) => edge.distance >= 248 && edge.distance < 322)
+        .sort((a, b) => a.distance - b.distance)[0];
+
+      if (longLink) {
+        const key = [longLink.from, longLink.to].sort().join(":");
+        if (!uniqueEdges.has(key)) {
+          uniqueEdges.set(key, longLink);
+        }
       }
     }
   });
@@ -542,7 +678,7 @@ function buildMeshEdges(nodes) {
   const nodeById = new Map(nodes.map((node) => [node.id, node]));
 
   return Array.from(uniqueEdges.values())
-    .slice(0, 220)
+    .slice(0, 720)
     .map((edge) => {
       const from = nodeById.get(edge.from);
       const to = nodeById.get(edge.to);
